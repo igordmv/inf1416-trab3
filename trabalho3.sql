@@ -74,3 +74,10 @@ INSERT INTO Mensagem VALUES(9001,"Tela de saída apresentada para <login_name>."
 INSERT INTO Mensagem VALUES(9002,"Saída não liberada por falta de one-time password para <login_name>.");
 INSERT INTO Mensagem VALUES(9003,"Botão sair pressionado por <login_name>.");
 INSERT INTO Mensagem VALUES(9004,"Botão voltar de sair para o menu principal pressionado por <login_name>");
+
+
+
+INSERT INTO "Registro" VALUES(5,3001,'admin@inf1416.puc-rio.br','null','2019-05-07 22:56:50');
+INSERT INTO "Registro" VALUES(6,3003,'admin@inf1416.puc-rio.br','null','2019-05-07 22:56:51');
+INSERT INTO "Registro" VALUES(7,3002,'admin@inf1416.puc-rio.br','null','2019-05-07 22:56:52');
+INSERT INTO "Registro" VALUES(8,4001,'admin@inf1416.puc-rio.br','null','2019-05-07 22:56:53');
