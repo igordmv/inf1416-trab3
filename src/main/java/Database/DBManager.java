@@ -1,3 +1,4 @@
+package Database;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +23,8 @@ public class DBManager {
 		}
 		return null;
 	}
-	
+
+
 	public static List getLog() {
 		return selectFromDb("select Registro.id, email, texto from Registro JOIN Mensagem ON Mensagem.id = Registro.messageId order by Registro.id, created;");
 	}
@@ -69,7 +71,11 @@ public class DBManager {
 	public static List getUser(String email) throws ClassNotFoundException {
 		return selectFromDb(String.format("SELECT * FROM User WHERE email = '%s'", email));
 	}
-	
+
+	public static List<HashMap<String,Object>> getUsers(){
+		return selectFromDb("SELECT * FROM User");
+	}
+
 	public static void descartaTanList(String email) {
 		 updateDb(String.format("UPDATE TanList SET usada = 1 WHERE email = '%s'", email));
 	}
@@ -91,11 +97,11 @@ public class DBManager {
 	}
 	
 	public static void zeraAcessoErrado(String email) {
-		updateDb(String.format("UPDATE User SET numTanErrada = 0 WHERE email = '%s'", email));
+		updateDb(String.format("UPDATE User SET numAcessoErrados = 0 WHERE email = '%s'", email));
 	}
 	
-	public static void zeraTanoErrado(String email) {
-		updateDb(String.format("UPDATE User SET numAcessoErrados = 0 WHERE email = '%s'", email));
+	public static void zeraTanErrado(String email) {
+		updateDb(String.format("UPDATE User SET numTanErrada = 0 WHERE email = '%s'", email));
 	}
 	
 	public static void incrementaNumChavePrivadaErrada(String email) {
@@ -152,7 +158,7 @@ public class DBManager {
 			stat.setQueryTimeout(30);
 			ResultSet res = stat.executeQuery(query);
 			List<HashMap<String,Object>> lst = convertResultSetToList(res);
-			stat.close();
+ 			stat.close();
 			closeConn(conn);
 			return lst;
 			
