@@ -21,7 +21,33 @@ public class DBControl {
      ****************************************************************************************************/
 
     public List logQuery() {
+
         return runQuerySelect("select Registro.id, email, created, texto from Registro JOIN Mensagem ON Mensagem.id = Registro.messageId order by created;");
+
+    }
+
+    /* **************************************************************************************************
+     **
+     **  MARK: Select All Users Query
+     **
+     ****************************************************************************************************/
+
+    public List<HashMap<String,Object>> selectAllUsersQuery(){
+
+        return runQuerySelect("SELECT * FROM User");
+
+    }
+
+    /* **************************************************************************************************
+     **
+     **  MARK: insert Register
+     **
+     ****************************************************************************************************/
+
+    public boolean insertRegister(int idMsg, String email, String arquivo) {
+
+        return runQueryInsertUpdate(String.format("INSERT INTO Registro (messageId, email, filename) VALUES ('%d', '%s', '%s')", idMsg, email, arquivo));
+
     }
 
     /* **************************************************************************************************
@@ -60,7 +86,7 @@ public class DBControl {
      **
      ****************************************************************************************************/
 
-    private static Connection connect() {
+    private Connection connect() {
         try {
             Class.forName("org.sqlite.JDBC");
             return DriverManager.getConnection("jdbc:sqlite:db.sqlite");
@@ -78,7 +104,7 @@ public class DBControl {
      **
      ****************************************************************************************************/
 
-    private static void runQueryInsertUpdate(String query) {
+    private boolean runQueryInsertUpdate(String query) {
         Connection conn = connect();
         try {
             Statement stat = conn.createStatement();
@@ -87,8 +113,10 @@ public class DBControl {
             stat.close();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
+            return false;
         }
         closeConnection(conn);
+        return true;
     }
 
     /* **************************************************************************************************
@@ -97,7 +125,7 @@ public class DBControl {
      **
      ****************************************************************************************************/
 
-    private static List<HashMap<String,Object>> runQuerySelect(String query) {
+    private List<HashMap<String,Object>> runQuerySelect(String query) {
         Connection conn = connect();
         try {
             Statement stat = conn.createStatement();
@@ -120,7 +148,7 @@ public class DBControl {
      **
      ****************************************************************************************************/
 
-    private static List<HashMap<String,Object>> convertResultSetToList(ResultSet rs) throws SQLException {
+    private List<HashMap<String,Object>> convertResultSetToList(ResultSet rs) throws SQLException {
         ResultSetMetaData md = rs.getMetaData();
         int columns = md.getColumnCount();
         List<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
@@ -142,7 +170,7 @@ public class DBControl {
      **
      ****************************************************************************************************/
 
-    private static void closeConnection(Connection conn) {
+    private void closeConnection(Connection conn) {
         try {
             if (conn != null)
                 conn.close();
