@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class CadastroView extends JFrame {
 
 	private final int width = 450;
-	private final int height = 630;
+	private final int height = 610;
 	
 	private HashMap user = null;
 	
@@ -64,53 +64,32 @@ public class CadastroView extends JFrame {
 			}
 		});
 		
-		final JLabel tanListLabel = new JLabel();
-		tanListLabel .setBounds(30, 210, 300, 30);
-		c.add(tanListLabel);
-		JButton tanListButton = new JButton("Escolha uma pasta para a TAN List");
-		c.add(tanListButton);
-		tanListButton .setBounds(30, 250, 300, 30);
-		tanListButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser tanListchooser = new JFileChooser(); 
-				tanListchooser.setCurrentDirectory(new java.io.File("."));
-				tanListchooser.setDialogTitle("Caminho da TAN List");
-				tanListchooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				
-				if (tanListchooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					tanListLabel.setText(tanListchooser.getSelectedFile().getAbsolutePath());
-				}
-			    else {
-			      System.out.println("No Selection ");
-			    }
-			}
-		});
-		
+
 		JLabel grupoLabel = new JLabel("Grupo:");
-		grupoLabel.setBounds(30, 290, 300, 40);
+		grupoLabel.setBounds(30, 250, 300, 40);
 		c.add(grupoLabel);
 		String[] choices = {"Usuario", "Administrador"};
 		final JComboBox comboBox = new JComboBox(choices);
-		comboBox .setBounds(30, 330, 300, 40);
+		comboBox .setBounds(30, 290, 300, 40);
 		comboBox.setVisible(true);
 		c.add(comboBox );
 		
 		JLabel senhaLabel = new JLabel("Senha:");
-		senhaLabel.setBounds(30, 370, 300, 40);
+		senhaLabel.setBounds(30, 330, 300, 40);
 		c.add(senhaLabel);
 		final JPasswordField senhaField = new JPasswordField();
-		senhaField.setBounds(30, 410, 300, 40);
+		senhaField.setBounds(30, 370, 300, 40);
 		c.add(senhaField);
 		
 		JLabel senhaConfirmacaoLabel = new JLabel("Confirme a senha:");
-		senhaConfirmacaoLabel.setBounds(30, 450, 300, 40);
+		senhaConfirmacaoLabel.setBounds(30, 410, 300, 40);
 		c.add(senhaConfirmacaoLabel);
 		final JPasswordField senhaConfirmacaoField = new JPasswordField();
-		senhaConfirmacaoField.setBounds(30, 490, 300, 40);
+		senhaConfirmacaoField.setBounds(30, 450, 300, 40);
 		c.add(senhaConfirmacaoField);
 		
 		JButton cadastrarButton = new JButton("Cadastrar");
-		cadastrarButton.setBounds(30, 530, 300, 40);
+		cadastrarButton.setBounds(30, 490, 300, 40);
 		c.add(cadastrarButton);
 		cadastrarButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
@@ -134,7 +113,25 @@ public class CadastroView extends JFrame {
 					DBManager.insereRegistro(6004, (String) user.get("email"));
 					return;
 				}
-				String infoString = cert.getVersion() +"\n"+ cert.getNotBefore() +"\n"+ cert.getType() +"\n"+ cert.getIssuerDN() +"\n"+ cert.getSubjectDN();
+//				String infoString = cert.getVersion() +"\n"+ cert.getNotBefore() +"\n"+ cert.getType() +"\n"+ cert.getIssuerDN() +"\n"+ cert.getSubjectDN();
+
+				String infoString = "";
+				infoString = infoString + "\nOs dados estão corretos?\n";
+				infoString = infoString + "Versão: " + cert.getVersion() + "\n";
+				infoString = infoString + "Série: " + cert.getSerialNumber() + "\n";
+				infoString = infoString + "Validade (Not Before): " + cert.getNotBefore() + "\n";
+				infoString = infoString + "Validade (Not After): " + cert.getNotAfter() + "\n";
+				infoString = infoString + "Tipo de assinatura: " + cert.getType() + "\n";
+				infoString = infoString + "Emissor: " + cert.getIssuerDN() + "\n";
+				infoString = infoString + "Sujeito: " + cert.getSubjectDN() + "\n";
+
+				String subjectDN = cert.getSubjectDN().getName();
+				int start = subjectDN.indexOf("=");
+				int end = subjectDN.indexOf(",");
+				String email = subjectDN.substring(start + 1, end);
+
+				infoString = infoString + "E-mail: " + email + "\n";
+
 				int ret = JOptionPane.showConfirmDialog(null, infoString);
 				
 				if (ret != JOptionPane.YES_OPTION) {
@@ -148,7 +145,7 @@ public class CadastroView extends JFrame {
 			
 				
 				if (senha.equals(confirmacao)) {
-					if (Authentification.cadastraUsuario(grupo, senha, certificadoDigitalLabel.getText(), tanListLabel.getText())) {
+					if (Authentification.cadastraUsuario(grupo, senha, certificadoDigitalLabel.getText())) {
 						JOptionPane.showMessageDialog(null, "Usuário cadastrado!");
 						dispose();
 						new CadastroView(user);
@@ -167,7 +164,7 @@ public class CadastroView extends JFrame {
 		});
 		
 		JButton voltarButton = new JButton("Voltar");
-		voltarButton.setBounds(150, 570, 150, 40);
+		voltarButton.setBounds(150, 530, 150, 40);
 		c.add(voltarButton);
 		voltarButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {

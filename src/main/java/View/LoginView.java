@@ -92,6 +92,7 @@ public class LoginView extends JFrame {
 		container = getContentPane();
 		loginLabel = new JLabel("Login:");
 		loginField = new JTextField();
+		loginField.setText("admin@inf1416.puc-rio.br");
 		loginButton = new JButton("Login");
 	}
 

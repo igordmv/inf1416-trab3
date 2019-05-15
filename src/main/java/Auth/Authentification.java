@@ -205,7 +205,7 @@ public class Authentification {
 	}
 
 
-	public static boolean cadastraUsuario(String grupo, String senha, String pathCert, String pathTanList) {
+	public static boolean cadastraUsuario(String grupo, String senha, String pathCert) {
 		if (Authentification.verificaRegrasSenha(senha) == false)
 			return false;
 
@@ -232,11 +232,7 @@ public class Authentification {
 
 		boolean ret = DBManager.addUser(nome, email, grupo, salt, senhaProcessada, certToString(cert));
 		if (ret) {
-			List<String> list = Authentification.geraTanList(pathTanList, 10,  email);
-			if (list == null) {
-				DBManager.insereRegistro(6005, email);
-				return false;
-			}
+			DBManager.insereRegistro(6005, email);
 		}
 		return ret;
 	}

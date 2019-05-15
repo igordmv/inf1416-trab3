@@ -46,7 +46,7 @@ public class MainView extends JFrame {
 		
 		if (user.get("groupName").equals("administrador")) {
 			JButton cadastroButton = new JButton("Cadastrar novo usuário");
-			cadastroButton.setBounds(30, 200, 300, 40);
+			cadastroButton.setBounds(30, 200, 350, 40);
 			c.add(cadastroButton);
 			cadastroButton.addActionListener(new ActionListener () {
 				public void actionPerformed (ActionEvent e) {
@@ -57,8 +57,8 @@ public class MainView extends JFrame {
 			});
 		}
 		
-		JButton alterarButton = new JButton("Alterar senha pessoal, certificado digital e TAN List");
-		alterarButton.setBounds(30, 250, 300, 40);
+		JButton alterarButton = new JButton("Alterar senha pessoal e certificado digital do usuário");
+		alterarButton.setBounds(30, 250, 350, 40);
 		c.add(alterarButton);
 		alterarButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
@@ -69,7 +69,7 @@ public class MainView extends JFrame {
 		});
 		
 		JButton consultarButton = new JButton("Consultar pasta de arquivos secretos");
-		consultarButton.setBounds(30, 300, 300, 40);
+		consultarButton.setBounds(30, 300, 350, 40);
 		c.add(consultarButton);
 		consultarButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
@@ -80,7 +80,7 @@ public class MainView extends JFrame {
 		});
 		
 		JButton sairButton = new JButton("Sair do Sistema");
-		sairButton.setBounds(30, 350, 300, 40);
+		sairButton.setBounds(30, 350, 350, 40);
 		c.add(sairButton);
 		sairButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
