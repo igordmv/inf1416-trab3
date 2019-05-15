@@ -305,4 +305,156 @@ public class Authentification {
 		}
 		return (!crescente) && (!decrescente);
 	}
+
+	public static boolean conferirSenha(String senha, String confirmacao, HashMap user) {
+
+		if (senha.length() >= 6 && senha.length() <= 8 && isNumeric(senha)) {
+
+			System.out.println("Passou primeira parte");
+
+			if( !checkIfIsCrescente(senha) ) {
+
+				return false;
+
+			}
+
+			if( !checkIfIsDecrescente(senha) ) {
+
+				return false;
+
+			}
+
+			if( !checkIfHasConsecutivo(senha) ) {
+
+				return false;
+
+			}
+
+			return true;
+
+		}
+
+		return false;
+	}
+
+	private static boolean isNumeric(String str)
+	{
+		for (char c : str.toCharArray())
+		{
+			if (!Character.isDigit(c)) return false;
+		}
+		return true;
+	}
+
+	private static boolean checkIfIsCrescente(String str)
+	{
+		Integer last = null;
+		Integer repeater = 0;
+
+		for (Character c : str.toCharArray())
+		{
+			Integer atual = Integer.parseInt(c.toString());
+
+			if (last == null) {
+
+				last = atual;
+
+			} else {
+
+				if( atual == (last + 1)) {
+
+					last = atual;
+					repeater = repeater + 1;
+
+					if (repeater == 2) {
+
+						return false;
+
+
+					}
+
+				} else {
+
+					repeater = 0;
+
+				}
+
+			}
+
+		}
+
+		return true;
+	}
+
+	private static boolean checkIfIsDecrescente(String str)
+	{
+		Integer last = null;
+		Integer repeater = 0;
+
+		for (Character c : str.toCharArray())
+		{
+			Integer atual = Integer.parseInt(c.toString());
+
+			if (last == null) {
+
+				last = atual;
+
+			} else {
+
+				if( atual == (last - 1)) {
+
+					last = atual;
+					repeater = repeater + 1;
+
+					if (repeater == 2) {
+
+						return false;
+
+
+					}
+
+				} else {
+
+					repeater = 0;
+
+				}
+
+			}
+
+		}
+
+		return true;
+	}
+
+	private static boolean checkIfHasConsecutivo(String str)
+	{
+		Integer last = null;
+
+		for (Character c : str.toCharArray())
+		{
+			Integer atual = Integer.parseInt(c.toString());
+
+			if (last == null) {
+
+				last = atual;
+
+			} else {
+
+				if( atual == last ) {
+
+					return false;
+
+				} else {
+
+					return true;
+
+				}
+
+			}
+
+		}
+
+		return true;
+	}
+
 }

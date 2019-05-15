@@ -1,5 +1,6 @@
 package View;
 
+import Auth.Authentification;
 import Database.DBManager;
 
 import javax.swing.*;
@@ -35,45 +36,40 @@ public class SaidaView extends JFrame {
 		
 		Container c = getContentPane();
 		c.add(new Header((String)user.get("email"), (String)user.get("groupName"), (String)user.get("name")));
-		
-		List<HashMap> tanList = DBManager.retornaTanList((String)user.get("email"));
-		c.add(new FirstBody("Total de OTPS", tanList.size()));
+
+		c.add(new FirstBody("Total de acessos", Integer.parseInt(user.get("totalAcessos").toString())));
 		
 		JLabel sairLabel = new JLabel();
-		JButton sairOuVoltarButton = new JButton();
-		
-		if (tanList.size() > 0) {
-			sairLabel.setText("Pressione o botão Sair para confirmar.");
-			sairOuVoltarButton.setText("Sair");
-			
-			sairOuVoltarButton.addActionListener(new ActionListener () {
-				public void actionPerformed (ActionEvent e) {
-					DBManager.insereRegistro(1002);
-					dispose();
-					System.exit(0);
-				}
-			});
-		}
-		else {
-			sairLabel.setText("Retorne e gere uma nova TAN List antes de sair.");
-			sairOuVoltarButton.setText("Voltar para o Menu Principal");
-			
-			sairOuVoltarButton.addActionListener(new ActionListener () {
-				public void actionPerformed (ActionEvent e) {
-					dispose();
-					new MainView(user);
-				}
-			});
-		}
+		JButton sairButton = new JButton();
+		JButton voltarButton = new JButton();
+
+		sairLabel.setText("Pressione o botão Sair para confirmar.");
+		sairButton.setText("Sair");
+		voltarButton.setText("Voltar");
+
+		sairButton.addActionListener(new ActionListener () {
+			public void actionPerformed (ActionEvent e) {
+				DBManager.insereRegistro(1002);
+				dispose();
+				System.exit(0);
+			}
+		});
+
+		voltarButton.addActionListener(new ActionListener () {
+			public void actionPerformed (ActionEvent e) {
+				dispose();
+				new MainView(Authentification.autenticaEmail((String) user.get("email")));
+			}
+		});
 		
 		sairLabel.setBounds(30, 200, 300, 40);
 		c.add(sairLabel);
 		
-		sairOuVoltarButton.setBounds(30, 250, 300, 40);
-		c.add(sairOuVoltarButton);
-		
-		
-		
-		
+		sairButton.setBounds(30, 250, 135, 40);
+		c.add(sairButton);
+
+		voltarButton.setBounds(185, 250, 135, 40);
+		c.add(voltarButton);
+
 	}	
 }

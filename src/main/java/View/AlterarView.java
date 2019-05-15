@@ -91,20 +91,33 @@ public class AlterarView extends JFrame {
 				String senha = new String( senhaField.getPassword());
 				if (!senha.equals("")) {
 					String confirmacao = new String(senhaConfirmacaoField.getPassword());
-					if (senha.equals(confirmacao)) {
-						if (Authentification.verificaRegrasSenha(senha) == false) {
-							errorMsg += "Senha não está de acordo com a regra.\n";
-							DBManager.insereRegistro(7002, (String) user.get("email"));
-						} 
-						else {
-							senha = Authentification.geraSenhaProcessada(senha, (String) user.get("salt"));
-							DBManager.alterarSenha(senha, (String) user.get("email")) ;
-						}
+
+					//Confere senha:
+
+					if (!senha.equals(confirmacao)) {
+
+						DBManager.insereRegistro(70002, (String) user.get("email"));
+						JOptionPane.showMessageDialog(null, "Senha e confirmação de senha não são iguais.");
+
+						return;
+
 					}
-					else {
-						errorMsg += "Senha e confirmação de senha não são iguais.\n";
+
+					Boolean senhaOk = Authentification.conferirSenha(senha, confirmacao, user);
+
+					if( !senhaOk ){
+
 						DBManager.insereRegistro(7002, (String) user.get("email"));
+						JOptionPane.showMessageDialog(null, "Senha não está no padrão correto.");
+
+						return;
+
 					}
+
+					senha = Authentification.geraSenhaProcessada(senha, (String) user.get("salt"));
+
+					DBManager.alterarSenha(senha, (String) user.get("email")) ;
+
 				}
 				
 				String pathCertificado = certificadoDigitalLabel.getText();
