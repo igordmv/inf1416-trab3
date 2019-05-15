@@ -111,7 +111,7 @@ public class AlterarView extends JFrame {
 				
 				String errorMsg = "";
 				String senha = new String( senhaField.getPassword());
-				if (senha.isEmpty() == false) {
+				if (!senha.equals("")) {
 					String confirmacao = new String(senhaConfirmacaoField.getPassword());
 					if (senha.equals(confirmacao)) {
 						if (Authentification.verificaRegrasSenha(senha) == false) {
@@ -160,17 +160,7 @@ public class AlterarView extends JFrame {
 					String certString = Authentification.certToString(cert);
 					DBManager.alterarCertificadoDigital(certString, (String) user.get("email"));
 				}
-				
-				String pathTanList = tanListLabel.getText();
-				if (pathTanList.equals("") == false) {
-					DBManager.descartaTanList((String) user.get("email"));
-					List<String> list = Authentification.geraTanList(pathTanList, 10,  (String) user.get("email"));
-					if (list == null) {
-						DBManager.insereRegistro(7004, (String) user.get("email"));
-						return;
-					}
-				}
-				
+
 				if (errorMsg.equals("")== false) {
 					JOptionPane.showMessageDialog(null, errorMsg);
 				}

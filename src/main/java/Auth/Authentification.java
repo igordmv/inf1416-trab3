@@ -250,45 +250,12 @@ public class Authentification {
 	}
 
 	public static boolean autenticaSenha(String senha, HashMap user)  {
-//		String senhaDigest = Authentification.geraSenhaProcessada(senha, (String) user.get("salt"));
-//		if (user.get("passwordDigest").equals(senhaDigest))
-//			return true;
-//		return false;
-		return true;
+		String senhaDigest = Authentification.geraSenhaProcessada(senha, (String) user.get("salt"));
+		if (user.get("passwordDigest").equals(senhaDigest))
+			return true;
+		return false;
+//		return true;
 	}
-
-	public static List<String> geraTanList(String path, int num, String email) {
-		try {
-			List<String> list = new ArrayList<String>();
-			for (int i = 0; i < num; i++) {
-				String tan = Authentification.geraTan();
-				list.add(Integer.toString(i) +" "+ tan);
-				DBManager.insereTan(tan, email, i);
-			}
-			String toAdd = "";
-			for(String item : list){
-				toAdd += item + "\n";
-			}
-			FileUtils.writeStringToFile(new File(path + File.separator + "tanList.txt"),toAdd);
-			return list;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	private static String geraTan() {
-		String candidateChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-		StringBuilder sb = new StringBuilder();
-	    Random rand = new Random();
-	    for (int i = 0; i < 5; i++) {
-	        sb.append(candidateChars.charAt(rand.nextInt(candidateChars
-	                .length())));
-	    }
-		return sb.toString();
-	}
-
-
 
 	public static String geraSenhaProcessada(String senha, String salt) {
 		MessageDigest sha1 = null;

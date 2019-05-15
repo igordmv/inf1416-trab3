@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -99,6 +100,30 @@ public class CadastroView extends JFrame {
 				String confirmacao = new String(senhaConfirmacaoField.getPassword());
 				String grupo = (String) comboBox.getSelectedItem().toString().toLowerCase();
 
+				//Confere senha:
+
+				if (!senha.equals(confirmacao)) {
+
+					DBManager.insereRegistro(6003, (String) user.get("email"));
+					JOptionPane.showMessageDialog(null, "Senha e confirmação de senha não são iguais.");
+
+					return;
+
+				}
+
+				Boolean senhaOk = conferirSenha(senha, confirmacao, user);
+
+				if( !senhaOk ){
+
+					DBManager.insereRegistro(6003, (String) user.get("email"));
+					JOptionPane.showMessageDialog(null, "Senha não está no padrão correto.");
+
+					return;
+
+				}
+
+				//Confere dados e le certificado:
+
 				byte[] certDigBytes = null;
 				try {
 					certDigBytes = FileUtils.readFileToByteArray(new File(certificadoDigitalLabel.getText()));
@@ -142,24 +167,17 @@ public class CadastroView extends JFrame {
 				else {
 					DBManager.insereRegistro(6006, (String) user.get("email"));
 				}
-			
-				
-				if (senha.equals(confirmacao)) {
-					if (Authentification.cadastraUsuario(grupo, senha, certificadoDigitalLabel.getText())) {
-						JOptionPane.showMessageDialog(null, "Usuário cadastrado!");
-						dispose();
-						new CadastroView(user);
-					}
-					else {
-						DBManager.insereRegistro(6003, (String) user.get("email"));
-						JOptionPane.showMessageDialog(null, "Não foi possível cadastrar novo usuário.");
-					}
+
+				if (Authentification.cadastraUsuario(grupo, senha, certificadoDigitalLabel.getText())) {
+					JOptionPane.showMessageDialog(null, "Usuário cadastrado!");
+					dispose();
+					new CadastroView(user);
 				}
 				else {
 					DBManager.insereRegistro(6003, (String) user.get("email"));
-					JOptionPane.showMessageDialog(null, "Senha e confirmação de senha não são iguais.");
+					JOptionPane.showMessageDialog(null, "Não foi possível cadastrar novo usuário.");
 				}
-				
+
 			}
 		});
 		
@@ -174,5 +192,157 @@ public class CadastroView extends JFrame {
 			}
 		});
 		
-	}	
+	}
+
+	private boolean conferirSenha(String senha, String confirmacao, HashMap user) {
+
+		if (senha.length() >= 6 && senha.length() <= 8 && isNumeric(senha)) {
+
+			System.out.println("Passou primeira parte");
+
+			if( !checkIfIsCrescente(senha) ) {
+
+				return false;
+
+			}
+
+			if( !checkIfIsDecrescente(senha) ) {
+
+				return false;
+
+			}
+
+			if( !checkIfHasConsecutivo(senha) ) {
+
+				return false;
+
+			}
+
+			return true;
+
+		}
+
+		return false;
+	}
+
+	private boolean isNumeric(String str)
+	{
+		for (char c : str.toCharArray())
+		{
+			if (!Character.isDigit(c)) return false;
+		}
+		return true;
+	}
+
+	private boolean checkIfIsCrescente(String str)
+	{
+		Integer last = null;
+		Integer repeater = 0;
+
+		for (Character c : str.toCharArray())
+		{
+			Integer atual = Integer.parseInt(c.toString());
+
+			if (last == null) {
+
+				last = atual;
+
+			} else {
+
+				if( atual == (last + 1)) {
+
+					last = atual;
+					repeater = repeater + 1;
+
+					if (repeater == 2) {
+
+						return false;
+
+
+					}
+
+				} else {
+
+					repeater = 0;
+
+				}
+
+			}
+
+		}
+
+		return true;
+	}
+
+	private boolean checkIfIsDecrescente(String str)
+	{
+		Integer last = null;
+		Integer repeater = 0;
+
+		for (Character c : str.toCharArray())
+		{
+			Integer atual = Integer.parseInt(c.toString());
+
+			if (last == null) {
+
+				last = atual;
+
+			} else {
+
+				if( atual == (last - 1)) {
+
+					last = atual;
+					repeater = repeater + 1;
+
+					if (repeater == 2) {
+
+						return false;
+
+
+					}
+
+				} else {
+
+					repeater = 0;
+
+				}
+
+			}
+
+		}
+
+		return true;
+	}
+
+	private boolean checkIfHasConsecutivo(String str)
+	{
+		Integer last = null;
+
+		for (Character c : str.toCharArray())
+		{
+			Integer atual = Integer.parseInt(c.toString());
+
+			if (last == null) {
+
+				last = atual;
+
+			} else {
+
+				if( atual == last ) {
+
+					return false;
+
+				} else {
+
+					return true;
+
+				}
+
+			}
+
+		}
+
+		return true;
+	}
+
 }
