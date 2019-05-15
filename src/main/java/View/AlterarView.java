@@ -40,10 +40,9 @@ public class AlterarView extends JFrame {
 		Container c = getContentPane();
 		
 		c.add(new Header((String)user.get("email"), (String)user.get("groupName"), (String)user.get("name")));
-		List<HashMap> tanList = DBManager.retornaTanList((String)user.get("email"));
-		c.add(new FirstBody("Total de OTPS", tanList.size()));
-		
-		
+
+		c.add(new FirstBody("Total de acessos", Integer.parseInt(user.get("totalAcessos").toString())));
+
 		final JLabel certificadoDigitalLabel = new JLabel();
 		certificadoDigitalLabel .setBounds(30, 130, 300, 30);
 		c.add(certificadoDigitalLabel);
@@ -66,28 +65,7 @@ public class AlterarView extends JFrame {
 			}
 		});
 		
-		final JLabel tanListLabel = new JLabel();
-		tanListLabel .setBounds(30, 210, 300, 30);
-		c.add(tanListLabel);
-		JButton tanListButton = new JButton("Escolha uma pasta para a TAN List");
-		c.add(tanListButton);
-		tanListButton .setBounds(30, 250, 300, 30);
-		tanListButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser tanListchooser = new JFileChooser(); 
-				tanListchooser.setCurrentDirectory(new java.io.File("."));
-				tanListchooser.setDialogTitle("Caminho da TAN List");
-				tanListchooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				
-				if (tanListchooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					tanListLabel.setText(tanListchooser.getSelectedFile().getAbsolutePath());
-				}
-			    else {
-			      System.out.println("No Selection ");
-			    }
-			}
-		});
-		
+
 		JLabel senhaLabel = new JLabel("Senha:");
 		senhaLabel.setBounds(30, 290, 300, 40);
 		c.add(senhaLabel);
