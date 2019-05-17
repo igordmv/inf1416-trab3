@@ -1,17 +1,23 @@
 package View;
 
 import Auth.Authentification;
+import Database.DBManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.PrivateKey;
 import java.util.HashMap;
 
 public class PrivateKeyView extends JFrame {
 
     private final int width = 350;
     private final int height = 400;
+
+    PrivateKey chavePrivada = null;
+
+    String privateKeyPEM = null;
 
     public PrivateKeyView(final HashMap user) {
 
@@ -47,18 +53,45 @@ public class PrivateKeyView extends JFrame {
                 else {
                     System.out.println("No Selection ");
                 }
+
             }
         });
 
         JButton checkButton = new JButton("Conferir");
         checkButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-
-
-                dispose();
                 HashMap updatedUser = Authentification.autenticaEmail((String) user.get("email"));
-                new MainView(Authentification.autenticaEmail((String)updatedUser.get("email")));
+
+                if( chaveSecretaField.getText() != "" && chavePrivadaLabel.getText() != "" ){
+
+                    chavePrivada = Authentification.leChavePrivada(chaveSecretaField.getText(), chavePrivadaLabel.getText(), user);
+
+                    if (chavePrivada == null) {
+                        JOptionPane.showMessageDialog(null, "Chave secreta ou certificado inválido");
+                        DBManager.insereRegistro(8003, (String) user.get("email"));
+
+                    } else {
+
+                        if (Authentification.testaChavePrivada(chavePrivada, user)) {
+
+                            DBManager.insereRegistro(8002, (String) user.get("email"));
+                            dispose();
+                            new MainView(Authentification.autenticaEmail((String)user.get("email")));
+
+                        } else {
+
+                            JOptionPane.showMessageDialog(null, "Certificado não correto para o usuário");
+                            DBManager.insereRegistro(8003, (String) user.get("email"));
+
+                        }
+
+                    }
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null, "Escolha um certificado e digite a senha secreta");
+
+                }
 
             }
         });

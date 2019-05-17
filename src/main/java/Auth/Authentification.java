@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.xml.bind.DatatypeConverter;
+import javax.xml.ws.Service;
 import java.io.*;
 import java.security.*;
 import java.security.cert.CertificateEncodingException;
@@ -12,10 +13,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static Util.Util.byteToHex;
 
@@ -105,6 +103,26 @@ public class Authentification {
 		}
 	}
 
+	public static String getKey(String filename) {
+		String strKeyPEM = null;
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(filename));
+			String line;
+			strKeyPEM = "";
+			while ((line = br.readLine()) != null) {
+				strKeyPEM += line + "\n";
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return strKeyPEM;
+	}
+
 	public static PrivateKey leChavePrivada(String fraseSecreta, String pathString, HashMap user) {
 		try {
 			SecureRandom rand = SecureRandom.getInstance("SHA1PRNG", "SUN");
@@ -148,7 +166,7 @@ public class Authentification {
 	public static boolean testaChavePrivada(PrivateKey chavePrivada, HashMap user) {
 		try {
 			byte[] teste = new byte[1024];
-			SecureRandom.getInstance("MD5withRSA").nextBytes(teste);
+//			SecureRandom.getInstance("MD5withRSA").nextBytes(teste);
 			Signature assinatura = Signature.getInstance("MD5withRSA");
 			assinatura.initSign(chavePrivada);
 			assinatura.update(teste);
