@@ -103,7 +103,7 @@ public class SenhaView extends JFrame {
 					DBManager.insereRegistro(3002, (String) updatedUser.get("email"));
 					DBManager.zeraAcessoErrado((String)updatedUser.get("email"));
 					dispose();
-					new MainView(Authentification.autenticaEmail((String)updatedUser.get("email")));
+					new PrivateKeyView(Authentification.autenticaEmail((String)updatedUser.get("email")));
 				}
 				else {
 					DBManager.incrementaAcessoErrado((String)updatedUser.get("email"));

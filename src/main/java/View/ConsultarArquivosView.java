@@ -20,7 +20,6 @@ public class ConsultarArquivosView extends JFrame {
 	
 	private HashMap user = null;
 	String indexArq = null;
-	PrivateKey chavePrivada = null;
 	
 	public ConsultarArquivosView(final HashMap user) {
 		this.user = user;
@@ -37,33 +36,11 @@ public class ConsultarArquivosView extends JFrame {
 		int x = (int) ((dimension.getWidth() - getWidth()) / 2);
 		int y = (int) ((dimension.getHeight() - getHeight()) / 2);
 		setLocation(x, y);
-		
-		
+
 		Container c = getContentPane();
 		c.add(new Header((String)user.get("email"), (String)user.get("groupName"), (String)user.get("name")));
-		c.add(new FirstBody("Total de acessos", Integer.parseInt(user.get("totalAcessos").toString())));
-		
-		JLabel chaveSecretaLabel = new JLabel(String.format("Chave secreta:"));
-		final JTextField chaveSecretaField = new JTextField();
-		
-		final JLabel chavePrivadaLabel = new JLabel();
-		JButton chavePrivadaButton = new JButton("Escolha arquivo chave privada");
-		chavePrivadaButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser chavePrivadachooser = new JFileChooser(); 
-				chavePrivadachooser.setCurrentDirectory(new java.io.File("."));
-				chavePrivadachooser.setDialogTitle("Caminho da chave privada");
-				chavePrivadachooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				
-				if (chavePrivadachooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					chavePrivadaLabel.setText(chavePrivadachooser.getSelectedFile().getAbsolutePath());
-				}
-			    else {
-			      System.out.println("No Selection ");
-			    }
-			}
-		});
-		
+		c.add(new FirstBody("Total de consultas do usuário (TO-DO)", Integer.parseInt(user.get("totalAcessos").toString())));
+
 		final JLabel consultaLabel = new JLabel();
 		JButton consultarButton = new JButton("Escolha uma pasta para consultar");
 		consultarButton.addActionListener(new ActionListener() {
@@ -104,15 +81,15 @@ public class ConsultarArquivosView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int index = table.getSelectedRow();
 				String nomeArquivo = (String) table.getValueAt(index, 1);
-				if (Authentification.acessarArquivo(user, indexArq, nomeArquivo, chavePrivada, consultaLabel.getText())) {
-					System.out.println("Decriptou arquivo com sucesso!");
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "Usuário não possui permissão para ler o arquivo selecionado");
-				}
+//				if (Authentification.acessarArquivo(user, indexArq, nomeArquivo, chavePrivada, consultaLabel.getText())) {
+//					System.out.println("Decriptou arquivo com sucesso!");
+//				}
+//				else {
+//					JOptionPane.showMessageDialog(null, "Usuário não possui permissão para ler o arquivo selecionado");
+//				}
 			}
 		});
-		
+
 		JButton voltarButton = new JButton("Voltar");
 		voltarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -126,48 +103,33 @@ public class ConsultarArquivosView extends JFrame {
 		listarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DBManager.insereRegistro(8007, (String) user.get("email"));
-				chavePrivada = Authentification.leChavePrivada(chaveSecretaField.getText(), chavePrivadaLabel.getText(), user);
-				if (chavePrivada == null) {
-					DBManager.insereRegistro(8003, (String) user.get("email"));
-				}
-				if (Authentification.testaChavePrivada(chavePrivada, user)) {
-					DBManager.insereRegistro(8002, (String) user.get("email"));
-				}
-				
-				try {
-					indexArq = new String(Authentification.decriptaArquivo(user, consultaLabel.getText(), "index", chavePrivada), "UTF8");
-				} catch (UnsupportedEncodingException ex) {
-					JOptionPane.showMessageDialog(null, "Não foi possível listar os arquivos com este credencial.");
-					return;
-				}
-				String[] listaArquivos = indexArq.split("\n");
-				for (String arq: listaArquivos) {
-					String[] items = arq.split(" ");
-					tableModel.addRow(items);
-				}
-				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-				table.setModel(tableModel);
-				tableModel.fireTableDataChanged();
-				decriptarButton.setEnabled(true);
-				DBManager.insereRegistro(8009, (String) user.get("email"));
+
+//				try {
+//					indexArq = new String(Authentification.decriptaArquivo(user, consultaLabel.getText(), "index", chavePrivada), "UTF8");
+//				} catch (UnsupportedEncodingException ex) {
+//					JOptionPane.showMessageDialog(null, "Não foi possível listar os arquivos com este credencial.");
+//					return;
+//				}
+//				String[] listaArquivos = indexArq.split("\n");
+//				for (String arq: listaArquivos) {
+//					String[] items = arq.split(" ");
+//					tableModel.addRow(items);
+//				}
+//				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+//				table.setModel(tableModel);
+//				tableModel.fireTableDataChanged();
+//				decriptarButton.setEnabled(true);
+//				DBManager.insereRegistro(8009, (String) user.get("email"));
 				
 			}
 		});
-		
-		chaveSecretaLabel.setBounds(30, 140, 300, 40);
-		chaveSecretaField.setBounds(30, 180, 300, 40);
-		chavePrivadaLabel.setBounds(30, 220, 370, 40);
-		chavePrivadaButton.setBounds(30, 260, 300, 40);
+
 		consultaLabel.setBounds(30, 300, 300, 30);
 		consultarButton.setBounds(30, 340, 300, 40);
 		listarButton.setBounds(30, 380, 300, 40);
 		decriptarButton.setBounds(600, 420, 100, 40);
 		voltarButton.setBounds(450, 420, 100, 40);
-		
-		c.add(chaveSecretaLabel);
-		c.add(chaveSecretaField);
-		c.add(chavePrivadaLabel);
-		c.add(chavePrivadaButton);
+
 		c.add(consultaLabel);
 		c.add(consultarButton);
 		c.add(listarButton);
