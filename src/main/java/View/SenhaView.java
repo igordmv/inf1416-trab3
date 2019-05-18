@@ -3,7 +3,8 @@ package View;
 import Auth.Authentification;
 import Auth.Node;
 import Database.DBManager;
-
+import Database.LoggedUser;
+import Component.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class SenhaView extends JFrame {
+public class SenhaView extends DefaultFrame {
 	
 	private final int width = 400;
 	private final int height = 500;
@@ -23,8 +24,8 @@ public class SenhaView extends JFrame {
 	private Node root = new Node("");
 	private int numCliques = 0;
 	
-	public SenhaView(final HashMap user) {
-		this.user = user;
+	public SenhaView() {
+		this.user = LoggedUser.getInstance().getUser();
 		DBManager.insereRegistro(3001, (String) user.get("email"));
 		
 		setLayout(null);

@@ -1,117 +1,230 @@
 package View;
 
 import Auth.Authentification;
-import Database.DBManager;
-
+import Database.DBControl;
+import Component.DefaultFrame;
+import Database.LoggedUser;
+import Util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 
 
-public class LoginView extends JFrame {
+public class LoginView extends DefaultFrame {
+
+	/* **************************************************************************************************
+	 **
+	 **  Variables desclaration
+	 **
+	 ****************************************************************************************************/
 
 	private final int width = 400;
 	private final int height = 300;
-	private JLabel loginLabel = null;
+
+	private Date time = null;
+
 	private JButton loginButton = null;
-	private Container container = null;
-	private Dimension dimension = null;
-	private JTextField loginField = null;
-	private HashMap user = null;
+	private JTextField loginTextField;
+
+	/* **************************************************************************************************
+	 **
+	 **  Login View Init
+	 **
+	 ****************************************************************************************************/
 
 	public LoginView() {
-		DBManager.insereRegistro(2001);
-		setupLoginScreenComponents();
+
+		//--------------------- Insert Register --------------------------------
+
+		DBControl.getInstance().insertRegister(2001);
+
+		//------------------------ Set View ------------------------------------
+
+		this.setView();
+
+		//---------------------- Login Button Action ---------------------------
+
 		loginButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
-				user = Authentification.autenticaEmail(loginField.getText());
-				if (user == null) {
-					DBManager.insereRegistro(2005, loginField.getText());
-					JOptionPane.showMessageDialog(null, "Usuário não identificado.");
+
+				String email = loginTextField.getText();
+
+				if( email == "" ) {
+
+					JOptionPane.showMessageDialog(null, "Para fazer login, digite um e-mail");
+
+					return;
+
 				}
-				else {
-					Integer acessosNegados = ((Integer) user.get("numAcessoErrados"));
-					Integer tanNegados = ((Integer) user.get("numTanErrada"));
-					if (acessosNegados >= 3 || tanNegados >= 3) {
-						String ultimaTentativa = (String) user.get("ultimaTentativa");
+
+				LoggedUser.getInstance().setUser(Authentification.autenticaEmail(email));
+
+				if (LoggedUser.getInstance().getUser() == null) {
+
+					DBControl.getInstance().insertRegister(2005, loginTextField.getText());
+
+					JOptionPane.showMessageDialog(null, "Usuário não cadastrado.");
+
+				} else {
+
+					Integer wrongAccess = ((Integer) LoggedUser.getInstance().getUser().get("numAcessoErrados"));
+
+					if (wrongAccess >= 3) {
+
+						String lastTry = (String) LoggedUser.getInstance().getUser().get("ultimaTentativa");
+
 						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-						Date horario = null;
+
 						try {
-							horario = formatter.parse(ultimaTentativa);
+							time = formatter.parse(lastTry);
 						} catch (ParseException e1) {
 							e1.printStackTrace();
 							System.exit(1);
 						}
-						Date twoMinutesLater = getTwoMinutesLaterDate();
 
-						if (horario.before(twoMinutesLater)) {
-							validaLogin();
+						Date twoMinutesLater = Util.dateAfterXMinutes(2);
+
+						if (time.before(twoMinutesLater)) {
+
+							validateLogin();
+
+						}  else {
+
+							DBControl.getInstance().insertRegister(2004, (String) LoggedUser.getInstance().getUser().get("email"));
+							JOptionPane.showMessageDialog(null, "Usuário com acesso bloquado. Tente novamente em 2 minutos");
+
 						}
-						else {
-							DBManager.insereRegistro(2004, (String) user.get("email"));
-							JOptionPane.showMessageDialog(null, "Usuário com acesso bloquado.");
-						}
+
+					} else {
+
+						validateLogin();
+
 					}
-					else {
-						validaLogin();
-					}
+
 				}
 			}
 		});
 
-		loginLabel.setBounds(30, 50, 300, 40);
-		loginField.setBounds(30, 90, 300, 40);
-		loginButton.setBounds(30, 150, 300, 40);
-
-
-		container.add(loginLabel);
-		container.add(loginField);
-		container.add(loginButton);
 	}
 
-	private void setupLoginScreenComponents() {
-		setLayout(null);
-		setSize (this.width, this.height);
-		setDefaultCloseOperation (EXIT_ON_CLOSE);
-		setResizable(false);
+	/* **************************************************************************************************
+	 **
+	 **  Set View
+	 **
+	 ****************************************************************************************************/
+
+	private void setView() {
+
+		//------------------------ Set Title ------------------------------------
+
 		setTitle("Login");
 
-		dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() - getWidth()) / 2);
-		int y = (int) ((dimension.getHeight() - getHeight()) / 2);
-		setLocation(x, y);
+		//------------------------ Set Size ------------------------------------
 
+		setSize(this.width, this.height);
 
-		container = getContentPane();
-		loginLabel = new JLabel("Login:");
-		loginField = new JTextField();
-		loginField.setText("admin@inf1416.puc-rio.br");
-		loginButton = new JButton("Login");
+		this.setDimension();
+
+		//------------------------ Y Position -----------------------------------
+
+		int yPosition = 10;
+
+		//------------------------ Title Label -----------------------------------
+
+		JLabel titleLabel = new JLabel("Login:");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setBounds(0, yPosition, this.width, 40);
+
+		Font f = titleLabel.getFont();
+		titleLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD, 25));
+
+		this.getContainer().add(titleLabel);
+
+		yPosition = yPosition + titleLabel.getY() + titleLabel.getSize().height + 10;
+
+		//------------------------ Login Text Field -----------------------------------
+
+		loginTextField = new JTextField();
+		loginTextField.setBounds(50, yPosition, 300, 40);
+
+		//To-do: remover isso;
+		loginTextField.setText("admin@inf1416.puc-rio.br");
+
+		this.getContainer().add(loginTextField);
+
+		yPosition = yPosition + loginTextField.getSize().height + 10;
+
+		//---------------------------- Login Button --------------------------------
+
+		loginButton = new JButton("login");
+		loginButton.setBounds(50, yPosition, 300, 40);
+
+		this.getContainer().add(loginButton);
+
+		yPosition = yPosition + loginButton.getSize().height + 10;
+
+		//------------------------ Group Label -----------------------------------
+
+		JLabel groupLabel = new JLabel("Grupo:");
+		groupLabel.setBounds(50, yPosition, 300, 30);
+
+		groupLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD, 20));
+
+		this.getContainer().add(groupLabel);
+
+		yPosition = yPosition + groupLabel.getSize().height + 5;
+
+		//------------------------ Igor Label -----------------------------------
+
+		JLabel igorLabel = new JLabel(" • Igor Duarte - 1410492");
+		igorLabel.setBounds(50, yPosition, 300, 20);
+
+		igorLabel.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+
+		this.getContainer().add(igorLabel);
+
+		yPosition = yPosition + igorLabel.getSize().height + 5;
+
+		//------------------------ Matheus Label -----------------------------------
+
+		JLabel matheusLabel = new JLabel(" • Matheus Falcão - 1410962");
+		matheusLabel.setBounds(50, yPosition, 300, 20);
+
+		matheusLabel.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+
+		this.getContainer().add(matheusLabel);
+
+		yPosition = yPosition + matheusLabel.getSize().height + 5;
+
+		//------------------------ Set Visible ------------------------------------
 
 		setVisible(true);
+
 	}
 
-	private Date getTwoMinutesLaterDate()
-	{
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.add(Calendar.MINUTE, -2);
-		cal.add(Calendar.HOUR, 3); //fuso horario
-		return cal.getTime();
-	}
 
-	private void validaLogin() {
-		DBManager.zeraAcessoErrado((String) user.get("email"));
-		user = Authentification.autenticaEmail((String) user.get("email"));
-		DBManager.insereRegistro(2003, (String) user.get("email"));
-		DBManager.insereRegistro(2002);
+
+	/* **************************************************************************************************
+	 **
+	 **  Validate Login
+	 **
+	 ****************************************************************************************************/
+
+	private void validateLogin() {
+
+		DBControl.getInstance().clearWrongAccess((String) LoggedUser.getInstance().getUser().get("email"));
+
+		DBControl.getInstance().insertRegister(2003, (String) LoggedUser.getInstance().getUser().get("email"));
+
+		DBControl.getInstance().insertRegister(2002);
+
 		dispose();
-		new SenhaView(user);
+
+		new SenhaView();
+
 	}
 }
