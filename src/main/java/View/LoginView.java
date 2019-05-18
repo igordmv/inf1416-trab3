@@ -27,7 +27,7 @@ public class LoginView extends DefaultFrame {
 
 	private Date time = null;
 
-	private JButton loginButton = null;
+	private JButton loginButton;
 	private JTextField loginTextField;
 
 	/* **************************************************************************************************
@@ -144,7 +144,7 @@ public class LoginView extends DefaultFrame {
 
 		this.getContainer().add(titleLabel);
 
-		yPosition = yPosition + titleLabel.getY() + titleLabel.getSize().height + 10;
+		yPosition = yPosition + titleLabel.getSize().height + 10;
 
 		//------------------------ Login Text Field -----------------------------------
 
@@ -205,8 +205,6 @@ public class LoginView extends DefaultFrame {
 		setVisible(true);
 
 	}
-
-
 
 	/* **************************************************************************************************
 	 **

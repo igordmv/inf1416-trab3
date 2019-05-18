@@ -2,21 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="54301bd0-53b8-424d-bd55-02f457beeddd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Component/DefaultFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Database/LoggedUser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Database/DBControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Database/DBControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Util/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Util/Util.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/View/LoginView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/LoginView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/View/SenhaView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/SenhaView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Database/DBControl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Util/Util.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Util/Util.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/LoginView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/View/LoginView$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/LoginView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/View/LoginView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/SenhaView$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/View/SenhaView$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/SenhaView$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/View/SenhaView$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/SenhaView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/View/SenhaView.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/classes/" />
@@ -30,12 +19,24 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBControl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1245">
-              <caret line="85" column="8" selection-start-line="85" selection-start-column="8" selection-end-line="85" selection-end-column="8" />
+            <state relative-caret-position="518">
+              <caret line="85" selection-start-line="85" selection-end-line="85" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/View/LoginView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="248">
+              <caret line="97" column="28" selection-start-line="97" selection-start-column="28" selection-end-line="97" selection-end-column="125" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -44,24 +45,17 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/View/LoginView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1543">
-              <caret line="121" column="44" selection-start-line="121" selection-start-column="44" selection-end-line="121" selection-end-column="44" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/View/SenhaView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-483">
-              <caret line="36" column="8" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="8" />
+            <state relative-caret-position="255">
+              <caret line="223" column="12" selection-start-line="223" selection-start-column="12" selection-end-line="223" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#5248#5257#0" expanded="true" />
+                <element signature="e#5514#5880#0" expanded="true" />
+                <element signature="e#5879#5880#0" expanded="true" />
+                <element signature="e#5132#5146#0" expanded="true" />
+                <element signature="e#5284#5292#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -104,6 +98,8 @@
       <find>insere</find>
       <find>tan</find>
       <find>numAcessoErrados</find>
+      <find>user</find>
+      <find>textToBtn</find>
     </findStrings>
     <replaceStrings>
       <replace>Autentication</replace>
@@ -131,9 +127,9 @@
         <option value="$PROJECT_DIR$/src/main/java/Component/DefaultFrame.java" />
         <option value="$PROJECT_DIR$/src/main/java/Util/Util.java" />
         <option value="$PROJECT_DIR$/src/main/java/Database/LoggedUser.java" />
-        <option value="$PROJECT_DIR$/src/main/java/View/SenhaView.java" />
         <option value="$PROJECT_DIR$/src/main/java/Database/DBControl.java" />
         <option value="$PROJECT_DIR$/src/main/java/View/LoginView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/View/SenhaView.java" />
       </list>
     </option>
   </component>
@@ -147,6 +143,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -200,7 +197,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -260,7 +256,7 @@
     <frame x="0" y="23" width="1280" height="687" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27382874" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27786753" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -272,7 +268,7 @@
       <window_info id="Job Explorer" order="9" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.1697479" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.21176471" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.21176471" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.23697479" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -280,7 +276,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32936078" />
-      <window_info anchor="bottom" id="Messages" order="10" visible="true" weight="0.3277311" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.3277311" />
       <window_info anchor="bottom" id="Console" order="11" />
       <window_info anchor="bottom" id="DB Execution Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -497,32 +493,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/View/SenhaView.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBControl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-483">
-          <caret line="36" column="8" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="8" />
+        <state relative-caret-position="518">
+          <caret line="85" selection-start-line="85" selection-end-line="85" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBControl.java">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/src.zip!/java/util/List.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1245">
-          <caret line="85" column="8" selection-start-line="85" selection-start-column="8" selection-end-line="85" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="148">
+          <caret line="543" column="6" selection-start-line="543" selection-start-column="6" selection-end-line="543" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/View/LoginView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1543">
-          <caret line="121" column="44" selection-start-line="121" selection-start-column="44" selection-end-line="121" selection-end-column="44" />
+        <state relative-caret-position="248">
+          <caret line="97" column="28" selection-start-line="97" selection-start-column="28" selection-end-line="97" selection-end-column="125" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/View/SenhaView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="223" column="12" selection-start-line="223" selection-start-column="12" selection-end-line="223" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5248#5257#0" expanded="true" />
+            <element signature="e#5514#5880#0" expanded="true" />
+            <element signature="e#5879#5880#0" expanded="true" />
+            <element signature="e#5132#5146#0" expanded="true" />
+            <element signature="e#5284#5292#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -2,6 +2,7 @@ package View;
 
 import Auth.Authentification;
 import Auth.Node;
+import Database.DBControl;
 import Database.DBManager;
 import Database.LoggedUser;
 import Component.*;
@@ -16,76 +17,43 @@ import java.util.Random;
 
 
 public class SenhaView extends DefaultFrame {
+
+	/* **************************************************************************************************
+	 **
+	 **  Variables desclaration
+	 **
+	 ****************************************************************************************************/
 	
 	private final int width = 400;
-	private final int height = 500;
-	
-	private HashMap user = null;
+	private final int height = 300;
+
+	private JTextField passwordField;
+	private JButton checkButton;
+
 	private Node root = new Node("");
 	private int numCliques = 0;
+
+	/* **************************************************************************************************
+	 **
+	 **  Senha View Init
+	 **
+	 ****************************************************************************************************/
 	
 	public SenhaView() {
-		this.user = LoggedUser.getInstance().getUser();
-		DBManager.insereRegistro(3001, (String) user.get("email"));
-		
-		setLayout(null);
-		setSize (this.width, this.height);
-		setDefaultCloseOperation (EXIT_ON_CLOSE);
-		setResizable(false);
-		setVisible(true);
-		setTitle("Login");
-		
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() - getWidth()) / 2);
-		int y = (int) ((dimension.getHeight() - getHeight()) / 2);
-		setLocation(x, y);
-		
-		
-		Container c = getContentPane();
-		
-		JLabel senhaLabel = new JLabel("Senha:");
-		senhaLabel.setBounds(30, 100, 200, 50);
-		c.add(senhaLabel);
-		
-		final JTextField passwordField = new JTextField();
-		passwordField.setEnabled(false);
-		passwordField.setBounds(30, 150, 200, 50);
-		c.add(passwordField);
-		
-		List<List<String>> opcoes = geraOpcoes();
-		
-		final List<JButton> listaButtons = new ArrayList<JButton>();
-		
-		for (int i=0; i<5; i++) {
 
-			String textToBtn = "";
-			for(String text : opcoes.get(i))
-				textToBtn += text + " ";
-			JButton senhaButton = new JButton(textToBtn);
-			senhaButton.setBounds(30 + (i * 65), 300, 60, 60);
-			senhaButton.addActionListener(new ActionListener () {
-				public void actionPerformed (ActionEvent e) {
-					if (numCliques == 8) {
-						System.out.println("Senha tem no max 8 numeros");
-						return;
-					}
-					numCliques++;
-					passwordField.setText(passwordField.getText() + "*");
-					insereNosFolhas(root, ((JButton)e.getSource()).getText());
-					
-					sorteiaBotoes(listaButtons);
-				}
-			});
-			listaButtons.add(senhaButton);
-			c.add(senhaButton);
-		}		
-		JButton loginButton = new JButton("Login");
-		loginButton.setBounds(60, 400, 300, 50);
-		c.add(loginButton);
+		//--------------------- Insert Register --------------------------------
+
+		DBControl.getInstance().insertRegister(3001, (String) LoggedUser.getInstance().getUser().get("email"));
+
+		//------------------------ Set View ------------------------------------
+
+		this.setView();
+
+		//------------------------ Check Button Action --------------------------
 		
-		loginButton.addActionListener(new ActionListener () {
+		checkButton.addActionListener(new ActionListener () {
 			public void actionPerformed(ActionEvent e) {
-				HashMap updatedUser = Authentification.autenticaEmail((String) user.get("email"));
+				HashMap updatedUser = Authentification.autenticaEmail((String) LoggedUser.getInstance().getUser().get("email"));
 				Integer acessosNegados = ((Integer) updatedUser.get("numAcessoErrados"));
 				if (acessosNegados >= 3) {		
 					DBManager.insereRegistro(3007, (String) updatedUser.get("email"));
@@ -129,8 +97,116 @@ public class SenhaView extends DefaultFrame {
 				}
 			}
 		});
-	}	
-	
+	}
+
+	/* **************************************************************************************************
+	 **
+	 **  Set View
+	 **
+	 ****************************************************************************************************/
+
+	private void setView() {
+
+		//------------------------ Set Title ------------------------------------
+
+		setTitle("Senha");
+
+		//------------------------ Set Size ------------------------------------
+
+		setSize(this.width, this.height);
+
+		this.setDimension();
+
+		//------------------------ Y Position -----------------------------------
+
+		int yPosition = 10;
+
+		//------------------------ Title Label -----------------------------------
+
+		JLabel titleLabel = new JLabel("Senha:");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setBounds(0, yPosition, this.width, 40);
+
+		Font f = titleLabel.getFont();
+		titleLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD, 25));
+
+		this.getContainer().add(titleLabel);
+
+		yPosition = yPosition + titleLabel.getSize().height + 10;
+
+		//------------------------ Password Field -----------------------------------
+
+		passwordField = new JTextField();
+		passwordField.setEnabled(false);
+		passwordField.setBounds(50, yPosition, 300, 50);
+
+		this.getContainer().add(passwordField);
+
+		yPosition = passwordField.getY() + passwordField.getSize().height + 10;
+
+		//---------------------------- Login Button --------------------------------
+
+		checkButton = new JButton("login");
+		checkButton.setBounds(50, yPosition, 300, 40);
+
+		this.getContainer().add(checkButton);
+
+		yPosition = yPosition + checkButton.getSize().height + 10;
+
+		//---------------------- Generate Password Options ----------------------
+
+		List<List<String>> options = geraOpcoes();
+
+		final List<JButton> listButtons = new ArrayList<JButton>();
+
+		for (int i=0; i<5; i++) {
+
+			String textToBtn = "";
+
+			for(String text : options.get(i)) {
+
+				if( text == "" )
+					textToBtn += text + " ou ";
+				else
+					textToBtn += text + " ";
+
+			}
+
+			JButton passwordButton = new JButton(textToBtn);
+
+			passwordButton.setBounds(15 + (i * 75), yPosition, 75, 60);
+
+			//---------------------- Password Button Action ----------------------
+
+			passwordButton.addActionListener(new ActionListener () {
+				public void actionPerformed (ActionEvent e) {
+
+					//Precisa?
+//					if (numCliques == 8) {
+//
+//						JOptionPane.showMessageDialog(null, "Senha tem no máximo 8 caracteres");
+//
+//						return;
+//					}
+
+					numCliques++;
+					passwordField.setText(passwordField.getText() + "*");
+					insereNosFolhas(root, ((JButton)e.getSource()).getText().replace("ou", ""));
+
+					sorteiaBotoes(listButtons);
+				}
+			});
+			listButtons.add(passwordButton);
+			this.getContainer().add(passwordButton);
+
+		}
+
+		//------------------------ Set Visible ------------------------------------
+
+		setVisible(true);
+
+	}
+
 	private void insereNosFolhas(Node root, String opcoes) {
 		if (root.dir == null && root.esq == null) {
 			root.esq = new Node(""+opcoes.charAt(0));
@@ -145,9 +221,18 @@ public class SenhaView extends DefaultFrame {
 		List<List<String>> opcoes = geraOpcoes();
 		for (int i=0; i<5; i++) {
 			JButton btn = lista.get(i);
+
 			String textToBtn = "";
-			for(String text : opcoes.get(i))
-				textToBtn += text + "\n";
+
+			for(String text : opcoes.get(i)){
+
+				if( text == "" )
+					textToBtn += text + " ou ";
+				else
+					textToBtn += text + " ";
+
+			}
+
 			btn.setText(textToBtn);
 		}
 	}
