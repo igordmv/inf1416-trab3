@@ -1,10 +1,10 @@
---DROP TABLE IF EXISTS Registro;
+﻿DROP TABLE IF EXISTS Registro;
 DROP TABLE IF EXISTS Mensagem;
 DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Grupo;
 
 CREATE TABLE Grupo (
-    gid INTEGER NOT NULL PRIVATE KEY,
+    gid INTEGER PRIVATE KEY,
     name TEXT NOT NULL
 );
 
@@ -13,8 +13,8 @@ INSERT INTO Grupo VALUES(2,"Usuario");
 
 CREATE TABLE User (
   name TEXT NOT NULL,
-  email TEXT NOT NULL PRIVATE KEY,
-  FOREIGN KEY(groupId) REFERENCES Grupo(gid)
+  email TEXT PRIVATE KEY NOT NULL ,
+  grupoId INTEGER NOT NULL,
   salt TEXT NOT NULL,
   passwordDigest TEXT NOT NULL,
   numberWrongAccessPassword INTEGER DEFAULT 0,
@@ -22,10 +22,11 @@ CREATE TABLE User (
   lastTryWrongAcess DATETIME,
   countAccess INTEGER DEFAULT 0,
   countConsult INTEGER DEFAULT 0,
-  certificate TEXT NOT NULL
+  certificate TEXT NOT NULL,
+  FOREIGN KEY(grupoId) REFERENCES Grupo(gid)
 );
 
-INSERT INTO "User" VALUES('Administrador','admin@inf1416.puc-rio.br','administrador','A0ptRq7LmQ','6cefc90af4c2c175f15e4237acb01ce052baca54',0,0,NULL,0,0,'-----BEGIN CERTIFICATE-----
+INSERT INTO "User" VALUES('Administrador','admin@inf1416.puc-rio.br',1,'A0ptRq7LmQ','6cefc90af4c2c175f15e4237acb01ce052baca54',0,0,NULL,0,0,'-----BEGIN CERTIFICATE-----
 MIID9jCCAt6gAwIBAgIBATANBgkqhkiG9w0BAQsFADCBhDELMAkGA1UEBhMCQlIx
 CzAJBgNVBAgMAlJKMQwwCgYDVQQHDANSaW8xDDAKBgNVBAoMA1BVQzEQMA4GA1UE
 CwwHSU5GMTQxNjETMBEGA1UEAwwKQUMgSU5GMTQxNjElMCMGCSqGSIb3DQEJARYW
@@ -123,4 +124,3 @@ INSERT INTO Mensagem VALUES(9001,"Tela de saída apresentada para <login_name>."
 INSERT INTO Mensagem VALUES(9002,"Saída não liberada por falta de one-time password para <login_name>.");
 INSERT INTO Mensagem VALUES(9003,"Botão sair pressionado por <login_name>.");
 INSERT INTO Mensagem VALUES(9004,"Botão voltar de sair para o menu principal pressionado por <login_name>");
-
