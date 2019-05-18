@@ -80,7 +80,6 @@ public class LoginView extends JFrame {
 		setSize (this.width, this.height);
 		setDefaultCloseOperation (EXIT_ON_CLOSE);
 		setResizable(false);
-		setVisible(true);
 		setTitle("Login");
 
 		dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -94,6 +93,8 @@ public class LoginView extends JFrame {
 		loginField = new JTextField();
 		loginField.setText("admin@inf1416.puc-rio.br");
 		loginButton = new JButton("Login");
+
+		setVisible(true);
 	}
 
 	private Date getTwoMinutesLaterDate()
