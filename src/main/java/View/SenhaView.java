@@ -31,7 +31,6 @@ public class SenhaView extends DefaultFrame {
 	private JButton checkButton;
 
 	private Node root = new Node("");
-	private int numCliques = 0;
 
 	/* **************************************************************************************************
 	 **
@@ -53,48 +52,50 @@ public class SenhaView extends DefaultFrame {
 		
 		checkButton.addActionListener(new ActionListener () {
 			public void actionPerformed(ActionEvent e) {
-				HashMap updatedUser = Authentification.autenticaEmail((String) LoggedUser.getInstance().getUser().get("email"));
-				Integer acessosNegados = ((Integer) updatedUser.get("numAcessoErrados"));
-				if (acessosNegados >= 3) {		
-					DBManager.insereRegistro(3007, (String) updatedUser.get("email"));
-					JOptionPane.showMessageDialog(null, "Senha incorreta. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
-					dispose();
-					new LoginView();
-				}
-				
-				int tamSenha = passwordField.getText().length();
-				if (tamSenha < 6 || tamSenha > 8) {
-					JOptionPane.showMessageDialog(null, "Senha deve conter de 6 a 8 números.");
-					return;
-				}
+
+				HashMap updatedUser = LoggedUser.getInstance().getUser();
+
 				if (Authentification.verificaArvoreSenha(root, updatedUser, "")) {
+
 					DBManager.insereRegistro(3003, (String) updatedUser.get("email"));
 					DBManager.insereRegistro(3002, (String) updatedUser.get("email"));
 					DBManager.zeraAcessoErrado((String)updatedUser.get("email"));
 					dispose();
 					new PrivateKeyView(Authentification.autenticaEmail((String)updatedUser.get("email")));
-				}
-				else {
-					DBManager.incrementaAcessoErrado((String)updatedUser.get("email"));
-					updatedUser = Authentification.autenticaEmail((String) updatedUser.get("email"));
-					acessosNegados = ((Integer) updatedUser.get("numAcessoErrados"));
-					
-					if (acessosNegados == 1) {
-						DBManager.insereRegistro(3004, (String) updatedUser.get("email"));
+
+				} else {
+
+					Authentification.incrementWrongAccess();
+
+					if( Authentification.shouldBlockUser() ) {
+
+						DBManager.insereRegistro(3007, (String) updatedUser.get("email"));
+						JOptionPane.showMessageDialog(null, "Senha incorreta. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
+						dispose();
+						new LoginView();
+
+						return;
+
 					}
-					else if (acessosNegados == 2) {
-						DBManager.insereRegistro(3005, (String) updatedUser.get("email"));
+
+					int lenghtSenha = passwordField.getText().length();
+
+					if (lenghtSenha < 6 || lenghtSenha > 8) {
+
+						JOptionPane.showMessageDialog(null, "Senha deve conter de 6 a 8 números.");
+
+					} else {
+
+						JOptionPane.showMessageDialog(null, "Senha inválida");
+
 					}
-					else if (acessosNegados == 3) {		
-						DBManager.insereRegistro(3006, (String) updatedUser.get("email"));
-					}
-					
-					JOptionPane.showMessageDialog(null, "Senha incorreta");
 					
 					root = new Node("");;
+
 					passwordField.setText("");
-					numCliques = 0;
+
 				}
+
 			}
 		});
 	}
@@ -165,10 +166,10 @@ public class SenhaView extends DefaultFrame {
 
 			for(String text : options.get(i)) {
 
-				if( text == "" )
+				if( textToBtn == "" )
 					textToBtn += text + " ou ";
 				else
-					textToBtn += text + " ";
+					textToBtn += text + "";
 
 			}
 
@@ -181,22 +182,17 @@ public class SenhaView extends DefaultFrame {
 			passwordButton.addActionListener(new ActionListener () {
 				public void actionPerformed (ActionEvent e) {
 
-					//Precisa?
-//					if (numCliques == 8) {
-//
-//						JOptionPane.showMessageDialog(null, "Senha tem no máximo 8 caracteres");
-//
-//						return;
-//					}
-
-					numCliques++;
 					passwordField.setText(passwordField.getText() + "*");
-					insereNosFolhas(root, ((JButton)e.getSource()).getText().replace("ou", ""));
+
+					insereNosFolhas(root, ((JButton)e.getSource()).getText().replace(" ou ", ""));
 
 					sorteiaBotoes(listButtons);
+
 				}
 			});
+
 			listButtons.add(passwordButton);
+
 			this.getContainer().add(passwordButton);
 
 		}
@@ -210,7 +206,7 @@ public class SenhaView extends DefaultFrame {
 	private void insereNosFolhas(Node root, String opcoes) {
 		if (root.dir == null && root.esq == null) {
 			root.esq = new Node(""+opcoes.charAt(0));
-			root.dir = new Node(""+opcoes.charAt(2));
+			root.dir = new Node(""+opcoes.charAt(1));
 			return;
 		}
 		insereNosFolhas(root.dir, opcoes);
@@ -226,10 +222,10 @@ public class SenhaView extends DefaultFrame {
 
 			for(String text : opcoes.get(i)){
 
-				if( text == "" )
+				if( textToBtn == "" )
 					textToBtn += text + " ou ";
 				else
-					textToBtn += text + " ";
+					textToBtn += text + "";
 
 			}
 

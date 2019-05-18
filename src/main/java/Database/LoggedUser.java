@@ -1,5 +1,7 @@
 package Database;
 
+import Auth.Authentification;
+
 import java.util.HashMap;
 
 public class LoggedUser {
@@ -10,7 +12,7 @@ public class LoggedUser {
      **
      ****************************************************************************************************/
 
-    private HashMap user = null;
+    private String email = null;
 
     private static final LoggedUser instance = new LoggedUser();
 
@@ -25,11 +27,19 @@ public class LoggedUser {
     }
 
     public HashMap getUser() {
-        return user;
+
+        return Authentification.autenticaEmail(this.email);
+
     }
 
-    public void setUser(HashMap user) {
-        this.user = user;
+    public String getEmail() {
+
+        return this.email;
+
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

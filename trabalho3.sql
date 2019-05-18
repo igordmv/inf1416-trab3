@@ -1,5 +1,54 @@
-DROP TABLE IF EXISTS Registro;
+--DROP TABLE IF EXISTS Registro;
 DROP TABLE IF EXISTS Mensagem;
+DROP TABLE IF EXISTS User;
+DROP TABLE IF EXISTS Grupo;
+
+CREATE TABLE Grupo (
+    gid INTEGER NOT NULL PRIVATE KEY,
+    name TEXT NOT NULL
+);
+
+INSERT INTO Grupo VALUES(1,"Administrador");
+INSERT INTO Grupo VALUES(2,"Usuario");
+
+CREATE TABLE User (
+  name TEXT NOT NULL,
+  email TEXT NOT NULL PRIVATE KEY,
+  FOREIGN KEY(groupId) REFERENCES Grupo(gid)
+  salt TEXT NOT NULL,
+  passwordDigest TEXT NOT NULL,
+  numberWrongAccessPassword INTEGER DEFAULT 0,
+  numberWrongAccessPrivateKey INTEGER DEFAULT 0,
+  lastTryWrongAcess DATETIME,
+  countAccess INTEGER DEFAULT 0,
+  countConsult INTEGER DEFAULT 0,
+  certificate TEXT NOT NULL
+);
+
+INSERT INTO "User" VALUES('Administrador','admin@inf1416.puc-rio.br','administrador','A0ptRq7LmQ','6cefc90af4c2c175f15e4237acb01ce052baca54',0,0,NULL,0,0,'-----BEGIN CERTIFICATE-----
+MIID9jCCAt6gAwIBAgIBATANBgkqhkiG9w0BAQsFADCBhDELMAkGA1UEBhMCQlIx
+CzAJBgNVBAgMAlJKMQwwCgYDVQQHDANSaW8xDDAKBgNVBAoMA1BVQzEQMA4GA1UE
+CwwHSU5GMTQxNjETMBEGA1UEAwwKQUMgSU5GMTQxNjElMCMGCSqGSIb3DQEJARYW
+Y2FAZ3JhZC5pbmYucHVjLXJpby5icjAeFw0xOTA1MDMxNzE5MjhaFw0yMjA1MDIx
+NzE5MjhaMHsxCzAJBgNVBAYTAkJSMQswCQYDVQQIDAJSSjEMMAoGA1UECgwDUFVD
+MRAwDgYDVQQLDAdJTkYxNDE2MRYwFAYDVQQDDA1BZG1pbmlzdHJhdG9yMScwJQYJ
+KoZIhvcNAQkBFhhhZG1pbkBpbmYxNDE2LnB1Yy1yaW8uYnIwggEiMA0GCSqGSIb3
+DQEBAQUAA4IBDwAwggEKAoIBAQDDnq2WpTioReNQ3EapxCdmUt9khsS2BHf/YB7t
+jGILCzQegnV1swvcH+xfd9FUjR7pORFSNvrfWKt93t3l2Dc0kCvVffh5BSnXIwwb
+W94O+E1Yp6pvpyflj8YI+VLy0dNCiszHAF5ux6lRZYcrM4KiJndqeFRnqRP8zWI5
+O1kJJMXzCqIXwmXtfqVjWiwXTnjU97xfQqKkmAt8Z+uxJaQxdZJBczmo/jQAIz1g
+x+SXA4TshU5Ra4sQYLo5+FgAfA2vswHGXA6ba3N52wydZ2IYUJL2/YmTyfxzRnsy
+uqbL+hcOw6bm+g0OEIIC7JduKpinz3BieiO15vameAJlqpedAgMBAAGjezB5MAkG
+A1UdEwQCMAAwLAYJYIZIAYb4QgENBB8WHU9wZW5TU0wgR2VuZXJhdGVkIENlcnRp
+ZmljYXRlMB0GA1UdDgQWBBSeUNmquC0OBxDLGpUaDNxe1t2EADAfBgNVHSMEGDAW
+gBQjgTvDGSuVmdnK6jtr/hwkc8KCjjANBgkqhkiG9w0BAQsFAAOCAQEAYjji1ws7
+7cw8uVhlUTkzVxyAaUKOgJx2zuvhR79MItH7L+7ocDrMB/tGCgoAhAM1gVeuyP2t
+0j9mmRuuFDEFvsFqmOoSDbLFkxr1G8StujUQDrLe+691qU5RNubP3XacRyPVTA1F
+/pSr/XUm4fymqDZyVcxqYPFewhQlL3VaD2bKeNWEAczgkOHkC3dDb9bCL4oDr1Ss
+URKDWWg2XbZpuTO7IhxTYKwddKvsJTjizHIz6mi6JavHM7+xtB/ZvQaW04O9y5QI
+9EQPJsF3nybVNKWIR9UA4tWSfHmQ5J9cGk/bZBCqzvgmV8Wv7cMUB7q6mzGUP1a+
+HtNmSvQW9Uow3g==
+-----END CERTIFICATE-----');
 
 CREATE TABLE Mensagem (
     id INTEGER PRIMARY KEY,
@@ -75,9 +124,3 @@ INSERT INTO Mensagem VALUES(9002,"Saída não liberada por falta de one-time pas
 INSERT INTO Mensagem VALUES(9003,"Botão sair pressionado por <login_name>.");
 INSERT INTO Mensagem VALUES(9004,"Botão voltar de sair para o menu principal pressionado por <login_name>");
 
-
-
-INSERT INTO "Registro" VALUES(5,3001,'admin@inf1416.puc-rio.br','null','2019-05-07 22:56:50');
-INSERT INTO "Registro" VALUES(6,3003,'admin@inf1416.puc-rio.br','null','2019-05-07 22:56:51');
-INSERT INTO "Registro" VALUES(7,3002,'admin@inf1416.puc-rio.br','null','2019-05-07 22:56:52');
-INSERT INTO "Registro" VALUES(8,4001,'admin@inf1416.puc-rio.br','null','2019-05-07 22:56:53');

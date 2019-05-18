@@ -61,7 +61,17 @@ public class LoginView extends DefaultFrame {
 
 				}
 
-				LoggedUser.getInstance().setUser(Authentification.autenticaEmail(email));
+				//---------------------- Check if Is a Valid E-mail ---------------------------
+
+				if( !Util.isValidEmailAddress(email) ) {
+
+					JOptionPane.showMessageDialog(null, "Para fazer login, digite um e-mail válido");
+
+					return;
+
+				}
+
+				LoggedUser.getInstance().setEmail(email);
 
 				if (LoggedUser.getInstance().getUser() == null) {
 
@@ -71,9 +81,7 @@ public class LoginView extends DefaultFrame {
 
 				} else {
 
-					Integer wrongAccess = ((Integer) LoggedUser.getInstance().getUser().get("numAcessoErrados"));
-
-					if (wrongAccess >= 3) {
+					if (Authentification.shouldBlockUser()) {
 
 						String lastTry = (String) LoggedUser.getInstance().getUser().get("ultimaTentativa");
 
@@ -108,6 +116,10 @@ public class LoginView extends DefaultFrame {
 				}
 			}
 		});
+
+		//Run SQL File:
+
+		DBControl.getInstance().runSqlFile();
 
 	}
 

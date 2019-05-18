@@ -60,6 +60,7 @@ public class PrivateKeyView extends JFrame {
         JButton checkButton = new JButton("Conferir");
         checkButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 HashMap updatedUser = Authentification.autenticaEmail((String) user.get("email"));
 
                 if( chaveSecretaField.getText() != "" && chavePrivadaLabel.getText() != "" ){
@@ -67,21 +68,55 @@ public class PrivateKeyView extends JFrame {
                     chavePrivada = Authentification.leChavePrivada(chaveSecretaField.getText(), chavePrivadaLabel.getText(), user);
 
                     if (chavePrivada == null) {
-                        JOptionPane.showMessageDialog(null, "Chave secreta ou certificado inválido");
+
                         DBManager.insereRegistro(8003, (String) user.get("email"));
+
+                        Authentification.incrementWrongAccess();
+
+                        if( Authentification.shouldBlockUser() ) {
+
+                            DBManager.insereRegistro(3007, (String) updatedUser.get("email"));
+                            JOptionPane.showMessageDialog(null, "Chave secreta ou certificado inválido. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
+                            dispose();
+                            new LoginView();
+
+                            return;
+
+                        } else {
+
+                            JOptionPane.showMessageDialog(null, "Chave secreta ou certificado inválido");
+
+                        }
 
                     } else {
 
                         if (Authentification.testaChavePrivada(chavePrivada, user)) {
 
                             DBManager.insereRegistro(8002, (String) user.get("email"));
+                            DBManager.zeraAcessoErrado((String)updatedUser.get("email"));
                             dispose();
                             new MainView(Authentification.autenticaEmail((String)user.get("email")));
 
                         } else {
 
-                            JOptionPane.showMessageDialog(null, "Certificado não correto para o usuário");
                             DBManager.insereRegistro(8003, (String) user.get("email"));
+
+                            Authentification.incrementWrongAccess();
+
+                            if( Authentification.shouldBlockUser() ) {
+
+                                DBManager.insereRegistro(3007, (String) updatedUser.get("email"));
+                                JOptionPane.showMessageDialog(null, "Certificado não válido. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
+                                dispose();
+                                new LoginView();
+
+                                return;
+
+                            } else {
+
+                                JOptionPane.showMessageDialog(null, "Certificado não válido");
+
+                            }
 
                         }
 

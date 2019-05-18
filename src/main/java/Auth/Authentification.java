@@ -1,6 +1,7 @@
 package Auth;
 
 import Database.DBManager;
+import Database.LoggedUser;
 import org.apache.commons.io.FileUtils;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -474,5 +475,57 @@ public class Authentification {
 
 		return true;
 	}
+
+	/* **************************************************************************************************
+	 **
+	 **  Increment Wrong Access
+	 **
+	 ****************************************************************************************************/
+
+	public static void incrementWrongAccess() {
+
+		HashMap user = LoggedUser.getInstance().getUser();
+
+		DBManager.incrementaAcessoErrado((String)user.get("email"));
+
+		user = LoggedUser.getInstance().getUser();
+
+		int wrongAccess = ((Integer) user.get("numAcessoErrados"));
+
+		System.out.println("\nincrementWrongAccess\n");
+		System.out.println(wrongAccess);
+		System.out.println("\n");
+
+		if (wrongAccess == 1)
+			DBManager.insereRegistro(3004, (String) user.get("email"));
+
+		else if (wrongAccess == 2)
+			DBManager.insereRegistro(3005, (String) user.get("email"));
+
+		else if (wrongAccess == 3)
+			DBManager.insereRegistro(3006, (String) user.get("email"));
+
+	}
+
+	/* **************************************************************************************************
+	 **
+	 **  Should Block User
+	 **
+	 ****************************************************************************************************/
+
+	public static boolean shouldBlockUser() {
+
+		HashMap user = LoggedUser.getInstance().getUser();
+
+		int wrongAccess = ((Integer) user.get("numAcessoErrados"));
+
+		System.out.println("\nshouldBlockUser\n");
+		System.out.println(wrongAccess);
+		System.out.println("\n");
+
+		return wrongAccess >= 3;
+
+	}
+
 
 }
