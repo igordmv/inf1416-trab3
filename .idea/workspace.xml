@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="54301bd0-53b8-424d-bd55-02f457beeddd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/db.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Auth/Authentification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Auth/Authentification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Auth/Node.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/LoginView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/LoginView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/View/SenhaView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/SenhaView.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -48,8 +45,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/View/SenhaView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1722">
-              <caret line="189" column="70" selection-start-line="189" selection-start-column="69" selection-end-line="189" selection-end-column="70" />
+            <state relative-caret-position="361">
+              <caret line="335" lean-forward="true" selection-start-line="335" selection-end-line="335" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#918#926#0" expanded="true" />
@@ -316,8 +313,8 @@
       <window_info id="Project Explorer" order="8" />
       <window_info id="Job Explorer" order="9" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.2621849" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.22521009" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.2621849" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.22521009" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.48739496" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -592,8 +589,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/View/SenhaView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1722">
-          <caret line="189" column="70" selection-start-line="189" selection-start-column="69" selection-end-line="189" selection-end-column="70" />
+        <state relative-caret-position="361">
+          <caret line="335" lean-forward="true" selection-start-line="335" selection-end-line="335" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#918#926#0" expanded="true" />

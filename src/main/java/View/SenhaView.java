@@ -161,22 +161,24 @@ public class SenhaView extends DefaultFrame {
 
 		//---------------------- Generate Password Options ----------------------
 
-		List<List<String>> options = randomOptions();
-
 		final List<JButton> listButtons = new ArrayList<JButton>();
+		String numbers = "0123456789";
 
 		for (int i=0; i<5; i++) {
 
-			String textToBtn = "";
+			Random rand = new Random();
 
-			for(String text : options.get(i)) {
+			int index = rand.nextInt(numbers.length());
+			Character number1 = numbers.charAt(index);
 
-				if( textToBtn == "" )
-					textToBtn += text + " ou ";
-				else
-					textToBtn += text + "";
+			numbers = numbers.replaceAll(String.valueOf(numbers.charAt(index)), "");
 
-			}
+			index = rand.nextInt(numbers.length());
+			Character number2 = numbers.charAt(index);
+
+			numbers = numbers.replaceAll(String.valueOf(numbers.charAt(index)), "");
+
+			String textToBtn = String.valueOf(number1) + " ou " + String.valueOf(number2);
 
 			JButton passwordButton = new JButton(textToBtn);
 
@@ -311,53 +313,28 @@ public class SenhaView extends DefaultFrame {
 	 **
 	 ****************************************************************************************************/
 
-	private void setTextInButtons(List<JButton> lista) {
+	private void setTextInButtons(List<JButton> list) {
+		String numbers = "0123456789";
 
-		List<List<String>> options = randomOptions();
+		Random rand = new Random();
 
 		for (int i=0; i<5; i++) {
-			JButton btn = lista.get(i);
 
-			String textToBtn = "";
+			JButton btn = list.get(i);
 
-			for(String text : options.get(i)){
+			int index = rand.nextInt(numbers.length());
+			Character number1 = numbers.charAt(index);
 
-				if( textToBtn == "" )
-					textToBtn += text + " ou ";
-				else
-					textToBtn += text + "";
+			numbers = numbers.replaceAll(String.valueOf(numbers.charAt(index)), "");
 
-			}
+			index = rand.nextInt(numbers.length());
+			Character number2 = numbers.charAt(index);
 
-			btn.setText(textToBtn);
-		}
-	}
+			numbers = numbers.replaceAll(String.valueOf(numbers.charAt(index)), "");
 
-	/* **************************************************************************************************
-	 **
-	 **  Generate Options For Buttons
-	 **
-	 ****************************************************************************************************/
-
-	private List<List<String>> randomOptions() {
-		List<List<String>> list = new ArrayList<List<String>>();
-		String numeros = "0123456789";
-		
-		for (int i=0; i < 5; i++) {
-
-			Random rand = new Random();
-			List<String> opcao = new ArrayList<String>();
-			int index = rand.nextInt(numeros.length());
-			opcao.add(""+numeros.charAt(index));
-			numeros = numeros.replaceAll("" + numeros.charAt(index), "");
-			index = rand.nextInt(numeros.length());
-			opcao.add(""+numeros.charAt(index));
-			numeros = numeros.replaceAll("" + numeros.charAt(index), "");
-			list.add(opcao);
+			btn.setText( String.valueOf(number1) + " ou " + String.valueOf(number2) );
 
 		}
-
-		return list;
 	}
 
 }
