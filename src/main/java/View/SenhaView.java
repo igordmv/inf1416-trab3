@@ -2,7 +2,6 @@ package View;
 
 import Auth.Authentification;
 import Database.DBControl;
-import Database.DBManager;
 import Database.LoggedUser;
 import Component.*;
 import javax.swing.*;
@@ -69,8 +68,8 @@ public class SenhaView extends DefaultFrame {
 
 				if (checkPasswordInArray()) {
 
-					DBManager.insereRegistro(3003, (String) updatedUser.get("email"));
-					DBManager.insereRegistro(3002, (String) updatedUser.get("email"));
+					DBControl.getInstance().insertRegister(3003, (String) updatedUser.get("email"));
+					DBControl.getInstance().insertRegister(3002, (String) updatedUser.get("email"));
 					DBControl.getInstance().clearWrongAccessPassword((String)updatedUser.get("email"));
 					dispose();
 
@@ -82,7 +81,7 @@ public class SenhaView extends DefaultFrame {
 
 					if( Authentification.shouldBlockUserForPassword() ) {
 
-						DBManager.insereRegistro(3007, (String) updatedUser.get("email"));
+						DBControl.getInstance().insertRegister(3007, (String) updatedUser.get("email"));
 						JOptionPane.showMessageDialog(null, "Senha incorreta. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
 						dispose();
 						new LoginView();

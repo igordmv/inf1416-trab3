@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="54301bd0-53b8-424d-bd55-02f457beeddd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/db.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/LoginView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/LoginView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/View/SenhaView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/SenhaView.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -21,7 +22,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBControl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1302">
+            <state relative-caret-position="1277">
               <caret line="158" column="35" lean-forward="true" selection-start-line="158" selection-start-column="35" selection-end-line="158" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -31,10 +32,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="825">
+              <caret line="68" selection-start-line="68" selection-end-line="68" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/View/LoginView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="238" column="62" selection-start-line="238" selection-start-column="62" selection-end-line="238" selection-end-column="62" />
+            <state relative-caret-position="399">
+              <caret line="245" column="23" lean-forward="true" selection-start-line="245" selection-start-column="23" selection-end-line="245" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -42,11 +52,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/View/SenhaView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="335" lean-forward="true" selection-start-line="335" selection-end-line="335" />
+            <state relative-caret-position="1200">
+              <caret line="83" column="62" selection-start-line="83" selection-start-column="62" selection-end-line="83" selection-end-column="62" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#918#926#0" expanded="true" />
@@ -59,8 +69,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/View/PrivateKeyView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2593">
-              <caret line="33" column="12" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
+            <state relative-caret-position="-1983">
+              <caret line="83" column="24" selection-start-line="83" selection-start-column="24" selection-end-line="83" selection-end-column="62" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2324#5140#0" expanded="true" />
@@ -70,12 +80,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/View/MainView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3012">
-              <caret line="10" column="37" lean-forward="true" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
+            <state relative-caret-position="3450">
+              <caret line="230" lean-forward="true" selection-start-line="227" selection-start-column="8" selection-end-line="230" />
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="e#874#1068#0" expanded="true" />
                 <element signature="e#1067#1068#0" expanded="true" />
                 <element signature="e#1283#1524#0" expanded="true" />
@@ -98,7 +109,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>DBManager</find>
       <find>insere</find>
       <find>tan</find>
       <find>user</find>
@@ -128,6 +138,7 @@
       <find>incrementaTotalAcessos</find>
       <find>Main</find>
       <find>121212</find>
+      <find>DBC</find>
     </findStrings>
     <replaceStrings>
       <replace>Autentication</replace>
@@ -155,11 +166,11 @@
         <option value="$PROJECT_DIR$/src/main/java/Database/DBManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/Database/DBControl.java" />
         <option value="$PROJECT_DIR$/src/main/java/View/PrivateKeyView.java" />
-        <option value="$PROJECT_DIR$/src/main/java/View/MainView.java" />
         <option value="$PROJECT_DIR$/src/main/java/View/SaidaView.java" />
         <option value="$PROJECT_DIR$/src/main/java/Auth/Authentification.java" />
-        <option value="$PROJECT_DIR$/src/main/java/View/LoginView.java" />
         <option value="$PROJECT_DIR$/src/main/java/View/SenhaView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/View/MainView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/View/LoginView.java" />
       </list>
     </option>
   </component>
@@ -302,7 +313,7 @@
     <frame x="0" y="23" width="1280" height="687" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2819063" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2819063" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -314,7 +325,7 @@
       <window_info id="Job Explorer" order="9" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.2621849" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.22521009" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.22521009" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.48739496" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -509,35 +520,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="68" selection-start-line="68" selection-end-line="68" />
-          <folding>
-            <element signature="e#1207#1208#0" expanded="true" />
-            <element signature="e#1254#1255#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/View/SaidaView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="945">
           <caret line="67" column="28" lean-forward="true" selection-start-line="67" selection-start-column="28" selection-end-line="67" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/View/PrivateKeyView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2593">
-          <caret line="33" column="12" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2324#5140#0" expanded="true" />
-            <element signature="e#5139#5140#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -552,9 +540,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/View/PrivateKeyView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1983">
+          <caret line="83" column="24" selection-start-line="83" selection-start-column="24" selection-end-line="83" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2324#5140#0" expanded="true" />
+            <element signature="e#5139#5140#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/View/LoginView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="245" column="23" lean-forward="true" selection-start-line="245" selection-start-column="23" selection-end-line="245" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBControl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1302">
+        <state relative-caret-position="1277">
           <caret line="158" column="35" lean-forward="true" selection-start-line="158" selection-start-column="35" selection-end-line="158" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -562,39 +572,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="825">
+          <caret line="68" selection-start-line="68" selection-end-line="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/View/SenhaView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1200">
+          <caret line="83" column="62" selection-start-line="83" selection-start-column="62" selection-end-line="83" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#918#926#0" expanded="true" />
+            <element signature="e#976#985#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/View/MainView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3012">
-          <caret line="10" column="37" lean-forward="true" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
+        <state relative-caret-position="3450">
+          <caret line="230" lean-forward="true" selection-start-line="227" selection-start-column="8" selection-end-line="230" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="e#874#1068#0" expanded="true" />
             <element signature="e#1067#1068#0" expanded="true" />
             <element signature="e#1283#1524#0" expanded="true" />
             <element signature="e#1523#1524#0" expanded="true" />
             <element signature="e#1714#1965#0" expanded="true" />
             <element signature="e#1964#1965#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/View/LoginView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="238" column="62" selection-start-line="238" selection-start-column="62" selection-end-line="238" selection-end-column="62" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/View/SenhaView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="335" lean-forward="true" selection-start-line="335" selection-end-line="335" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#918#926#0" expanded="true" />
-            <element signature="e#976#985#0" expanded="true" />
           </folding>
         </state>
       </provider>
