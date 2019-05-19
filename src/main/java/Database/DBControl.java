@@ -92,9 +92,9 @@ public class DBControl {
      **
      ****************************************************************************************************/
 
-    public void clearWrongAccessPrivateKey(String email) {
+    public void clearWrongAccessPrivateKey() {
 
-        runQueryInsertUpdate(String.format("UPDATE User SET numberWrongAccessPrivateKey = 0 WHERE email = '%s'", email));
+        runQueryInsertUpdate(String.format("UPDATE User SET numberWrongAccessPrivateKey = 0 WHERE email = '%s'", LoggedUser.getInstance().getEmail()));
 
     }
 
@@ -128,9 +128,9 @@ public class DBControl {
      **
      ****************************************************************************************************/
 
-    public void increaseCountAccess(String email) {
+    public void increaseCountAccess() {
 
-        runQueryInsertUpdate(String.format("UPDATE User SET countAccess = countAccess + 1 WHERE email = '%s'", email));
+        runQueryInsertUpdate(String.format("UPDATE User SET countAccess = countAccess + 1 WHERE email = '%s'", LoggedUser.getInstance().getEmail()));
 
     }
 

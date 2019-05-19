@@ -47,6 +47,10 @@ public class PrivateKeyView extends DefaultFrame {
 
         this.user = LoggedUser.getInstance().getUser();
 
+        //--------------------- Insert Register --------------------------------
+
+        DBControl.getInstance().insertRegister(MensagemType.AUTENTICACAO_ETAPA_3_INICIADA, LoggedUser.getInstance().getEmail());
+
         //------------------------ Set View ------------------------------------
 
         this.setView();
@@ -92,14 +96,11 @@ public class PrivateKeyView extends DefaultFrame {
                     chavePrivada = Authentification.leChavePrivada(privateKeyTextField.getText(), pathTextField.getText(), user);
 
                     if (chavePrivada == null) {
-
-                        DBControl.getInstance().insertRegister(8003,  (String) user.get("email"));
-
                         Authentification.incrementWrongAccessPrivateKey();
 
                         if( Authentification.shouldBlockUserForPrivateKey() ) {
 
-                            DBControl.getInstance().insertRegister(3007, (String) updatedUser.get("email"));
+                            DBControl.getInstance().insertRegister(MensagemType.ACESSO_USUARIO_BLOQUEADO_PELA_ETAPA_3, LoggedUser.getInstance().getEmail());
 
                             JOptionPane.showMessageDialog(null, "Chave secreta ou certificado inválido. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
                             dispose();
@@ -117,15 +118,17 @@ public class PrivateKeyView extends DefaultFrame {
 
                         if (Authentification.testaChavePrivada(chavePrivada, user)) {
 
+                            DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_POSITIVAMENTE, LoggedUser.getInstance().getEmail());
+
                             LoggedUser.getInstance().setPrivateKey(chavePrivada);
                             LoggedUser.getInstance().setSecretWord(privateKeyTextField.getText());
 
-                            DBControl.getInstance().insertRegister(8002, (String) user.get("email"));
-                            DBControl.getInstance().clearWrongAccessPrivateKey((String)updatedUser.get("email"));
+                            DBControl.getInstance().clearWrongAccessPrivateKey();
+                            DBControl.getInstance().increaseCountAccess();
+
                             dispose();
 
-                            DBControl.getInstance().increaseCountAccess((String) user.get("email"));
-
+                            DBControl.getInstance().insertRegister(MensagemType.AUTENTICACAO_ETAPA_3_ENCERRADA, LoggedUser.getInstance().getEmail());
                             new MainView();
 
                         } else {
@@ -155,6 +158,9 @@ public class PrivateKeyView extends DefaultFrame {
 
                 } else {
 
+                    if(privateKeyTextField.getText().equals("")){
+                        DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_FRASE_SECRETA, LoggedUser.getInstance().getEmail());
+                    }
                     JOptionPane.showMessageDialog(null, "Escolha um certificado e digite a senha secreta");
 
                 }

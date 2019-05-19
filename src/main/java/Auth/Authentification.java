@@ -131,7 +131,7 @@ public class Authentification {
 				cipher.init(Cipher.DECRYPT_MODE, chave);
 			}
 			catch (Exception e) {
-				DBManager.insereRegistro(8004, (String) user.get("email"));
+				DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_FRASE_SECRETA, LoggedUser.getInstance().getEmail());
 				return null;
 			}
 
@@ -140,7 +140,7 @@ public class Authentification {
 				bytes = FileUtils.readFileToByteArray(new File(pathString));
 			}
 			catch (Exception e) {
-				DBManager.insereRegistro(8003, (String) user.get("email"));
+				DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_CAMINHO_INVALIDO, LoggedUser.getInstance().getEmail());
 				return null;
 			}
 
@@ -152,7 +152,7 @@ public class Authentification {
 			return factory.generatePrivate(new PKCS8EncodedKeySpec(chavePrivadaBytes));
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_ASSINATURA_DIGITAL, LoggedUser.getInstance().getEmail());
 			return null;
 		}
 	}
