@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,11 +42,23 @@ public class LoginView extends DefaultFrame {
 
 		//--------------------- Insert Register --------------------------------
 
-		DBControl.getInstance().insertRegister(2001);
+		DBControl.getInstance().insertRegister(MensagemType.AUTENTICACAO_ETAPA_1_INICIADA);
 
 		//------------------------ Set View ------------------------------------
 
 		this.setView();
+
+
+		//------------------------ On close Event ------------------------------------
+
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				DBControl.getInstance().insertRegister(MensagemType.SISTEMA_ENCERRADO, null, null);
+				System.exit(0);
+			}
+		});
+
 
 		//---------------------- Login Button Action ---------------------------
 
@@ -75,7 +89,7 @@ public class LoginView extends DefaultFrame {
 
 				if (LoggedUser.getInstance().getUser() == null) {
 
-					DBControl.getInstance().insertRegister(2005, loginTextField.getText());
+					DBControl.getInstance().insertRegister(MensagemType.LOGIN_NAME_NAO_IDENTIFICADO, LoggedUser.getInstance().getEmail());
 
 					JOptionPane.showMessageDialog(null, "Usuário não cadastrado.");
 
@@ -112,7 +126,7 @@ public class LoginView extends DefaultFrame {
 
 						}  else {
 
-							DBControl.getInstance().insertRegister(2004, (String) LoggedUser.getInstance().getUser().get("email"));
+							DBControl.getInstance().insertRegister(MensagemType.LOGIN_NAME_IDENTIFICADO_COM_ACESSO_BLOQUEADO, LoggedUser.getInstance().getEmail());
 							JOptionPane.showMessageDialog(null, "Usuário com acesso bloquado. Tente novamente em 2 minutos");
 
 						}
@@ -236,9 +250,9 @@ public class LoginView extends DefaultFrame {
 
 	private void validateLogin() {
 
-		DBControl.getInstance().insertRegister(2003, (String) LoggedUser.getInstance().getUser().get("email"));
+		DBControl.getInstance().insertRegister(MensagemType.LOGIN_NAME_IDENTIFICADO_COM_ACESSO_LIBERADO, LoggedUser.getInstance().getEmail());
 
-		DBControl.getInstance().insertRegister(2002);
+		DBControl.getInstance().insertRegister(MensagemType.AUTENTICACAO_ETAPA_1_ENCERRADA, LoggedUser.getInstance().getEmail());
 
 		dispose();
 

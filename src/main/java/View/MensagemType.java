@@ -1,8 +1,10 @@
+package View;
+
 public class MensagemType {
     public static final Integer SISTEMA_INICIADO = 1001;
     public static final Integer SISTEMA_ENCERRADO = 1002;
-    public static final Integer AUTENTICACAO_PRIMEIRA_ETAPA_INICIADA = 2001;
-    public static final Integer AUTENTICACAO_PRIMEIRA_ETAPA_ENCERRADA = 2002;
+    public static final Integer AUTENTICACAO_ETAPA_1_INICIADA = 2001;
+    public static final Integer AUTENTICACAO_ETAPA_1_ENCERRADA = 2002;
     public static final Integer LOGIN_NAME_IDENTIFICADO_COM_ACESSO_LIBERADO = 2003;
     public static final Integer LOGIN_NAME_IDENTIFICADO_COM_ACESSO_BLOQUEADO = 2004;
     public static final Integer LOGIN_NAME_NAO_IDENTIFICADO = 2005;

@@ -10,6 +10,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.UnsupportedEncodingException;
 import java.security.PrivateKey;
 import java.util.HashMap;
@@ -46,6 +48,16 @@ public class ConsultarArquivosView extends DefaultFrame {
 
 		this.setView();
 
+
+		//------------------------ On close Event ------------------------------------
+
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				DBControl.getInstance().insertRegister(MensagemType.SISTEMA_ENCERRADO, LoggedUser.getInstance().getEmail(), null);
+				System.exit(0);
+			}
+		});
 
 		consultarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

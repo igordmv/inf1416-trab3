@@ -1,5 +1,7 @@
 import Database.DBControl;
 import View.LoginView;
+import View.MensagemType;
+
 import java.util.HashMap;
 import java.util.List;
 

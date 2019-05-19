@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.security.PrivateKey;
 import java.util.HashMap;
 
@@ -48,6 +50,16 @@ public class PrivateKeyView extends DefaultFrame {
         //------------------------ Set View ------------------------------------
 
         this.setView();
+
+        //------------------------ On close Event ------------------------------------
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                DBControl.getInstance().insertRegister(MensagemType.SISTEMA_ENCERRADO, LoggedUser.getInstance().getEmail(), null);
+                System.exit(0);
+            }
+        });
 
         //---------------------- Path Button Action -------------------------------
 

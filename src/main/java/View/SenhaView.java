@@ -40,7 +40,7 @@ public class SenhaView extends DefaultFrame {
 
 		//--------------------- Insert Register --------------------------------
 
-		DBControl.getInstance().insertRegister(3001, (String) LoggedUser.getInstance().getUser().get("email"));
+		DBControl.getInstance().insertRegister(MensagemType.AUTENTICACAO_ETAPA_2_INICIADA, LoggedUser.getInstance().getEmail());
 
 		//------------------------ Set View ------------------------------------
 
@@ -68,8 +68,8 @@ public class SenhaView extends DefaultFrame {
 
 				if (checkPasswordInArray()) {
 
-					DBControl.getInstance().insertRegister(3003, (String) updatedUser.get("email"));
-					DBControl.getInstance().insertRegister(3002, (String) updatedUser.get("email"));
+					DBControl.getInstance().insertRegister(MensagemType.SENHA_PESSOAL_VERIFICADA_POSITIVAMENTE, LoggedUser.getInstance().getEmail());
+					DBControl.getInstance().insertRegister(MensagemType.AUTENTICACAO_ETAPA_2_ENCERRADA, LoggedUser.getInstance().getEmail());
 					DBControl.getInstance().clearWrongAccessPassword((String)updatedUser.get("email"));
 					dispose();
 
@@ -81,7 +81,7 @@ public class SenhaView extends DefaultFrame {
 
 					if( Authentification.shouldBlockUserForPassword() ) {
 
-						DBControl.getInstance().insertRegister(3007, (String) updatedUser.get("email"));
+						DBControl.getInstance().insertRegister(MensagemType.ACESSO_USUARIO_BLOQUEADO_PELA_ETAPA_2, LoggedUser.getInstance().getEmail());
 						JOptionPane.showMessageDialog(null, "Senha incorreta. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
 						dispose();
 						new LoginView();

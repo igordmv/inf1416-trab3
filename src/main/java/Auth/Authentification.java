@@ -3,6 +3,7 @@ package Auth;
 import Database.DBControl;
 import Database.DBManager;
 import Database.LoggedUser;
+import View.MensagemType;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.apache.commons.io.FileUtils;
 import javax.crypto.Cipher;
@@ -481,19 +482,17 @@ public class Authentification {
 
 		int wrongAccess = ((Integer) user.get("numberWrongAccessPassword"));
 
-		System.out.println("\nincrementWrongAccessPassowrd\n");
-		System.out.println(wrongAccess);
-		System.out.println("\n");
-
-		if (wrongAccess == 1)
-			DBManager.insereRegistro(3004, (String) user.get("email"));
-
-		else if (wrongAccess == 2)
-			DBManager.insereRegistro(3005, (String) user.get("email"));
-
-		else if (wrongAccess == 3)
-			DBManager.insereRegistro(3006, (String) user.get("email"));
-
+		switch (wrongAccess){
+			case 1:
+				DBManager.insereRegistro(MensagemType.PRIMEIRO_ERRO_SENHA_PESSOAL_CONTABILIZADO, LoggedUser.getInstance().getEmail());
+				break;
+			case 2:
+				DBManager.insereRegistro(MensagemType.SEGUNDO_ERRO_SENHA_PESSOAL_CONTABILIZADO, LoggedUser.getInstance().getEmail());
+				break;
+			case 3:
+				DBManager.insereRegistro(MensagemType.TERCEIRO_ERRO_SENHA_PESSOAL_CONTABILIZADO, LoggedUser.getInstance().getEmail());
+				break;
+		}
 	}
 
 	/* **************************************************************************************************
