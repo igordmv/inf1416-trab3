@@ -52,7 +52,7 @@ public class CadastroView  extends DefaultFrame {
 
 		this.user = LoggedUser.getInstance().getUser();
 
-		DBManager.insereRegistro(6001, (String) user.get("email"));
+		DBControl.getInstance().insertRegister(MensagemType.TELA_CADASTRO_APRESENTADA, LoggedUser.getInstance().getEmail());
 
 		//------------------------ Set View ------------------------------------
 
@@ -101,7 +101,7 @@ public class CadastroView  extends DefaultFrame {
 
 		cadastrarButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
-				DBManager.insereRegistro(6002, (String) user.get("email"));
+				DBControl.getInstance().insertRegister(MensagemType.BOTAO_CADASTRAR_PRESSIONADO, LoggedUser.getInstance().getEmail());
 
 				String senha = new String( senhaField.getPassword());
 				String confirmacao = new String(senhaConfirmacaoField.getPassword());
@@ -111,7 +111,7 @@ public class CadastroView  extends DefaultFrame {
 
 				if (!senha.equals(confirmacao)) {
 
-					DBManager.insereRegistro(6003, (String) user.get("email"));
+					DBControl.getInstance().insertRegister(MensagemType.SENHA_PESSOAL_INVALIDA_TELA_CADASTRO, LoggedUser.getInstance().getEmail());
 					JOptionPane.showMessageDialog(null, "Senha e confirmação de senha não são iguais.");
 
 					return;
@@ -122,7 +122,7 @@ public class CadastroView  extends DefaultFrame {
 
 				if( !senhaOk ){
 
-					DBManager.insereRegistro(6003, (String) user.get("email"));
+					DBControl.getInstance().insertRegister(MensagemType.SENHA_PESSOAL_INVALIDA_TELA_CADASTRO, LoggedUser.getInstance().getEmail());
 					JOptionPane.showMessageDialog(null, "Senha não está no padrão correto.");
 
 					return;
@@ -136,13 +136,13 @@ public class CadastroView  extends DefaultFrame {
 					certDigBytes = FileUtils.readFileToByteArray(new File(certificadoDigitalLabel.getText()));
 				} catch (Exception a) {
 					a.printStackTrace();
-					DBManager.insereRegistro(6004, (String) user.get("email"));
+					DBControl.getInstance().insertRegister(MensagemType.CAMINHO_CERTIFICADO_INVELIDO, LoggedUser.getInstance().getEmail());
 					return;
 				}
 
 				X509Certificate cert = Authentification.leCertificadoDigital(certDigBytes);
 				if (cert == null) {
-					DBManager.insereRegistro(6004, (String) user.get("email"));
+					DBControl.getInstance().insertRegister(MensagemType.CAMINHO_CERTIFICADO_INVELIDO, LoggedUser.getInstance().getEmail());
 					return;
 				}
 //				String infoString = cert.getVersion() +"\n"+ cert.getNotBefore() +"\n"+ cert.getType() +"\n"+ cert.getIssuerDN() +"\n"+ cert.getSubjectDN();
