@@ -15,6 +15,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import Component.*;
+import sun.rmi.runtime.Log;
+
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
 
@@ -90,7 +92,7 @@ public class CadastroView  extends DefaultFrame {
 
 		voltarButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
-				DBManager.insereRegistro(6008, (String) user.get("email"));
+				DBManager.insereRegistro(MensagemType.BOTAO_VOLTAR_DE_CADASTRO_PARA_MENU_PRINCIPAL_PRESSIONADO, LoggedUser.getInstance().getEmail());
 				dispose();
 				new MainView();
 			}
@@ -168,20 +170,18 @@ public class CadastroView  extends DefaultFrame {
 
 				if (ret != JOptionPane.YES_OPTION) {
 					System.out.println("Cancelou");
-					DBManager.insereRegistro(6007, (String) user.get("email"));
+					DBManager.insereRegistro(MensagemType.CONFIRMACAO_DE_DADOS_REJEITADA, LoggedUser.getInstance().getEmail());
 					return;
-				}
-				else {
-					DBManager.insereRegistro(6006, (String) user.get("email"));
 				}
 
 				if (Authentification.cadastraUsuario(grupo, senha, certificadoDigitalLabel.getText())) {
+					DBManager.insereRegistro(MensagemType.CONFIRMACAO_DE_DADOS_ACEITA_TELA_CADASTRO, LoggedUser.getInstance().getEmail());
 					JOptionPane.showMessageDialog(null, "Usuário cadastrado!");
 					dispose();
 					new CadastroView();
 				}
 				else {
-					DBManager.insereRegistro(6003, (String) user.get("email"));
+					DBManager.insereRegistro(MensagemType.SENHA_PESSOAL_INVALIDA_TELA_CADASTRO, LoggedUser.getInstance().getEmail());
 					JOptionPane.showMessageDialog(null, "Não foi possível cadastrar novo usuário.");
 				}
 

@@ -41,8 +41,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/View/CadastroView.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="197">
               <caret line="164" column="68" selection-start-line="164" selection-start-column="68" selection-end-line="164" selection-end-column="68" />
+=======
+            <state relative-caret-position="699">
+              <caret line="146" column="81" selection-start-line="146" selection-start-column="81" selection-end-line="146" selection-end-column="81" />
+>>>>>>> 863d47730a8a48e867ec47ee59fcd38ba5f32966
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -88,10 +93,17 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
               <caret line="74" column="69" selection-start-line="74" selection-start-column="69" selection-end-line="74" selection-end-column="69" />
+<<<<<<< HEAD
+=======
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+>>>>>>> 863d47730a8a48e867ec47ee59fcd38ba5f32966
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/View/SaidaView.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -100,6 +112,13 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+=======
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Util/MensagemType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="223">
+              <caret line="32" column="56" selection-start-line="32" selection-start-column="56" selection-end-line="32" selection-end-column="56" />
+>>>>>>> 863d47730a8a48e867ec47ee59fcd38ba5f32966
             </state>
           </provider>
         </entry>
@@ -107,8 +126,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/View/PrivateKeyView.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="2070">
               <caret line="170" selection-start-line="170" selection-end-line="170" />
+=======
+            <state relative-caret-position="310">
+              <caret line="149" column="36" selection-start-line="149" selection-start-column="36" selection-end-line="149" selection-end-column="36" />
+>>>>>>> 863d47730a8a48e867ec47ee59fcd38ba5f32966
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -119,8 +143,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Auth/Authentification.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="2070">
               <caret line="155" column="5" selection-start-line="155" selection-start-column="5" selection-end-line="155" selection-end-column="5" />
+=======
+            <state relative-caret-position="624">
+              <caret line="152" column="121" selection-start-line="152" selection-start-column="121" selection-end-line="152" selection-end-column="121" />
+>>>>>>> 863d47730a8a48e867ec47ee59fcd38ba5f32966
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -139,7 +168,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>acesso</find>
       <find>auten</find>
       <find>Registro</find>
       <find>PRIVATE</find>
@@ -167,8 +195,9 @@
       <find>leChave</find>
       <find>PrivateKey</find>
       <find>1001</find>
-      <find>CONFIRMACAO_DE_DADOS_ACEITA</find>
       <find>tableModel</find>
+      <find>6005</find>
+      <find>CONFIRMACAO_DE_DADOS_ACEITA</find>
     </findStrings>
     <replaceStrings>
       <replace>Autentication</replace>
@@ -203,7 +232,11 @@
         <option value="$PROJECT_DIR$/src/main/java/Database/DBControl.java" />
         <option value="$PROJECT_DIR$/src/main/java/View/MainView.java" />
         <option value="$PROJECT_DIR$/src/main/java/View/CadastroView.java" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/main/java/View/SaidaView.java" />
+=======
+        <option value="$PROJECT_DIR$/src/main/java/Util/MensagemType.java" />
+>>>>>>> 863d47730a8a48e867ec47ee59fcd38ba5f32966
       </list>
     </option>
   </component>
@@ -242,6 +275,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="inf1416-trab3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="inf1416-trab3" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="Util" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="inf1416-trab3" type="b2602c69:ProjectViewProjectNode" />
@@ -289,7 +330,7 @@
       <module name="inf1416-trab3" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="View.*" />
+          <option name="PATTERN" value="Util.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -372,7 +413,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Auth/Authentification.java</url>
-          <line>57</line>
+          <line>55</line>
           <properties />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
@@ -521,6 +562,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/main/java/View/MainView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1035">
@@ -529,6 +571,9 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/main.java">
+=======
+    <entry file="file://$PROJECT_DIR$/src/main/java/View/ConsultarArquivosView.java">
+>>>>>>> 863d47730a8a48e867ec47ee59fcd38ba5f32966
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
@@ -540,8 +585,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/View/ConsultarArquivosView.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="855">
           <caret line="67" selection-start-line="67" selection-end-line="67" />
+=======
+        <state relative-caret-position="624">
+          <caret line="152" column="121" selection-start-line="152" selection-start-column="121" selection-end-line="152" selection-end-column="121" />
+>>>>>>> 863d47730a8a48e867ec47ee59fcd38ba5f32966
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -550,8 +600,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/View/PrivateKeyView.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="2070">
           <caret line="170" selection-start-line="170" selection-end-line="170" />
+=======
+        <state relative-caret-position="310">
+          <caret line="149" column="36" selection-start-line="149" selection-start-column="36" selection-end-line="149" selection-end-column="36" />
+>>>>>>> 863d47730a8a48e867ec47ee59fcd38ba5f32966
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -570,8 +625,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/View/CadastroView.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="197">
           <caret line="164" column="68" selection-start-line="164" selection-start-column="68" selection-end-line="164" selection-end-column="68" />
+=======
+        <state relative-caret-position="180">
+          <caret line="74" column="69" selection-start-line="74" selection-start-column="69" selection-end-line="74" selection-end-column="69" />
+>>>>>>> 863d47730a8a48e867ec47ee59fcd38ba5f32966
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -592,6 +652,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/main/java/View/SenhaView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -603,6 +664,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="539">
           <caret line="59" column="120" selection-start-line="59" selection-start-column="120" selection-end-line="59" selection-end-column="120" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/main/java/Util/MensagemType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="32" column="56" selection-start-line="32" selection-start-column="56" selection-end-line="32" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/View/CadastroView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="699">
+          <caret line="146" column="81" selection-start-line="146" selection-start-column="81" selection-end-line="146" selection-end-column="81" />
+>>>>>>> 863d47730a8a48e867ec47ee59fcd38ba5f32966
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
