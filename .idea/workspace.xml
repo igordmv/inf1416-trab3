@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d8aa9c93-8051-4bf8-9bb6-0f0bba1abfe6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/db.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Auth/Authentification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Auth/Authentification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Database/DBControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Database/DBControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Database/DBManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Database/DBManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/View/AlterarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/AlterarView.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
@@ -34,8 +31,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/View/CadastroView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="233">
-              <caret line="172" column="81" selection-start-line="172" selection-start-column="81" selection-end-line="172" selection-end-column="81" />
+            <state relative-caret-position="296">
+              <caret line="164" column="74" lean-forward="true" selection-start-line="147" selection-start-column="16" selection-end-line="164" selection-end-column="74" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -52,11 +49,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/View/AlterarView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="241">
-              <caret line="127" selection-start-line="127" selection-end-line="127" />
+            <state relative-caret-position="220">
+              <caret line="31" column="33" lean-forward="true" selection-start-line="31" selection-start-column="33" selection-end-line="31" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -65,16 +62,16 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBManager.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
-              <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
+              <caret line="25" selection-start-line="25" selection-end-line="25" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBControl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="284">
-              <caret line="187" column="7" lean-forward="true" selection-start-line="187" selection-start-column="7" selection-end-line="187" selection-end-column="7" />
+            <state relative-caret-position="210">
+              <caret line="194" column="90" selection-start-line="194" selection-start-column="85" selection-end-line="194" selection-end-column="90" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -85,8 +82,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Auth/Authentification.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="258" column="8" lean-forward="true" selection-start-line="258" selection-start-column="8" selection-end-line="258" selection-end-column="8" />
+            <state relative-caret-position="186">
+              <caret line="321" column="48" lean-forward="true" selection-start-line="321" selection-start-column="48" selection-end-line="321" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -108,8 +105,9 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>DBManager.insereRegistro(</find>
-      <find>comboBox</find>
       <find>checkIfHasConsecutivo</find>
+      <find>comboBox</find>
+      <find>certificadoDigitalLabel</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -123,10 +121,10 @@
         <option value="$PROJECT_DIR$/src/main/java/View/SaidaView.java" />
         <option value="$PROJECT_DIR$/src/main/java/View/CadastroView.java" />
         <option value="$PROJECT_DIR$/src/main/java/View/LoginView.java" />
-        <option value="$PROJECT_DIR$/src/main/java/View/AlterarView.java" />
         <option value="$PROJECT_DIR$/src/main/java/Database/DBManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/Database/DBControl.java" />
         <option value="$PROJECT_DIR$/src/main/java/Auth/Authentification.java" />
+        <option value="$PROJECT_DIR$/src/main/java/View/AlterarView.java" />
       </list>
     </option>
   </component>
@@ -249,7 +247,7 @@
     <frame x="0" y="23" width="1280" height="694" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18659128" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.18659128" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
@@ -261,7 +259,7 @@
       <window_info id="Job Explorer" order="9" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.2621849" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.20431894" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.20431894" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.13976164" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -269,7 +267,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.18770765" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32936078" />
-      <window_info anchor="bottom" id="Messages" order="10" visible="true" weight="0.3255814" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.3255814" />
       <window_info anchor="bottom" id="Console" order="11" />
       <window_info anchor="bottom" id="DB Execution Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -281,6 +279,39 @@
       <window_info anchor="right" id="Palette&#9;" order="6" />
       <window_info anchor="right" id="Theme Preview" order="7" />
     </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18659128" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="UI Designer" order="3" />
+      <window_info id="Favorites" order="4" side_tool="true" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Image Layers" order="6" />
+      <window_info id="DB Browser" order="7" />
+      <window_info id="Project Explorer" order="8" />
+      <window_info id="Job Explorer" order="9" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.2621849" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.20431894" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.13976164" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.18770765" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32936078" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.3255814" />
+      <window_info anchor="bottom" id="Console" order="11" />
+      <window_info anchor="bottom" id="DB Execution Console" order="12" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="3" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="Theme Preview" order="7" />
+    </layout-to-restore>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/View/SenhaView.java">
@@ -338,16 +369,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/View/CadastroView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="172" column="81" selection-start-line="172" selection-start-column="81" selection-end-line="172" selection-end-column="81" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/View/MainView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="572">
@@ -372,13 +393,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/View/AlterarView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="241">
-          <caret line="127" selection-start-line="127" selection-end-line="127" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Database/LoggedUser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
@@ -389,14 +403,24 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
-          <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Auth/Authentification.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="258" column="8" lean-forward="true" selection-start-line="258" selection-start-column="8" selection-end-line="258" selection-end-column="8" />
+        <state relative-caret-position="186">
+          <caret line="321" column="48" lean-forward="true" selection-start-line="321" selection-start-column="48" selection-end-line="321" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/View/CadastroView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="164" column="74" lean-forward="true" selection-start-line="147" selection-start-column="16" selection-end-line="164" selection-end-column="74" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -405,11 +429,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBControl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="187" column="7" lean-forward="true" selection-start-line="187" selection-start-column="7" selection-end-line="187" selection-end-column="7" />
+        <state relative-caret-position="210">
+          <caret line="194" column="90" selection-start-line="194" selection-start-column="85" selection-end-line="194" selection-end-column="90" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/View/AlterarView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="31" column="33" lean-forward="true" selection-start-line="31" selection-start-column="33" selection-end-line="31" selection-end-column="33" />
         </state>
       </provider>
     </entry>

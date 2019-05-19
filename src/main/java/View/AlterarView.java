@@ -2,7 +2,6 @@ package View;
 
 import Auth.Authentification;
 import Database.DBControl;
-import Database.DBManager;
 import Database.LoggedUser;
 import org.apache.commons.io.FileUtils;
 
@@ -19,18 +18,18 @@ import Component.*;
 public class AlterarView extends DefaultFrame {
 
 	private final int width = 450;
-	private final int height = 530;
+	private final int height = 550;
 	
 	private HashMap user = null;
 
 	private int grupoId;
-	private JLabel certificadoDigitalLabel;
-	private JPasswordField senhaField;
-	private JLabel senhaConfirmacaoLabel;
-	private JLabel senhaLabel;
-	private JButton certificadoDigitalButton;
-	private JPasswordField senhaConfirmacaoField;
-	private JButton alterarButton;
+	private JTextField certificadoDigitalTextField;
+	private JPasswordField passwordField;
+	private JLabel passwordConfirmLabel;
+	private JLabel passwordLabel;
+	private JButton certificateDigitalButton;
+	private JPasswordField confirmationPasswordField;
+	private JButton changeButton;
 
 	public AlterarView () {
 		this.user = LoggedUser.getInstance().getUser();
@@ -45,7 +44,7 @@ public class AlterarView extends DefaultFrame {
 
 		//------------------------ Certificado Button ------------------------------------
 
-		certificadoDigitalButton.addActionListener(new ActionListener() {
+		certificateDigitalButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser certificadoDigitalchooser = new JFileChooser();
 				certificadoDigitalchooser.setCurrentDirectory(new java.io.File("."));
@@ -53,7 +52,7 @@ public class AlterarView extends DefaultFrame {
 				certificadoDigitalchooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
 				if (certificadoDigitalchooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					certificadoDigitalLabel.setText(certificadoDigitalchooser.getSelectedFile().getAbsolutePath());
+					certificadoDigitalTextField.setText(certificadoDigitalchooser.getSelectedFile().getAbsolutePath());
 				}
 				else {
 					System.out.println("No Selection ");
@@ -63,14 +62,14 @@ public class AlterarView extends DefaultFrame {
 
 		//------------------------ Alterar Button ------------------------------------
 
-		alterarButton.addActionListener(new ActionListener () {
+		changeButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
 //				DBManager.insereRegistro(7007, (String) user.get("email"));
 
 				String errorMsg = "";
-				String senha = new String( senhaField.getPassword());
+				String senha = new String( passwordField.getPassword());
 				if (!senha.equals("")) {
-					String confirmacao = new String(senhaConfirmacaoField.getPassword());
+					String confirmacao = new String(confirmationPasswordField.getPassword());
 
 					//Confere senha:
 
@@ -98,7 +97,7 @@ public class AlterarView extends DefaultFrame {
 
 				}
 
-				String pathCertificado = certificadoDigitalLabel.getText();
+				String pathCertificado = certificadoDigitalTextField.getText();
 				if (pathCertificado.equals("") == false) {
 					byte[] certDigBytes = null;
 					try {
@@ -114,7 +113,24 @@ public class AlterarView extends DefaultFrame {
 //						DBManager.insereRegistro(7003, (String) user.get("email"));
 						return;
 					}
-					String infoString = cert.getVersion() +"\n"+ cert.getNotBefore() +"\n"+ cert.getType() +"\n"+ cert.getIssuerDN() +"\n"+ cert.getSubjectDN();
+
+					String infoString = "";
+					infoString = infoString + "\nOs dados estão corretos?\n";
+					infoString = infoString + "Versão: " + cert.getVersion() + "\n";
+					infoString = infoString + "Série: " + cert.getSerialNumber() + "\n";
+					infoString = infoString + "Validade (Not Before): " + cert.getNotBefore() + "\n";
+					infoString = infoString + "Validade (Not After): " + cert.getNotAfter() + "\n";
+					infoString = infoString + "Tipo de assinatura: " + cert.getType() + "\n";
+					infoString = infoString + "Emissor: " + cert.getIssuerDN() + "\n";
+					infoString = infoString + "Sujeito: " + cert.getSubjectDN() + "\n";
+
+					String subjectDN = cert.getSubjectDN().getName();
+					int start = subjectDN.indexOf("=");
+					int end = subjectDN.indexOf(",");
+					String email = subjectDN.substring(start + 1, end);
+
+					infoString = infoString + "E-mail: " + email + "\n";
+
 					int ret = JOptionPane.showConfirmDialog(null, infoString);
 
 					if (ret != JOptionPane.YES_OPTION) {
@@ -209,7 +225,6 @@ public class AlterarView extends DefaultFrame {
 
 		yPosition = yPosition + numberOfAccess.getSize().height + 10;
 
-
 		//------------------------ Title Label -----------------------------------
 
 		JLabel alterar = new JLabel("Alterar:");
@@ -222,33 +237,47 @@ public class AlterarView extends DefaultFrame {
 
 		setTitle("Cadastro");
 
+		yPosition = yPosition + alterar.getSize().height + 10;
 
-		certificadoDigitalLabel = new JLabel();
-		certificadoDigitalLabel .setBounds(60, 120, 300, 30);
-		this.getContainer().add(certificadoDigitalLabel);
+		certificadoDigitalTextField = new JTextField();
+		certificadoDigitalTextField.setBounds(60, yPosition, 300, 30);
+		this.getContainer().add(certificadoDigitalTextField);
 
-		certificadoDigitalButton = new JButton("Escolha o arquivo do Certificado Digital");
-		certificadoDigitalButton .setBounds(60, 200, 300, 30);
-		this.getContainer().add(certificadoDigitalButton);
+		yPosition = yPosition + certificadoDigitalTextField.getSize().height + 10;
 
+		certificateDigitalButton = new JButton("Escolha o arquivo do Certificado Digital");
+		certificateDigitalButton.setBounds(60, yPosition, 300, 30);
+		this.getContainer().add(certificateDigitalButton);
 
-		senhaLabel = new JLabel("Senha:");
-		senhaLabel.setBounds(60, 240, 300, 40);
-		this.getContainer().add(senhaLabel);
-		senhaField = new JPasswordField();
-		senhaField.setBounds(60, 280, 300, 40);
-		this.getContainer().add(senhaField);
+		yPosition = yPosition + certificateDigitalButton.getSize().height + 10;
 
-		senhaConfirmacaoLabel = new JLabel("Confirme a senha:");
-		senhaConfirmacaoLabel.setBounds(60, 320, 300, 40);
-		this.getContainer().add(senhaConfirmacaoLabel);
-		senhaConfirmacaoField = new JPasswordField();
-		senhaConfirmacaoField.setBounds(60, 360, 300, 40);
-		this.getContainer().add(senhaConfirmacaoField);
+		passwordLabel = new JLabel("Senha:");
+		passwordLabel.setBounds(60, yPosition, 300, 40);
+		this.getContainer().add(passwordLabel);
 
-		alterarButton = new JButton("Alterar e voltar");
-		alterarButton.setBounds(60, 410, 300, 40);
-		this.getContainer().add(alterarButton);
+		yPosition = yPosition + passwordLabel.getSize().height + 10;
+
+		passwordField = new JPasswordField();
+		passwordField.setBounds(60, yPosition, 300, 40);
+		this.getContainer().add(passwordField);
+
+		yPosition = yPosition + passwordField.getSize().height + 10;
+
+		passwordConfirmLabel = new JLabel("Confirme a senha:");
+		passwordConfirmLabel.setBounds(60, yPosition, 300, 40);
+		this.getContainer().add(passwordConfirmLabel);
+
+		yPosition = yPosition + passwordConfirmLabel.getSize().height + 10;
+
+		confirmationPasswordField = new JPasswordField();
+		confirmationPasswordField.setBounds(60, yPosition, 300, 40);
+		this.getContainer().add(confirmationPasswordField);
+
+		yPosition = yPosition + confirmationPasswordField.getSize().height + 10;
+
+		changeButton = new JButton("Alterar e voltar");
+		changeButton.setBounds(60, yPosition, 300, 40);
+		this.getContainer().add(changeButton);
 
 		super.setVisible(true);
 	}
