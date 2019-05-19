@@ -251,13 +251,12 @@ public class Authentification {
 
 	public static HashMap autenticaEmail(String email) {
 		List<HashMap> list = null;
-		try {
-			list = DBManager.getUser(email);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		if (list.size() == 1)
+
+		list = DBControl.getInstance().getUser(email);
+
+		if (list != null && list.size() == 1)
 			return list.get(0);
+
 		return null;
 	}
 

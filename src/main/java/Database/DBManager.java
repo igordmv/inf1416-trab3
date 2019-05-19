@@ -24,31 +24,11 @@ public class DBManager {
 		return null;
 	}
 
-	public static List<HashMap<String,Object>> getAllMessages(){
-		return selectFromDb("select texto from Mensagem");
-	}
-
-	public static int retornaNumUsuarios() {
-		return selectFromDb(String.format("SELECT * FROM User")).size();
-	}
-
-	public static List getUser(String email) throws ClassNotFoundException {
-		return selectFromDb(String.format("SELECT * FROM User WHERE email = '%s'", email));
-	}
-
 	public static List<HashMap<String,Object>> getUsers(){
 		return selectFromDb("SELECT * FROM User");
 	}
 
-	public static void alterarCertificadoDigital(String certificado, String email) {
-		updateDb(String.format("UPDATE User SET certificate = '%s' WHERE email = '%s'", certificado, email));
-	}
-	
-	public static void alterarSenha(String novaSenha, String email) {
-		updateDb(String.format("UPDATE User SET passwordDigest = '%s' WHERE email = '%s'", novaSenha, email));
-	}
 
-	
 ///////////////////////////////////////////////////
 //	
 //                Private methods 

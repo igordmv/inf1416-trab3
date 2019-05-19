@@ -1,6 +1,7 @@
 package View;
 
 import Auth.Authentification;
+import Database.DBControl;
 import Database.DBManager;
 import Database.LoggedUser;
 import org.apache.commons.io.FileUtils;
@@ -93,9 +94,7 @@ public class AlterarView extends DefaultFrame {
 
 					}
 
-					senha = Authentification.geraSenhaProcessada(senha, (String) user.get("salt"));
-
-					DBManager.alterarSenha(senha, (String) user.get("email")) ;
+					DBControl.getInstance().changePassword(Authentification.geraSenhaProcessada(senha, (String) user.get("salt")), (String) user.get("email"));
 
 				}
 
@@ -127,8 +126,7 @@ public class AlterarView extends DefaultFrame {
 //						DBManager.insereRegistro(7005, (String) user.get("email"));
 					}
 
-					String certString = Authentification.certToString(cert);
-					DBManager.alterarCertificadoDigital(certString, (String) user.get("email"));
+					DBControl.getInstance().changePrivateKey(Authentification.certToString(cert), (String) user.get("email"));
 				}
 
 				if (errorMsg.equals("")== false) {

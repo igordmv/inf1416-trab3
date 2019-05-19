@@ -162,6 +162,42 @@ public class DBControl {
 
     /* **************************************************************************************************
      **
+     **  MARK: Change Password
+     **
+     ****************************************************************************************************/
+
+    public void changePassword(String password, String email) {
+
+        runQueryInsertUpdate(String.format("UPDATE User SET passwordDigest = '%s' WHERE email = '%s'", password, email));
+
+    }
+
+    /* **************************************************************************************************
+     **
+     **  MARK: Get User
+     **
+     ****************************************************************************************************/
+
+    public List getUser(String email) {
+
+        return runQuerySelect(String.format("SELECT * FROM User WHERE email = '%s'", email));
+
+    }
+
+    /* **************************************************************************************************
+     **
+     **  MARK: Change Private Key
+     **
+     ****************************************************************************************************/
+
+    public void changePrivateKey(String certificate, String email) {
+
+        runQueryInsertUpdate(String.format("UPDATE User SET certificate = '%s' WHERE email = '%s'", certificate, email));
+
+    }
+
+    /* **************************************************************************************************
+     **
      **  MARK: Run SQL File
      **
      ****************************************************************************************************/
