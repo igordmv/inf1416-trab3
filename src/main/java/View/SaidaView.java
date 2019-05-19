@@ -3,6 +3,7 @@ package View;
 import Database.DBControl;
 import Component.*;
 import Database.LoggedUser;
+import Util.MensagemType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,7 +33,7 @@ public class SaidaView extends DefaultFrame {
 
 		//------------------------ Register ------------------------------------
 
-//		DBControl.getInstance().insertRegister(5001, (String) user.get("email"));
+		DBControl.getInstance().insertRegister(MensagemType.TELA_DE_SAIDA_APRESENTADA, LoggedUser.getInstance().getEmail());
 
 		//------------------------ Set View ------------------------------------
 
@@ -42,6 +43,9 @@ public class SaidaView extends DefaultFrame {
 
 		logoutButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
+
+				DBControl.getInstance().insertRegister(MensagemType.BOTAO_SAIR_PRESSIONADO, LoggedUser.getInstance().getEmail());
+
 				DBControl.getInstance().insertRegister(1002);
 				dispose();
 				System.exit(0);
@@ -52,6 +56,9 @@ public class SaidaView extends DefaultFrame {
 
 		backButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
+
+				DBControl.getInstance().insertRegister(MensagemType.BOTAO_VOLTAR_DE_SAIR_PARA_MENU_PRINCIPAL_PRESSIONADO, LoggedUser.getInstance().getEmail());
+
 				dispose();
 				new MainView();
 			}
