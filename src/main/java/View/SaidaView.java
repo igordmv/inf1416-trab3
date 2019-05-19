@@ -69,7 +69,7 @@ public class SaidaView extends DefaultFrame {
 
 		//------------------------ Set Title ------------------------------------
 
-		setTitle("Menu Principal");
+		setTitle("Sair");
 
 		//------------------------ Set Size ------------------------------------
 
