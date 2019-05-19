@@ -1,5 +1,6 @@
 package Auth;
 
+import Database.DBControl;
 import Database.DBManager;
 import Database.LoggedUser;
 import org.apache.commons.io.FileUtils;
@@ -478,21 +479,21 @@ public class Authentification {
 
 	/* **************************************************************************************************
 	 **
-	 **  Increment Wrong Access
+	 **  Increment Wrong Access Password
 	 **
 	 ****************************************************************************************************/
 
-	public static void incrementWrongAccess() {
+	public static void incrementWrongAccessPassowrd() {
 
 		HashMap user = LoggedUser.getInstance().getUser();
 
-		DBManager.incrementaAcessoErrado((String)user.get("email"));
+		DBControl.getInstance().incrementWrongAccessPassword((String)user.get("email"));
 
 		user = LoggedUser.getInstance().getUser();
 
-		int wrongAccess = ((Integer) user.get("numAcessoErrados"));
+		int wrongAccess = ((Integer) user.get("numberWrongAccessPassword"));
 
-		System.out.println("\nincrementWrongAccess\n");
+		System.out.println("\nincrementWrongAccessPassowrd\n");
 		System.out.println(wrongAccess);
 		System.out.println("\n");
 
@@ -509,17 +510,68 @@ public class Authentification {
 
 	/* **************************************************************************************************
 	 **
-	 **  Should Block User
+	 **  Should Block User For Password
 	 **
 	 ****************************************************************************************************/
 
-	public static boolean shouldBlockUser() {
+	public static boolean shouldBlockUserForPassword() {
 
 		HashMap user = LoggedUser.getInstance().getUser();
 
-		int wrongAccess = ((Integer) user.get("numAcessoErrados"));
+		int wrongAccess = ((Integer) user.get("numberWrongAccessPassword"));
 
-		System.out.println("\nshouldBlockUser\n");
+		System.out.println("\nshouldBlockUserForPassword\n");
+		System.out.println(wrongAccess);
+		System.out.println("\n");
+
+		return wrongAccess >= 3;
+
+	}
+
+	/* **************************************************************************************************
+	 **
+	 **  Increment Wrong Access For Private Key
+	 **
+	 ****************************************************************************************************/
+
+	public static void incrementWrongAccessPrivateKey() {
+
+		HashMap user = LoggedUser.getInstance().getUser();
+
+		DBControl.getInstance().incrementWrongAccessPrivateKey((String)user.get("email"));
+
+		user = LoggedUser.getInstance().getUser();
+
+		int wrongAccess = ((Integer) user.get("numberWrongAccessPrivateKey"));
+
+		System.out.println("\nincrementWrongAccessPrivateKey\n");
+		System.out.println(wrongAccess);
+		System.out.println("\n");
+
+		if (wrongAccess == 1)
+			DBManager.insereRegistro(3004, (String) user.get("email"));
+
+		else if (wrongAccess == 2)
+			DBManager.insereRegistro(3005, (String) user.get("email"));
+
+		else if (wrongAccess == 3)
+			DBManager.insereRegistro(3006, (String) user.get("email"));
+
+	}
+
+	/* **************************************************************************************************
+	 **
+	 **  Should Block User For Private Key
+	 **
+	 ****************************************************************************************************/
+
+	public static boolean shouldBlockUserForPrivateKey() {
+
+		HashMap user = LoggedUser.getInstance().getUser();
+
+		int wrongAccess = ((Integer) user.get("numberWrongAccessPrivateKey"));
+
+		System.out.println("\nshouldBlockUserForPrivateKey\n");
 		System.out.println(wrongAccess);
 		System.out.println("\n");
 

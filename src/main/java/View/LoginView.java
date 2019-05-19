@@ -81,9 +81,9 @@ public class LoginView extends DefaultFrame {
 
 				} else {
 
-					if (Authentification.shouldBlockUser()) {
+					if (Authentification.shouldBlockUserForPassword()) {
 
-						String lastTry = (String) LoggedUser.getInstance().getUser().get("ultimaTentativa");
+						String lastTry = (String) LoggedUser.getInstance().getUser().get("lastTryWrongAcess");
 
 						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -117,9 +117,9 @@ public class LoginView extends DefaultFrame {
 			}
 		});
 
-		//Run SQL File:
-
-		DBControl.getInstance().runSqlFile();
+//		//Run SQL File:
+//
+//		DBControl.getInstance().runSqlFile();
 
 	}
 
@@ -225,8 +225,6 @@ public class LoginView extends DefaultFrame {
 	 ****************************************************************************************************/
 
 	private void validateLogin() {
-
-		DBControl.getInstance().clearWrongAccess((String) LoggedUser.getInstance().getUser().get("email"));
 
 		DBControl.getInstance().insertRegister(2003, (String) LoggedUser.getInstance().getUser().get("email"));
 

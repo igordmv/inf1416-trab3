@@ -1,6 +1,7 @@
 package View;
 
 import Auth.Authentification;
+import Database.DBControl;
 import Database.DBManager;
 
 import javax.swing.*;
@@ -71,9 +72,9 @@ public class PrivateKeyView extends JFrame {
 
                         DBManager.insereRegistro(8003, (String) user.get("email"));
 
-                        Authentification.incrementWrongAccess();
+                        Authentification.incrementWrongAccessPrivateKey();
 
-                        if( Authentification.shouldBlockUser() ) {
+                        if( Authentification.shouldBlockUserForPrivateKey() ) {
 
                             DBManager.insereRegistro(3007, (String) updatedUser.get("email"));
                             JOptionPane.showMessageDialog(null, "Chave secreta ou certificado inválido. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
@@ -93,7 +94,7 @@ public class PrivateKeyView extends JFrame {
                         if (Authentification.testaChavePrivada(chavePrivada, user)) {
 
                             DBManager.insereRegistro(8002, (String) user.get("email"));
-                            DBManager.zeraAcessoErrado((String)updatedUser.get("email"));
+                            DBControl.getInstance().clearWrongAccessPrivateKey((String)updatedUser.get("email"));
                             dispose();
                             new MainView(Authentification.autenticaEmail((String)user.get("email")));
 
@@ -101,9 +102,9 @@ public class PrivateKeyView extends JFrame {
 
                             DBManager.insereRegistro(8003, (String) user.get("email"));
 
-                            Authentification.incrementWrongAccess();
+                            Authentification.incrementWrongAccessPrivateKey();
 
-                            if( Authentification.shouldBlockUser() ) {
+                            if( Authentification.shouldBlockUserForPrivateKey() ) {
 
                                 DBManager.insereRegistro(3007, (String) updatedUser.get("email"));
                                 JOptionPane.showMessageDialog(null, "Certificado não válido. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");

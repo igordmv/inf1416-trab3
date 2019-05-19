@@ -59,15 +59,15 @@ public class SenhaView extends DefaultFrame {
 
 					DBManager.insereRegistro(3003, (String) updatedUser.get("email"));
 					DBManager.insereRegistro(3002, (String) updatedUser.get("email"));
-					DBManager.zeraAcessoErrado((String)updatedUser.get("email"));
+					DBControl.getInstance().clearWrongAccessPassword((String)updatedUser.get("email"));
 					dispose();
 					new PrivateKeyView(Authentification.autenticaEmail((String)updatedUser.get("email")));
 
 				} else {
 
-					Authentification.incrementWrongAccess();
+					Authentification.incrementWrongAccessPassowrd();
 
-					if( Authentification.shouldBlockUser() ) {
+					if( Authentification.shouldBlockUserForPassword() ) {
 
 						DBManager.insereRegistro(3007, (String) updatedUser.get("email"));
 						JOptionPane.showMessageDialog(null, "Senha incorreta. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");

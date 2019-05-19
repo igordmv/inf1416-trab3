@@ -87,19 +87,7 @@ public class DBManager {
 	public static void alterarSenha(String novaSenha, String email) {
 		updateDb(String.format("UPDATE User SET passwordDigest = '%s' WHERE email = '%s'", novaSenha, email));
 	}
-	
-	public static void incrementaAcessoErrado(String email) {
-		updateDb(String.format("UPDATE User SET numAcessoErrados = numAcessoErrados + 1, ultimaTentativa = datetime('now') WHERE email = '%s'", email));
-	}
-	
-	public static void incrementaTanErrada(String email) {
-		updateDb(String.format("UPDATE User SET numTanErrada = numTanErrada + 1, ultimaTentativa = datetime('now') WHERE email = '%s'", email));
-	}
-	
-	public static void zeraAcessoErrado(String email) {
-		updateDb(String.format("UPDATE User SET numAcessoErrados = 0 WHERE email = '%s'", email));
-	}
-	
+
 	public static void zeraTanErrado(String email) {
 		updateDb(String.format("UPDATE User SET numTanErrada = 0 WHERE email = '%s'", email));
 	}

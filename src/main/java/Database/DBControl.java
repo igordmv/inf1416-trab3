@@ -76,13 +76,49 @@ public class DBControl {
 
     /* **************************************************************************************************
      **
-     **  MARK: clearWrongAccess
+     **  MARK: clear Wrong Access Password
      **
      ****************************************************************************************************/
 
-    public void clearWrongAccess(String email) {
+    public void clearWrongAccessPassword(String email) {
 
-        runQueryInsertUpdate(String.format("UPDATE User SET numAcessoErrados = 0 WHERE email = '%s'", email));
+        runQueryInsertUpdate(String.format("UPDATE User SET numberWrongAccessPassword = 0 WHERE email = '%s'", email));
+
+    }
+
+    /* **************************************************************************************************
+     **
+     **  MARK: clear Wrong Access Private Key
+     **
+     ****************************************************************************************************/
+
+    public void clearWrongAccessPrivateKey(String email) {
+
+        runQueryInsertUpdate(String.format("UPDATE User SET numberWrongAccessPrivateKey = 0 WHERE email = '%s'", email));
+
+    }
+
+    /* **************************************************************************************************
+     **
+     **  MARK: Increase Wrong Access Private Key
+     **
+     ****************************************************************************************************/
+
+    public void incrementWrongAccessPrivateKey(String email) {
+
+        runQueryInsertUpdate(String.format("UPDATE User SET numberWrongAccessPrivateKey = numberWrongAccessPrivateKey + 1, lastTryWrongAcess = datetime('now') WHERE email = '%s'", email));
+
+    }
+
+    /* **************************************************************************************************
+     **
+     **  MARK: Increase Wrong Access Password
+     **
+     ****************************************************************************************************/
+
+    public void incrementWrongAccessPassword(String email) {
+
+        runQueryInsertUpdate(String.format("UPDATE User SET numberWrongAccessPassword = numberWrongAccessPassword + 1, lastTryWrongAcess = datetime('now') WHERE email = '%s'", email));
 
     }
 
@@ -102,17 +138,17 @@ public class DBControl {
             BufferedReader br = new BufferedReader(new FileReader("trabalho3.sql"));
             String strLine;
             while ((strLine = br.readLine()) != null)   {
-                allSql = allSql + strLine + "  ";
+                allSql = allSql + strLine.replace("\uFEFF", "") + "";
             }
         }catch (Exception e){
             System.err.println("Error: " + e.getMessage());
         }
 
+        System.out.println(allSql);
+
         runQueryInsertUpdate(allSql);
 
         System.out.println("runSqlFile - ok");
-
-//        System.out.println(runQuerySelect("SELECT * FROM Mensagem"));
 
     }
 
