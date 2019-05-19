@@ -24,11 +24,6 @@ public class DBManager {
 		return null;
 	}
 
-
-	public static List getLog() {
-		return selectFromDb("select Registro.id, email, texto from Registro JOIN Mensagem ON Mensagem.id = Registro.messageId order by Registro.id, created;");
-	}
-
 	public static List<HashMap<String,Object>> getAllMessages(){
 		return selectFromDb("select texto from Mensagem");
 	}
@@ -51,23 +46,11 @@ public class DBManager {
 	public static boolean insereRegistro(int idMsg, String email, String arquivo) {
 		return insertIntoDb(String.format("INSERT INTO Registro (messageId, email, filename) VALUES ('%d', '%s', '%s')", idMsg, email, arquivo));
 	}
-	
-	public static void marcaTanUsada(String email, int tanId) {
-		updateDb(String.format("UPDATE TanList SET usada = 1 WHERE email = '%s' AND id = %d", email, tanId));
-	}
-	
-	public static List retornaTanList(String email) {
-		return selectFromDb(String.format("SELECT * FROM TanList WHERE email = '%s' AND usada = 0", email));
-	}
-	
+
 	public static int retornaNumUsuarios() {
 		return selectFromDb(String.format("SELECT * FROM User")).size();
 	}
-	
-	public static boolean insereTan(String tan, String email, int posicao) {
-		return insertIntoDb(String.format("INSERT INTO TanList (email, tan, usada, posicao) VALUES ('%s', '%s', 0, %d)", email, tan, posicao));
-	}
-	
+
 	public static List getUser(String email) throws ClassNotFoundException {
 		return selectFromDb(String.format("SELECT * FROM User WHERE email = '%s'", email));
 	}
@@ -76,10 +59,6 @@ public class DBManager {
 		return selectFromDb("SELECT * FROM User");
 	}
 
-	public static void descartaTanList(String email) {
-		 updateDb(String.format("UPDATE TanList SET usada = 1 WHERE email = '%s'", email));
-	}
-	
 	public static void alterarCertificadoDigital(String certificado, String email) {
 		updateDb(String.format("UPDATE User SET certificate = '%s' WHERE email = '%s'", certificado, email));
 	}
@@ -88,22 +67,6 @@ public class DBManager {
 		updateDb(String.format("UPDATE User SET passwordDigest = '%s' WHERE email = '%s'", novaSenha, email));
 	}
 
-	public static void zeraTanErrado(String email) {
-		updateDb(String.format("UPDATE User SET numTanErrada = 0 WHERE email = '%s'", email));
-	}
-	
-	public static void incrementaNumChavePrivadaErrada(String email) {
-		updateDb(String.format("UPDATE User SET numChavePrivadaErrada = numChavePrivadaErrada + 1 WHERE email = '%s'", email));
-	}
-	
-	public static void zeraNumChavePrivadaErrada(String email) {
-		updateDb(String.format("UPDATE User SET numChavePrivadaErrada = 0 WHERE email = '%s'", email));
-	}	
-	
-	public static void incrementaTotalAcessos(String email) {
-		updateDb(String.format("UPDATE User SET totalAcessos = totalAcessos + 1 WHERE email = '%s'", email));
-	}
-	
 	
 ///////////////////////////////////////////////////
 //	

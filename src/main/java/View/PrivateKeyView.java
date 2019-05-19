@@ -23,15 +23,15 @@ public class PrivateKeyView extends DefaultFrame {
     private final int width = 400;
     private final int height = 320;
 
-    PrivateKey chavePrivada = null;
+    private PrivateKey chavePrivada = null;
 
-    JTextField privateKeyTextField;
+    private JTextField privateKeyTextField;
 
-    JTextField pathTextField;
+    private JTextField pathTextField;
 
-    JButton pathButton;
+    private JButton pathButton;
 
-    JButton checkButton;
+    private JButton checkButton;
 
     private HashMap user = null;
 
@@ -108,6 +108,9 @@ public class PrivateKeyView extends DefaultFrame {
                             DBControl.getInstance().insertRegister(8002, (String) user.get("email"));
                             DBControl.getInstance().clearWrongAccessPrivateKey((String)updatedUser.get("email"));
                             dispose();
+
+                            DBControl.getInstance().increaseCountAccess((String) user.get("email"));
+
                             new MainView();
 
                         } else {

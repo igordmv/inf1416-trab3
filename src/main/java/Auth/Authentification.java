@@ -170,9 +170,7 @@ public class Authentification {
 			if (assinatura.verify(resp)) {
 				System.out.println("Chave válida!");
 				return true;
-			}
-			else {
-				DBManager.incrementaNumChavePrivadaErrada((String) user.get("email"));
+			}  else {
 				System.out.println("Chave rejeitada!");
 				return false;
 			}

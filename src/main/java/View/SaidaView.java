@@ -1,75 +1,168 @@
 package View;
 
-import Auth.Authentification;
-import Database.DBManager;
+import Database.DBControl;
+import Component.*;
+import Database.LoggedUser;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.List;
 
 
-public class SaidaView extends JFrame {
+public class SaidaView extends DefaultFrame {
 
 	private final int width = 400;
-	private final int height = 500;
+	private final int height = 320;
 	
 	private HashMap user = null;
-	
-	public SaidaView(final HashMap user) {
-		this.user = user;
-		
-		setLayout(null);
-		setSize (this.width, this.height);
-		setDefaultCloseOperation (EXIT_ON_CLOSE);
-		setResizable(false);
-		setVisible(true);
-		setTitle("Login");
-		
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() - getWidth()) / 2);
-		int y = (int) ((dimension.getHeight() - getHeight()) / 2);
-		setLocation(x, y);
-		
-		
-		Container c = getContentPane();
-		c.add(new Header((String)user.get("email"), (String)user.get("groupName"), (String)user.get("name")));
 
-		c.add(new FirstBody("Total de acessos", Integer.parseInt(user.get("totalAcessos").toString())));
-		
-		JLabel sairLabel = new JLabel();
-		JButton sairButton = new JButton();
-		JButton voltarButton = new JButton();
+	private int grupoId;
 
-		sairLabel.setText("Pressione o botão Sair para confirmar.");
-		sairButton.setText("Sair");
-		voltarButton.setText("Voltar");
+	private JButton logoutButton;
 
-		sairButton.addActionListener(new ActionListener () {
+	private JButton backButton;
+
+	public SaidaView() {
+
+		this.user = LoggedUser.getInstance().getUser();
+
+		grupoId = (Integer) user.get("grupoId");
+
+		//------------------------ Register ------------------------------------
+
+//		DBControl.getInstance().insertRegister(5001, (String) user.get("email"));
+
+		//------------------------ Set View ------------------------------------
+
+		this.setView();
+
+		//--------------------- Logout Button Action ----------------------------
+
+		logoutButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
-				DBManager.insereRegistro(1002);
+				DBControl.getInstance().insertRegister(1002);
 				dispose();
 				System.exit(0);
 			}
 		});
 
-		voltarButton.addActionListener(new ActionListener () {
+		//--------------------- Back Button Action ----------------------------
+
+		backButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
 				dispose();
 				new MainView();
 			}
 		});
-		
-		sairLabel.setBounds(30, 200, 300, 40);
-		c.add(sairLabel);
-		
-		sairButton.setBounds(30, 250, 135, 40);
-		c.add(sairButton);
 
-		voltarButton.setBounds(185, 250, 135, 40);
-		c.add(voltarButton);
+	}
 
-	}	
+	/* **************************************************************************************************
+	 **
+	 **  Set View
+	 **
+	 ****************************************************************************************************/
+
+	private void setView() {
+
+		//------------------------ Set Title ------------------------------------
+
+		setTitle("Menu Principal");
+
+		//------------------------ Set Size ------------------------------------
+
+		setSize(this.width, this.height);
+
+		this.setDimension();
+
+		//------------------------ Y Position -----------------------------------
+
+		int yPosition = 10;
+
+		//---------------------- E-mail Header Label -----------------------------
+
+		JLabel emailHeaderLabel = new JLabel(String.format(" • Login: %s", (String)user.get("email")));
+		emailHeaderLabel.setBounds(50, yPosition, this.width, 25);
+
+		Font f = emailHeaderLabel.getFont();
+		emailHeaderLabel.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+
+		this.getContainer().add(emailHeaderLabel);
+
+		yPosition = yPosition + emailHeaderLabel.getSize().height + 5;
+
+		//---------------------- Group Header Label -----------------------------
+
+		String groupName = "";
+
+		if( grupoId == 1 ) {
+			groupName = "Administrado";
+		} else {
+			groupName = "Usuário";
+		}
+
+		JLabel groupHeaderLabel = new JLabel(String.format(" • Grupo: %s", groupName));
+		groupHeaderLabel.setBounds(50, yPosition, this.width, 25);
+
+		groupHeaderLabel.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+
+		this.getContainer().add(groupHeaderLabel);
+
+		yPosition = yPosition + groupHeaderLabel.getSize().height + 5;
+
+		//---------------------- Name Header Label -----------------------------
+
+		JLabel nameHeaderLabel = new JLabel(String.format(" • Nome: %s", (String)user.get("name")));
+		nameHeaderLabel.setBounds(50, yPosition, this.width, 25);
+
+		nameHeaderLabel.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+
+		this.getContainer().add(nameHeaderLabel);
+
+		yPosition = yPosition + nameHeaderLabel.getSize().height + 10;
+
+		//---------------------- Number of Access Label -----------------------------
+
+		JLabel numberOfAccess = new JLabel(String.format("Total de acessos do usuário: %s", Integer.parseInt(user.get("countAccess").toString())));
+		numberOfAccess.setBounds(50, yPosition, this.width, 25);
+
+		numberOfAccess.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+
+		this.getContainer().add(numberOfAccess);
+
+		yPosition = yPosition + numberOfAccess.getSize().height + 10;
+
+		//------------------------- Logout Label ----------------------------------
+
+		JLabel logoutLabel = new JLabel("Pressione o botão Sair para confirmar.");
+		logoutLabel.setBounds(50, yPosition, this.width, 25);
+
+		logoutLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD, 14));
+
+		this.getContainer().add(logoutLabel);
+
+		yPosition = yPosition + logoutLabel.getSize().height + 10;
+
+		//------------------------- Logout Button ------------------------------------
+
+		logoutButton = new JButton("Sair");
+		logoutButton.setBounds(20, yPosition, 170, 40);
+
+		this.getContainer().add(logoutButton);
+
+		//------------------------- Back Button ------------------------------------
+
+		backButton = new JButton("Voltar");
+		backButton.setBounds(210, yPosition, 170, 40);
+
+		this.getContainer().add(backButton);
+
+		//------------------------ Set Visible ------------------------------------
+
+		setVisible(true);
+
+	}
+
 }

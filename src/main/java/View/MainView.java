@@ -1,7 +1,7 @@
 package View;
 
 import Auth.Authentification;
-import Database.DBManager;
+import Database.DBControl;
 import Component.*;
 import Database.LoggedUser;
 
@@ -14,80 +14,87 @@ import java.util.HashMap;
 
 public class MainView extends DefaultFrame {
 
-	private final int width = 400;
-	private final int height = 500;
+	private final int width = 450;
+	private final int height = 450;
 
 	private HashMap user = null;
 
+	private int grupoId;
+
+	private JButton registerButton;
+
+	private JButton alterButton;
+
+	private JButton consultButton;
+
+	private JButton logoutButton;
+
 	public MainView() {
 
-		this.user = LoggedUser.getInstance().getUser();;
+		this.user = LoggedUser.getInstance().getUser();
+
+		grupoId = (Integer) user.get("grupoId");
 
 		//------------------------ Register ------------------------------------
 
-		DBManager.insereRegistro(5001, (String) user.get("email"));
+		DBControl.getInstance().insertRegister(5001, (String) user.get("email"));
 
 		//------------------------ Set View ------------------------------------
 
 		this.setView();
 
-		int grupoId = (Integer) user.get("grupoId");
+		//-------------------- Register Button Action ---------------------------
 
-		//To-Do:
-//		c.add(new Header((String)user.get("email"), (String)user.get("grupoId"), (String)user.get("name")));
-//
-//		c.add(new FirstBody("Total de acessos", Integer.parseInt(user.get("countAccess").toString())));
-//
-//		JLabel mainManu = new JLabel("Menu principal:");
-//		mainManu.setBounds(30, 150, 300, 40);
-//		c.add(mainManu);
-//
-//
-//		if (grupoId == 1) {
-//			JButton cadastroButton = new JButton("Cadastrar novo usuário");
-//			cadastroButton.setBounds(30, 200, 350, 40);
-//			c.add(cadastroButton);
-//			cadastroButton.addActionListener(new ActionListener () {
-//				public void actionPerformed (ActionEvent e) {
-//					DBManager.insereRegistro(5002, (String) user.get("email"));
-//					dispose();
-//					new CadastroView(user);
-//				}
-//			});
-//		}
-//
-//		JButton alterarButton = new JButton("Alterar senha pessoal e certificado digital do usuário");
-//		alterarButton.setBounds(30, 250, 350, 40);
-//		c.add(alterarButton);
-//		alterarButton.addActionListener(new ActionListener () {
-//			public void actionPerformed (ActionEvent e) {
-//				DBManager.insereRegistro(5003, (String) user.get("email"));
-//				dispose();
-//				new AlterarView(Authentification.autenticaEmail((String)user.get("email")));
-//			}
-//		});
-//
-//		JButton consultarButton = new JButton("Consultar pasta de arquivos secretos");
-//		consultarButton.setBounds(30, 300, 350, 40);
-//		c.add(consultarButton);
-//		consultarButton.addActionListener(new ActionListener () {
-//			public void actionPerformed (ActionEvent e) {
-//				DBManager.insereRegistro(5004, (String) user.get("email"));
-//				dispose();
-//				new ConsultarArquivosView(Authentification.autenticaEmail((String)user.get("email")));
-//			}
-//		});
-//
-//		JButton sairButton = new JButton("Sair do Sistema");
-//		sairButton.setBounds(30, 350, 350, 40);
-//		c.add(sairButton);
-//		sairButton.addActionListener(new ActionListener () {
-//			public void actionPerformed (ActionEvent e) {
-//				DBManager.insereRegistro(5005, (String) user.get("email"));
-//				dispose();
-//				new SaidaView(Authentification.autenticaEmail((String)user.get("email")));
-//			}
-//		});
+		if (grupoId == 1) {
+
+			registerButton.addActionListener(new ActionListener () {
+				public void actionPerformed (ActionEvent e) {
+
+					DBControl.getInstance().insertRegister(5002, (String) user.get("email"));
+					dispose();
+					new CadastroView(user);
+
+				}
+			});
+
+		}
+
+		//-------------------- Alter Button Action ---------------------------
+
+		alterButton.addActionListener(new ActionListener () {
+			public void actionPerformed (ActionEvent e) {
+
+				DBControl.getInstance().insertRegister(5003, (String) user.get("email"));
+				dispose();
+				new AlterarView(Authentification.autenticaEmail((String)user.get("email")));
+
+			}
+		});
+
+		//-------------------- Consult Button Action ---------------------------
+
+		consultButton.addActionListener(new ActionListener () {
+			public void actionPerformed (ActionEvent e) {
+
+				DBControl.getInstance().insertRegister(5004, (String) user.get("email"));
+				dispose();
+				new ConsultarArquivosView(Authentification.autenticaEmail((String)user.get("email")));
+
+			}
+		});
+
+		//-------------------- Logout Button Action ---------------------------
+
+		logoutButton.addActionListener(new ActionListener () {
+			public void actionPerformed (ActionEvent e) {
+
+				DBControl.getInstance().insertRegister(5005, (String) user.get("email"));
+				dispose();
+				new SaidaView();
+
+			}
+		});
+
 	}
 
 	/* **************************************************************************************************
@@ -112,18 +119,111 @@ public class MainView extends DefaultFrame {
 
 		int yPosition = 10;
 
+		//---------------------- E-mail Header Label -----------------------------
+
+		JLabel emailHeaderLabel = new JLabel(String.format(" • Login: %s", (String)user.get("email")));
+		emailHeaderLabel.setBounds(50, yPosition, this.width, 25);
+
+		Font f = emailHeaderLabel.getFont();
+		emailHeaderLabel.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+
+		this.getContainer().add(emailHeaderLabel);
+
+		yPosition = yPosition + emailHeaderLabel.getSize().height + 5;
+
+		//---------------------- Group Header Label -----------------------------
+
+		String groupName = "";
+
+		if( grupoId == 1 ) {
+			groupName = "Administrado";
+		} else {
+			groupName = "Usuário";
+		}
+
+		JLabel groupHeaderLabel = new JLabel(String.format(" • Grupo: %s", groupName));
+		groupHeaderLabel.setBounds(50, yPosition, this.width, 25);
+
+		groupHeaderLabel.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+
+		this.getContainer().add(groupHeaderLabel);
+
+		yPosition = yPosition + groupHeaderLabel.getSize().height + 5;
+
+		//---------------------- Name Header Label -----------------------------
+
+		JLabel nameHeaderLabel = new JLabel(String.format(" • Nome: %s", (String)user.get("name")));
+		nameHeaderLabel.setBounds(50, yPosition, this.width, 25);
+
+		nameHeaderLabel.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+
+		this.getContainer().add(nameHeaderLabel);
+
+		yPosition = yPosition + nameHeaderLabel.getSize().height + 10;
+
+		//---------------------- Number of Access Label -----------------------------
+
+		JLabel numberOfAccess = new JLabel(String.format("Total de acessos do usuário: %s", Integer.parseInt(user.get("countAccess").toString())));
+		numberOfAccess.setBounds(50, yPosition, this.width, 25);
+
+		numberOfAccess.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+
+		this.getContainer().add(numberOfAccess);
+
+		yPosition = yPosition + numberOfAccess.getSize().height + 10;
+
 		//------------------------ Title Label -----------------------------------
 
 		JLabel titleLabel = new JLabel("Menu Principal:");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setBounds(0, yPosition, this.width, 40);
 
-		Font f = titleLabel.getFont();
 		titleLabel.setFont(f.deriveFont(f.getStyle() | Font.BOLD, 25));
 
 		this.getContainer().add(titleLabel);
 
 		yPosition = yPosition + titleLabel.getSize().height + 10;
+
+		//----------------------- Register Button -----------------------------------
+
+		if (grupoId == 1) {
+
+			registerButton = new JButton("Cadastrar um novo usuário");
+			registerButton.setBounds(50, yPosition, 350, 40);
+
+			this.getContainer().add(registerButton);
+
+			yPosition = yPosition + registerButton.getSize().height + 10;
+
+
+		}
+
+		//------------------------- Alter Button ------------------------------------
+
+		alterButton = new JButton("Alterar senha pessoal e certificado digital do usuário");
+		alterButton.setBounds(50, yPosition, 350, 40);
+
+		this.getContainer().add(alterButton);
+
+		yPosition = yPosition + alterButton.getSize().height + 10;
+
+		//------------------------- Consult Button ------------------------------------
+
+		consultButton = new JButton("Consultar pasta de arquivos secretos do usuário");
+		consultButton.setBounds(50, yPosition, 350, 40);
+
+		this.getContainer().add(consultButton);
+
+		yPosition = yPosition + consultButton.getSize().height + 10;
+
+		//------------------------- Logout Button ------------------------------------
+
+		logoutButton = new JButton("Sair do Sistema");
+		logoutButton.setBounds(50, yPosition, 350, 40);
+
+		this.getContainer().add(logoutButton);
+
+		yPosition = yPosition + logoutButton.getSize().height + 10;
 
 		//------------------------ Set Visible ------------------------------------
 
