@@ -52,7 +52,7 @@ public class MainView extends DefaultFrame {
 
 					DBControl.getInstance().insertRegister(5002, (String) user.get("email"));
 					dispose();
-					new CadastroView(user);
+					new CadastroView();
 
 				}
 			});
@@ -66,7 +66,7 @@ public class MainView extends DefaultFrame {
 
 				DBControl.getInstance().insertRegister(5003, (String) user.get("email"));
 				dispose();
-				new AlterarView(Authentification.autenticaEmail((String)user.get("email")));
+				new AlterarView();
 
 			}
 		});
@@ -78,7 +78,7 @@ public class MainView extends DefaultFrame {
 
 				DBControl.getInstance().insertRegister(5004, (String) user.get("email"));
 				dispose();
-				new ConsultarArquivosView(Authentification.autenticaEmail((String)user.get("email")));
+				new ConsultarArquivosView();
 
 			}
 		});

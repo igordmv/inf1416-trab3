@@ -2,6 +2,7 @@ package View;
 
 import Auth.Authentification;
 import Database.DBManager;
+import Database.LoggedUser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -11,72 +12,57 @@ import java.awt.event.ActionListener;
 import java.io.UnsupportedEncodingException;
 import java.security.PrivateKey;
 import java.util.HashMap;
+import Component.*;
 
 
-public class ConsultarArquivosView extends JFrame {
+public class ConsultarArquivosView extends DefaultFrame {
 
 	private final int width = 800;
 	private final int height = 500;
-	
+	private final Integer grupoId;
+
 	private HashMap user = null;
 	String indexArq = null;
-	
-	public ConsultarArquivosView(final HashMap user) {
-		this.user = user;
+	private JLabel consultaLabel;
+	private JButton consultarButton;
+	private JLabel groupHeaderLabel;
+	private JLabel emailHeaderLabel;
+	private JLabel nameHeaderLabel;
+	private JLabel numberOfAccess;
+	private JButton decriptarButton;
+	private JButton listarButton;
+	private JButton voltarButton;
+	private JTable table;
+
+	public ConsultarArquivosView() {
+		this.user = LoggedUser.getInstance().getUser();
+
+		grupoId = (Integer) user.get("grupoId");
+
 		DBManager.insereRegistro(8001, (String) user.get("email"));
-		
-		setLayout(null);
-		setSize (this.width, this.height);
-		setDefaultCloseOperation (EXIT_ON_CLOSE);
-		setResizable(false);
-		setVisible(true);
-		setTitle("Login");
-		
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() - getWidth()) / 2);
-		int y = (int) ((dimension.getHeight() - getHeight()) / 2);
-		setLocation(x, y);
 
-		Container c = getContentPane();
-		c.add(new Header((String)user.get("email"), (String)user.get("groupName"), (String)user.get("name")));
-		c.add(new FirstBody("Total de consultas do usuário (TO-DO)", Integer.parseInt(user.get("totalAcessos").toString())));
 
-		final JLabel consultaLabel = new JLabel();
-		JButton consultarButton = new JButton("Escolha uma pasta para consultar");
+		this.setView();
+
+
 		consultarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser consultarchooser = new JFileChooser(); 
+				JFileChooser consultarchooser = new JFileChooser();
 				consultarchooser.setCurrentDirectory(new java.io.File("."));
 				consultarchooser.setDialogTitle("Caminho da chave privada");
 				consultarchooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				
+
 				if (consultarchooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 					consultaLabel.setText(consultarchooser.getSelectedFile().getAbsolutePath());
 				}
-			    else {
-			      System.out.println("No Selection ");
-			    }
+				else {
+					System.out.println("No Selection ");
+				}
 			}
 		});
-		
-		
-		String[] columnNames = {"Nome código","Nome secreto", "Dono", "Grupo"};
-		Object[][] data = {};
-		final DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
-		final JTable table = new JTable(tableModel){
-            public boolean isCellEditable(int nRow, int nCol) {
-                return false;
-            }
-        };
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(380, 10, 400, 400);
-		//table.setFillsViewportHeight(true);
-		c.add(table.getTableHeader());
-		c.add(scrollPane);
-		
-		final JButton decriptarButton = new JButton("Decriptar");
-		decriptarButton.setEnabled(false);
+
+		//------------------------ Decripitar Button  ------------------------------------
+
 		decriptarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int index = table.getSelectedRow();
@@ -90,16 +76,9 @@ public class ConsultarArquivosView extends JFrame {
 			}
 		});
 
-		JButton voltarButton = new JButton("Voltar");
-		voltarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DBManager.insereRegistro(8006, (String) user.get("email"));
-				dispose();
-				new MainView();
-			}
-		});
-		
-		JButton listarButton = new JButton("Listar arquivos");
+
+		//------------------------ Listar Button  ------------------------------------
+
 		listarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DBManager.insereRegistro(8007, (String) user.get("email"));
@@ -120,20 +99,124 @@ public class ConsultarArquivosView extends JFrame {
 //				tableModel.fireTableDataChanged();
 //				decriptarButton.setEnabled(true);
 //				DBManager.insereRegistro(8009, (String) user.get("email"));
-				
+
 			}
 		});
 
+	}
+
+	private void setView() {
+		//------------------------ Set Size ------------------------------------
+
+		setSize(this.width, this.height);
+
+		this.setDimension();
+
+		//------------------------ Y Position -----------------------------------
+
+		int yPosition = 10;
+
+		//------------------------ Set Title ------------------------------------
+
+		setTitle("Login");
+
+		//---------------------- E-mail Header Label -----------------------------
+
+		emailHeaderLabel = new JLabel(String.format(" • Login: %s", (String)user.get("email")));
+		emailHeaderLabel.setBounds(50, yPosition, this.width, 25);
+
+		Font f = emailHeaderLabel.getFont();
+		emailHeaderLabel.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+
+		this.getContainer().add(emailHeaderLabel);
+
+		yPosition = yPosition + emailHeaderLabel.getSize().height + 5;
+
+		//---------------------- Group Header Label -----------------------------
+
+		String groupName = "";
+
+		if( grupoId == 1 ) {
+			groupName = "Administrado";
+		} else {
+			groupName = "Usuário";
+		}
+
+		groupHeaderLabel = new JLabel(String.format(" • Grupo: %s", groupName));
+		groupHeaderLabel.setBounds(50, yPosition, this.width, 25);
+
+		groupHeaderLabel.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+
+		this.getContainer().add(groupHeaderLabel);
+
+		yPosition = yPosition + groupHeaderLabel.getSize().height + 5;
+
+		//---------------------- Name Header Label -----------------------------
+
+		nameHeaderLabel = new JLabel(String.format(" • Nome: %s", (String)user.get("name")));
+
+		nameHeaderLabel.setBounds(50, yPosition, this.width, 25);
+
+		nameHeaderLabel.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+
+		this.getContainer().add(nameHeaderLabel);
+
+		yPosition = yPosition + nameHeaderLabel.getSize().height + 10;
+
+		//---------------------- Number of Access Label -----------------------------
+
+		numberOfAccess = new JLabel(String.format("Total de acessos do usuário: %s", Integer.parseInt(user.get("countAccess").toString())));
+		numberOfAccess.setBounds(50, yPosition, this.width, 25);
+
+		numberOfAccess.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+
+		this.getContainer().add(numberOfAccess);
+
+		consultaLabel = new JLabel();
+		consultarButton = new JButton("Escolha uma pasta para consultar");
+
+		String[] columnNames = {"Nome código","Nome secreto", "Dono", "Grupo"};
+		Object[][] data = {};
+		final DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
+		table = new JTable(tableModel){
+			public boolean isCellEditable(int nRow, int nCol) {
+				return false;
+			}
+		};
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(380, 10, 400, 400);
+		//table.setFillsViewportHeight(true);
+		this.getContainer().add(table.getTableHeader());
+		this.getContainer().add(scrollPane);
+
+		decriptarButton = new JButton("Decriptar");
+		decriptarButton.setEnabled(false);
+
+
+		voltarButton = new JButton("Voltar");
+		voltarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DBManager.insereRegistro(8006, (String) user.get("email"));
+				dispose();
+				new MainView();
+			}
+		});
+
+		listarButton = new JButton("Listar arquivos");
+
 		consultaLabel.setBounds(30, 300, 300, 30);
-		consultarButton.setBounds(30, 340, 300, 40);
+		consultarButton.setBounds(30, 330, 300, 40);
 		listarButton.setBounds(30, 380, 300, 40);
 		decriptarButton.setBounds(600, 420, 100, 40);
 		voltarButton.setBounds(450, 420, 100, 40);
 
-		c.add(consultaLabel);
-		c.add(consultarButton);
-		c.add(listarButton);
-		c.add(decriptarButton);
-		c.add(voltarButton);
-	}	
+		this.getContainer().add(consultaLabel);
+		this.getContainer().add(consultarButton);
+		this.getContainer().add(listarButton);
+		this.getContainer().add(decriptarButton);
+		this.getContainer().add(voltarButton);
+
+		super.setVisible(true);
+	}
 }
