@@ -116,11 +116,11 @@ public class LoginView extends DefaultFrame {
 
 							if( Authentification.shouldBlockUserForPassword() ) {
 
-								DBControl.getInstance().clearWrongAccessPassword((String)LoggedUser.getInstance().getUser().get("email"));
+								DBControl.getInstance().clearWrongAccessPassword();
 
 							} else {
 
-								DBControl.getInstance().clearWrongAccessPrivateKey((String)LoggedUser.getInstance().getUser().get("email"));
+								DBControl.getInstance().clearWrongAccessPrivateKey();
 
 							}
 

@@ -39,7 +39,7 @@ public class MainView extends DefaultFrame {
 
 		//------------------------ Register ------------------------------------
 
-		DBControl.getInstance().insertRegister(5001, (String) user.get("email"));
+		DBControl.getInstance().insertRegister(MensagemType.TELA_PRINICPAL_APRESENTADA, LoggedUser.getInstance().getEmail());
 
 		//------------------------ Set View ------------------------------------
 
@@ -62,7 +62,7 @@ public class MainView extends DefaultFrame {
 			registerButton.addActionListener(new ActionListener () {
 				public void actionPerformed (ActionEvent e) {
 
-					DBControl.getInstance().insertRegister(5002, (String) user.get("email"));
+					DBControl.getInstance().insertRegister(MensagemType.OPCAO_1_MENU_PRINCIPAL_SELECIONADA, LoggedUser.getInstance().getEmail());
 					dispose();
 					new CadastroView();
 
@@ -76,7 +76,7 @@ public class MainView extends DefaultFrame {
 		alterButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
 
-				DBControl.getInstance().insertRegister(5003, (String) user.get("email"));
+				DBControl.getInstance().insertRegister(MensagemType.OPCAO_2_MENU_PRINCIPAL_SELECIONADA, LoggedUser.getInstance().getEmail());
 				dispose();
 				new AlterarView();
 
@@ -88,7 +88,7 @@ public class MainView extends DefaultFrame {
 		consultButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
 
-				DBControl.getInstance().insertRegister(5004, (String) user.get("email"));
+				DBControl.getInstance().insertRegister(MensagemType.OPCAO_3_MENU_PRINCIPAL_SELECIONADA, LoggedUser.getInstance().getEmail());
 				dispose();
 				new ConsultarArquivosView();
 
@@ -100,7 +100,7 @@ public class MainView extends DefaultFrame {
 		logoutButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
 
-				DBControl.getInstance().insertRegister(5005, (String) user.get("email"));
+				DBControl.getInstance().insertRegister(MensagemType.OPCAO_4_MENU_PRINCIPAL_SELECIONADA, LoggedUser.getInstance().getEmail());
 				dispose();
 				new SaidaView();
 

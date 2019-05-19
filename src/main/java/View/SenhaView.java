@@ -70,7 +70,7 @@ public class SenhaView extends DefaultFrame {
 
 					DBControl.getInstance().insertRegister(MensagemType.SENHA_PESSOAL_VERIFICADA_POSITIVAMENTE, LoggedUser.getInstance().getEmail());
 					DBControl.getInstance().insertRegister(MensagemType.AUTENTICACAO_ETAPA_2_ENCERRADA, LoggedUser.getInstance().getEmail());
-					DBControl.getInstance().clearWrongAccessPassword((String)updatedUser.get("email"));
+					DBControl.getInstance().clearWrongAccessPassword();
 					dispose();
 
 					new PrivateKeyView();

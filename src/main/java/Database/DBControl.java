@@ -80,9 +80,9 @@ public class DBControl {
      **
      ****************************************************************************************************/
 
-    public void clearWrongAccessPassword(String email) {
+    public void clearWrongAccessPassword() {
 
-        runQueryInsertUpdate(String.format("UPDATE User SET numberWrongAccessPassword = 0 WHERE email = '%s'", email));
+        runQueryInsertUpdate(String.format("UPDATE User SET numberWrongAccessPassword = 0 WHERE email = '%s'", LoggedUser.getInstance().getEmail()));
 
     }
 
