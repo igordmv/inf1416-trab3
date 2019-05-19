@@ -22,17 +22,6 @@ import static Util.Util.byteToHex;
 
 public class Authentification {
 
-	public static boolean verificaArvoreSenha(Node root, HashMap user, String senhaFormada) {
- 		if (root.dir == null && root.esq == null) {
-			System.out.println(senhaFormada);
-			return Authentification.autenticaSenha(senhaFormada, user);
-		}
-		boolean ret1 = verificaArvoreSenha(root.esq, user, senhaFormada + root.esq.opcao);
-		boolean ret2 = verificaArvoreSenha(root.dir, user, senhaFormada + root.dir.opcao);
-
-		return ret1 || ret2;
-	}
-
 	public static boolean acessarArquivo(HashMap user, String index, String nomeArquivo, PrivateKey chavePrivada, String pastaArquivos) {
 		try {
 			String[] linhasIndex = index.split("\n");
@@ -174,7 +163,7 @@ public class Authentification {
 			assinatura.update(teste);
 			byte[] resp = assinatura.sign();
 
-			PublicKey chavePublica = Authentification.leCertificadoDigital(((String) user.get("certificado")).getBytes()).getPublicKey();
+			PublicKey chavePublica = Authentification.leCertificadoDigital(((String) user.get("certificate")).getBytes()).getPublicKey();
 			assinatura.initVerify(chavePublica);
 			assinatura.update(teste);
 

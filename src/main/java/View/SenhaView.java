@@ -20,15 +20,16 @@ public class SenhaView extends DefaultFrame {
 
 	/* **************************************************************************************************
 	 **
-	 **  Variables desclaration
+	 **  Variables declaration
 	 **
 	 ****************************************************************************************************/
 	
 	private final int width = 400;
-	private final int height = 300;
+	private final int height = 320;
 
 	private JTextField passwordField;
 	private JButton checkButton;
+	private JButton clearButton;
 
 	private Node root = new Node("");
 
@@ -48,6 +49,18 @@ public class SenhaView extends DefaultFrame {
 
 		this.setView();
 
+		//------------------------ Clear Button Action --------------------------
+
+		clearButton.addActionListener(new ActionListener () {
+			public void actionPerformed(ActionEvent e) {
+
+				root = new Node("");;
+
+				passwordField.setText("");
+
+			}
+		});
+
 		//------------------------ Check Button Action --------------------------
 		
 		checkButton.addActionListener(new ActionListener () {
@@ -55,13 +68,14 @@ public class SenhaView extends DefaultFrame {
 
 				HashMap updatedUser = LoggedUser.getInstance().getUser();
 
-				if (Authentification.verificaArvoreSenha(root, updatedUser, "")) {
+				if (checkPasswordInTree(root, updatedUser, "")) {
 
 					DBManager.insereRegistro(3003, (String) updatedUser.get("email"));
 					DBManager.insereRegistro(3002, (String) updatedUser.get("email"));
 					DBControl.getInstance().clearWrongAccessPassword((String)updatedUser.get("email"));
 					dispose();
-					new PrivateKeyView(Authentification.autenticaEmail((String)updatedUser.get("email")));
+
+					new PrivateKeyView();
 
 				} else {
 
@@ -145,18 +159,9 @@ public class SenhaView extends DefaultFrame {
 
 		yPosition = passwordField.getY() + passwordField.getSize().height + 10;
 
-		//---------------------------- Login Button --------------------------------
-
-		checkButton = new JButton("login");
-		checkButton.setBounds(50, yPosition, 300, 40);
-
-		this.getContainer().add(checkButton);
-
-		yPosition = yPosition + checkButton.getSize().height + 10;
-
 		//---------------------- Generate Password Options ----------------------
 
-		List<List<String>> options = geraOpcoes();
+		List<List<String>> options = randomOptions();
 
 		final List<JButton> listButtons = new ArrayList<JButton>();
 
@@ -184,9 +189,9 @@ public class SenhaView extends DefaultFrame {
 
 					passwordField.setText(passwordField.getText() + "*");
 
-					insereNosFolhas(root, ((JButton)e.getSource()).getText().replace(" ou ", ""));
+					innsertOnTree(root, ((JButton)e.getSource()).getText().replace(" ou ", ""));
 
-					sorteiaBotoes(listButtons);
+					setTextInButtons(listButtons);
 
 				}
 			});
@@ -197,30 +202,64 @@ public class SenhaView extends DefaultFrame {
 
 		}
 
+		yPosition = yPosition + 60 + 10;
+
+		//---------------------------- Clear Button --------------------------------
+
+		clearButton = new JButton("apagar");
+		clearButton.setBounds(50, yPosition, 300, 40);
+
+		this.getContainer().add(clearButton);
+
+		yPosition = yPosition + clearButton.getSize().height + 10;
+
+		//---------------------------- Login Button --------------------------------
+
+		checkButton = new JButton("login");
+		checkButton.setBounds(50, yPosition, 300, 40);
+
+		this.getContainer().add(checkButton);
+
+		yPosition = yPosition + checkButton.getSize().height + 10;
+
 		//------------------------ Set Visible ------------------------------------
 
 		setVisible(true);
 
 	}
 
-	private void insereNosFolhas(Node root, String opcoes) {
+	/* **************************************************************************************************
+	 **
+	 **  Tree
+	 **
+	 ****************************************************************************************************/
+
+	private void innsertOnTree(Node root, String opcoes) {
 		if (root.dir == null && root.esq == null) {
 			root.esq = new Node(""+opcoes.charAt(0));
 			root.dir = new Node(""+opcoes.charAt(1));
 			return;
 		}
-		insereNosFolhas(root.dir, opcoes);
-		insereNosFolhas(root.esq, opcoes);
+		innsertOnTree(root.dir, opcoes);
+		innsertOnTree(root.esq, opcoes);
 	}
-	
-	private void sorteiaBotoes(List<JButton> lista) {
-		List<List<String>> opcoes = geraOpcoes();
+
+	/* **************************************************************************************************
+	 **
+	 **  St Text In Buttons
+	 **
+	 ****************************************************************************************************/
+
+	private void setTextInButtons(List<JButton> lista) {
+
+		List<List<String>> options = randomOptions();
+
 		for (int i=0; i<5; i++) {
 			JButton btn = lista.get(i);
 
 			String textToBtn = "";
 
-			for(String text : opcoes.get(i)){
+			for(String text : options.get(i)){
 
 				if( textToBtn == "" )
 					textToBtn += text + " ou ";
@@ -232,12 +271,19 @@ public class SenhaView extends DefaultFrame {
 			btn.setText(textToBtn);
 		}
 	}
-	
-	private List<List<String>> geraOpcoes() {
+
+	/* **************************************************************************************************
+	 **
+	 **  Generate Options For Buttons
+	 **
+	 ****************************************************************************************************/
+
+	private List<List<String>> randomOptions() {
 		List<List<String>> list = new ArrayList<List<String>>();
 		String numeros = "0123456789";
 		
 		for (int i=0; i < 5; i++) {
+
 			Random rand = new Random();
 			List<String> opcao = new ArrayList<String>();
 			int index = rand.nextInt(numeros.length());
@@ -247,7 +293,27 @@ public class SenhaView extends DefaultFrame {
 			opcao.add(""+numeros.charAt(index));
 			numeros = numeros.replaceAll("" + numeros.charAt(index), "");
 			list.add(opcao);
+
 		}
+
 		return list;
 	}
+
+	/* **************************************************************************************************
+	 **
+	 **  Check Password In Tree
+	 **
+	 ****************************************************************************************************/
+
+	private boolean checkPasswordInTree(Node root, HashMap user, String passwordActual) {
+		if (root.dir == null && root.esq == null) {
+			System.out.println(passwordActual);
+			return Authentification.autenticaSenha(passwordActual, user);
+		}
+		boolean ret1 = checkPasswordInTree(root.esq, user, passwordActual + root.esq.opcao);
+		boolean ret2 = checkPasswordInTree(root.dir, user, passwordActual + root.dir.opcao);
+
+		return ret1 || ret2;
+	}
+
 }

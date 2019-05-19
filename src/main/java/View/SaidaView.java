@@ -58,7 +58,7 @@ public class SaidaView extends JFrame {
 		voltarButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
 				dispose();
-				new MainView(Authentification.autenticaEmail((String) user.get("email")));
+				new MainView();
 			}
 		});
 		

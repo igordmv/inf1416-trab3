@@ -81,7 +81,7 @@ public class DBManager {
 	}
 	
 	public static void alterarCertificadoDigital(String certificado, String email) {
-		updateDb(String.format("UPDATE User SET certificado = '%s' WHERE email = '%s'", certificado, email));
+		updateDb(String.format("UPDATE User SET certificate = '%s' WHERE email = '%s'", certificado, email));
 	}
 	
 	public static void alterarSenha(String novaSenha, String email) {

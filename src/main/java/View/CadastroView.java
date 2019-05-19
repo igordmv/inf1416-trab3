@@ -188,7 +188,7 @@ public class CadastroView extends JFrame {
 			public void actionPerformed (ActionEvent e) {
 				DBManager.insereRegistro(6008, (String) user.get("email"));
 				dispose();
-				new MainView(user);
+				new MainView();
 			}
 		});
 		

@@ -9,6 +9,8 @@ public class Header extends JPanel {
 		setBounds(30, 20, 300, 60);
 		
 		JLabel emailLabel = new JLabel(String.format("Email: %s", email));
+
+
 		JLabel groupLabel = new JLabel(String.format("Grupo: %s", group));
 		JLabel nameLabel = new JLabel(String.format("Nome: %s", name));
 				

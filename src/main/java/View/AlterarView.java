@@ -39,9 +39,9 @@ public class AlterarView extends JFrame {
 		
 		Container c = getContentPane();
 		
-		c.add(new Header((String)user.get("email"), (String)user.get("groupName"), (String)user.get("name")));
+//		c.add(new Header((String)user.get("email"), (String)user.get("groupName"), (String)user.get("name")));
 
-		c.add(new FirstBody("Total de acessos", Integer.parseInt(user.get("totalAcessos").toString())));
+		c.add(new FirstBody("Total de acessos", Integer.parseInt(user.get("countAccess").toString())));
 
 		final JLabel certificadoDigitalLabel = new JLabel();
 		certificadoDigitalLabel .setBounds(30, 130, 300, 30);
@@ -156,7 +156,7 @@ public class AlterarView extends JFrame {
 					JOptionPane.showMessageDialog(null, errorMsg);
 				}
 				dispose();
-				new MainView(Authentification.autenticaEmail((String) user.get("email")));
+				new MainView();
 			}
 		});
 		

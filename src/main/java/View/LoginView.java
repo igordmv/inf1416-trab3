@@ -18,12 +18,12 @@ public class LoginView extends DefaultFrame {
 
 	/* **************************************************************************************************
 	 **
-	 **  Variables desclaration
+	 **  Variables declaration
 	 **
 	 ****************************************************************************************************/
 
 	private final int width = 400;
-	private final int height = 300;
+	private final int height = 320;
 
 	private Date time = null;
 
@@ -81,7 +81,7 @@ public class LoginView extends DefaultFrame {
 
 				} else {
 
-					if (Authentification.shouldBlockUserForPassword()) {
+					if (Authentification.shouldBlockUserForPassword() || Authentification.shouldBlockUserForPrivateKey()) {
 
 						String lastTry = (String) LoggedUser.getInstance().getUser().get("lastTryWrongAcess");
 
@@ -99,6 +99,16 @@ public class LoginView extends DefaultFrame {
 						if (time.before(twoMinutesLater)) {
 
 							validateLogin();
+
+							if( Authentification.shouldBlockUserForPassword() ) {
+
+								DBControl.getInstance().clearWrongAccessPassword((String)LoggedUser.getInstance().getUser().get("email"));
+
+							} else {
+
+								DBControl.getInstance().clearWrongAccessPrivateKey((String)LoggedUser.getInstance().getUser().get("email"));
+
+							}
 
 						}  else {
 

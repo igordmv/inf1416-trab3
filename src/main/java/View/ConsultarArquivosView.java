@@ -95,7 +95,7 @@ public class ConsultarArquivosView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				DBManager.insereRegistro(8006, (String) user.get("email"));
 				dispose();
-				new MainView(user);
+				new MainView();
 			}
 		});
 		
