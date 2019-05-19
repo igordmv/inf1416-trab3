@@ -28,25 +28,6 @@ public class DBManager {
 		return selectFromDb("select texto from Mensagem");
 	}
 
-	public static boolean addUser(String name, String email, String group, String salt, String senha, String certDig) {
-		return insertIntoDb(String.format("INSERT INTO User VALUES "
-				+ "('%s', '%s', '%s', '%s', '%s', 1, 0, null, 0, 0, '%s', 0, 0)"
-				, name, email, group, salt, senha, certDig)
-			);
-	}
-
-	public static boolean insereRegistro(int idMsg) {
-		return insereRegistro(idMsg, null, null);
-	}
-	
-	public static boolean insereRegistro(int idMsg, String email) {
-		return insereRegistro(idMsg, email, null);
-	}
-	
-	public static boolean insereRegistro(int idMsg, String email, String arquivo) {
-		return insertIntoDb(String.format("INSERT INTO Registro (messageId, email, filename) VALUES ('%d', '%s', '%s')", idMsg, email, arquivo));
-	}
-
 	public static int retornaNumUsuarios() {
 		return selectFromDb(String.format("SELECT * FROM User")).size();
 	}

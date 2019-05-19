@@ -36,7 +36,7 @@ public class AlterarView extends DefaultFrame {
 
 		grupoId = (Integer) user.get("grupoId");
 
-		DBManager.insereRegistro(7001, (String) user.get("email"));
+//		DBManager.insereRegistro(7001, (String) user.get("email"));
 
 		//------------------------ Set View ------------------------------------
 
@@ -64,7 +64,7 @@ public class AlterarView extends DefaultFrame {
 
 		alterarButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
-				DBManager.insereRegistro(7007, (String) user.get("email"));
+//				DBManager.insereRegistro(7007, (String) user.get("email"));
 
 				String errorMsg = "";
 				String senha = new String( senhaField.getPassword());
@@ -75,7 +75,7 @@ public class AlterarView extends DefaultFrame {
 
 					if (!senha.equals(confirmacao)) {
 
-						DBManager.insereRegistro(70002, (String) user.get("email"));
+//						DBManager.insereRegistro(70002, (String) user.get("email"));
 						JOptionPane.showMessageDialog(null, "Senha e confirmação de senha não são iguais.");
 
 						return;
@@ -86,7 +86,7 @@ public class AlterarView extends DefaultFrame {
 
 					if( !senhaOk ){
 
-						DBManager.insereRegistro(7002, (String) user.get("email"));
+//						DBManager.insereRegistro(7002, (String) user.get("email"));
 						JOptionPane.showMessageDialog(null, "Senha não está no padrão correto.");
 
 						return;
@@ -106,13 +106,13 @@ public class AlterarView extends DefaultFrame {
 						certDigBytes = FileUtils.readFileToByteArray(new File(pathCertificado));
 					} catch (Exception a) {
 						a.printStackTrace();
-						DBManager.insereRegistro(7003, (String) user.get("email"));
+//						DBManager.insereRegistro(7003, (String) user.get("email"));
 						return;
 					}
 
 					X509Certificate cert = Authentification.leCertificadoDigital(certDigBytes);
 					if (cert ==  null) {
-						DBManager.insereRegistro(7003, (String) user.get("email"));
+//						DBManager.insereRegistro(7003, (String) user.get("email"));
 						return;
 					}
 					String infoString = cert.getVersion() +"\n"+ cert.getNotBefore() +"\n"+ cert.getType() +"\n"+ cert.getIssuerDN() +"\n"+ cert.getSubjectDN();
@@ -120,11 +120,11 @@ public class AlterarView extends DefaultFrame {
 
 					if (ret != JOptionPane.YES_OPTION) {
 						System.out.println("Cancelou");
-						DBManager.insereRegistro(7006, (String) user.get("email"));
+//						DBManager.insereRegistro(7006, (String) user.get("email"));
 						return;
 					}
 					else {
-						DBManager.insereRegistro(7005, (String) user.get("email"));
+//						DBManager.insereRegistro(7005, (String) user.get("email"));
 					}
 
 					String certString = Authentification.certToString(cert);
@@ -174,7 +174,7 @@ public class AlterarView extends DefaultFrame {
 		String groupName = "";
 
 		if( grupoId == 1 ) {
-			groupName = "Administrado";
+			groupName = "Administrador";
 		} else {
 			groupName = "Usuário";
 		}

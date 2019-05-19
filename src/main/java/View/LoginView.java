@@ -145,6 +145,10 @@ public class LoginView extends DefaultFrame {
 //
 //		DBControl.getInstance().runSqlFile();
 
+//		//Delete User:
+//
+//		DBControl.getInstance().deleteUserFromEmail("user01@inf1416.puc-rio.br");
+
 	}
 
 	/* **************************************************************************************************

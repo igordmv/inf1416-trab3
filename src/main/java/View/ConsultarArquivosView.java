@@ -43,8 +43,7 @@ public class ConsultarArquivosView extends DefaultFrame {
 
 		grupoId = (Integer) user.get("grupoId");
 
-		DBManager.insereRegistro(8001, (String) user.get("email"));
-
+//		DBManager.insereRegistro(8001, (String) user.get("email"));
 
 		this.setView();
 
@@ -113,7 +112,7 @@ public class ConsultarArquivosView extends DefaultFrame {
 				table.setModel(tableModel);
 				tableModel.fireTableDataChanged();
 				decriptarButton.setEnabled(true);
-				DBManager.insereRegistro(8009, (String) user.get("email"));
+//				DBManager.insereRegistro(8009, (String) user.get("email"));
 
 			}
 		});
@@ -152,7 +151,7 @@ public class ConsultarArquivosView extends DefaultFrame {
 		String groupName = "";
 
 		if( grupoId == 1 ) {
-			groupName = "Administrado";
+			groupName = "Administrador";
 		} else {
 			groupName = "Usuário";
 		}
@@ -212,7 +211,7 @@ public class ConsultarArquivosView extends DefaultFrame {
 		voltarButton = new JButton("Voltar");
 		voltarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DBManager.insereRegistro(8006, (String) user.get("email"));
+//				DBManager.insereRegistro(8006, (String) user.get("email"));
 				dispose();
 				new MainView();
 			}

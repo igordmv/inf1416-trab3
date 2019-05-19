@@ -2,7 +2,6 @@ package View;
 
 import Auth.Authentification;
 import Database.DBControl;
-import Database.DBManager;
 import Database.LoggedUser;
 import Util.MensagemType;
 import org.apache.commons.io.FileUtils;
@@ -15,7 +14,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import Component.*;
-import sun.rmi.runtime.Log;
 
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
@@ -92,7 +90,7 @@ public class CadastroView  extends DefaultFrame {
 
 		voltarButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
-				DBManager.insereRegistro(MensagemType.BOTAO_VOLTAR_DE_CADASTRO_PARA_MENU_PRINCIPAL_PRESSIONADO, LoggedUser.getInstance().getEmail());
+				DBControl.getInstance().insertRegister(MensagemType.BOTAO_VOLTAR_DE_CADASTRO_PARA_MENU_PRINCIPAL_PRESSIONADO, LoggedUser.getInstance().getEmail());
 				dispose();
 				new MainView();
 			}
@@ -107,7 +105,6 @@ public class CadastroView  extends DefaultFrame {
 
 				String senha = new String( senhaField.getPassword());
 				String confirmacao = new String(senhaConfirmacaoField.getPassword());
-				String grupo = (String) comboBox.getSelectedItem().toString().toLowerCase();
 
 				//Confere senha:
 
@@ -147,7 +144,6 @@ public class CadastroView  extends DefaultFrame {
 					DBControl.getInstance().insertRegister(MensagemType.CAMINHO_CERTIFICADO_INVELIDO, LoggedUser.getInstance().getEmail());
 					return;
 				}
-//				String infoString = cert.getVersion() +"\n"+ cert.getNotBefore() +"\n"+ cert.getType() +"\n"+ cert.getIssuerDN() +"\n"+ cert.getSubjectDN();
 
 				String infoString = "";
 				infoString = infoString + "\nOs dados estão corretos?\n";
@@ -170,18 +166,18 @@ public class CadastroView  extends DefaultFrame {
 
 				if (ret != JOptionPane.YES_OPTION) {
 					System.out.println("Cancelou");
-					DBManager.insereRegistro(MensagemType.CONFIRMACAO_DE_DADOS_REJEITADA, LoggedUser.getInstance().getEmail());
+					DBControl.getInstance().insertRegister(MensagemType.CONFIRMACAO_DE_DADOS_REJEITADA, LoggedUser.getInstance().getEmail());
 					return;
 				}
 
-				if (Authentification.cadastraUsuario(grupo, senha, certificadoDigitalLabel.getText())) {
-					DBManager.insereRegistro(MensagemType.CONFIRMACAO_DE_DADOS_ACEITA_TELA_CADASTRO, LoggedUser.getInstance().getEmail());
+				if (Authentification.registerUser(comboBox.getSelectedIndex() + 1, senha, certificadoDigitalLabel.getText())) {
+					DBControl.getInstance().insertRegister(MensagemType.CONFIRMACAO_DE_DADOS_ACEITA_TELA_CADASTRO, LoggedUser.getInstance().getEmail());
 					JOptionPane.showMessageDialog(null, "Usuário cadastrado!");
 					dispose();
 					new CadastroView();
 				}
 				else {
-					DBManager.insereRegistro(MensagemType.SENHA_PESSOAL_INVALIDA_TELA_CADASTRO, LoggedUser.getInstance().getEmail());
+					DBControl.getInstance().insertRegister(MensagemType.SENHA_PESSOAL_INVALIDA_TELA_CADASTRO, LoggedUser.getInstance().getEmail());
 					JOptionPane.showMessageDialog(null, "Não foi possível cadastrar novo usuário.");
 				}
 
@@ -205,8 +201,8 @@ public class CadastroView  extends DefaultFrame {
 		int yPosition = 10;
 
 		//------------------------ Set Title ------------------------------------
-		setTitle("Cadastro");
 
+		setTitle("Cadastro");
 
 		//---------------------- E-mail Header Label -----------------------------
 
@@ -225,7 +221,7 @@ public class CadastroView  extends DefaultFrame {
 		String groupName = "";
 
 		if( grupoId == 1 ) {
-			groupName = "Administrado";
+			groupName = "Administrador";
 		} else {
 			groupName = "Usuário";
 		}
@@ -285,15 +281,13 @@ public class CadastroView  extends DefaultFrame {
 
 		this.getContainer().add(certificadoDigitalButton);
 
-
-
 		grupoLabel = new JLabel("Grupo:");
 
 		grupoLabel.setBounds(60, 240, 300, 40);
 
 		this.getContainer().add(grupoLabel);
 
-		String[] choices = {"Usuario", "Administrador"};
+		String[] choices = {"Administrador", "Usuario"};
 
 		comboBox = new JComboBox(choices);
 

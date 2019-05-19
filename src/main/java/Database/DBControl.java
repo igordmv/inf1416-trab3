@@ -64,6 +64,20 @@ public class DBControl {
 
     /* **************************************************************************************************
      **
+     **  MARK: Register User
+     **
+     ****************************************************************************************************/
+
+    public boolean addUser(String name, String email, Integer groupId, String salt, String password, String certificate) {
+
+        return runQueryInsertUpdate(String.format("INSERT INTO User VALUES "
+                        + "('%s', '%s', %d, '%s', '%s', 0, 0, null, 0, 0, '%s')"
+                , name, email, groupId, salt, password, certificate));
+
+    }
+
+    /* **************************************************************************************************
+     **
      **  MARK: insert Register
      **
      ****************************************************************************************************/
@@ -119,6 +133,18 @@ public class DBControl {
     public void incrementWrongAccessPassword(String email) {
 
         runQueryInsertUpdate(String.format("UPDATE User SET numberWrongAccessPassword = numberWrongAccessPassword + 1, lastTryWrongAcess = datetime('now') WHERE email = '%s'", email));
+
+    }
+
+    /* **************************************************************************************************
+     **
+     **  MARK: Delete User From E-mail
+     **
+     ****************************************************************************************************/
+
+    public void deleteUserFromEmail(String email) {
+
+        runQueryInsertUpdate(String.format("DELETE FROM User WHERE email = '%s'", email));
 
     }
 

@@ -148,7 +148,7 @@ public class MainView extends DefaultFrame {
 		String groupName = "";
 
 		if( grupoId == 1 ) {
-			groupName = "Administrado";
+			groupName = "Administrador";
 		} else {
 			groupName = "Usuário";
 		}

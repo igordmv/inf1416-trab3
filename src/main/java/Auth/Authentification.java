@@ -80,7 +80,7 @@ public class Authentification {
 			byte[] arqAsd = FileUtils.readFileToByteArray(new File(caminho + File.separator + filename + ".asd"));
 			if (assinatura.verify(arqAsd) == false) {
 				System.out.println(filename + " pode ter sido adulterado");
-				DBManager.insereRegistro(8005, (String) user.get("email"));
+//				DBManager.insereRegistro(8005, (String) user.get("email"));
 				return null;
 			}
 			else {
@@ -89,7 +89,7 @@ public class Authentification {
 			}
 		}
 		catch (Exception IOError) {
-			DBManager.insereRegistro(8008, (String) user.get("email"));
+//			DBManager.insereRegistro(8008, (String) user.get("email"));
 			IOError.printStackTrace();
 			return null;
 		}
@@ -212,12 +212,16 @@ public class Authentification {
 	    return sw.toString();
 	}
 
+	/* **************************************************************************************************
+	 **
+	 **  MARK: Register User
+	 **
+	 ****************************************************************************************************/
 
-	public static boolean cadastraUsuario(String grupo, String senha, String pathCert) {
-		if (Authentification.verificaRegrasSenha(senha) == false)
-			return false;
+	public static boolean registerUser(Integer grupoId, String senha, String pathCert) {
 
-		byte[] certDigBytes = null;
+		byte[] certDigBytes;
+
 		try {
 			certDigBytes = FileUtils.readFileToByteArray(new File(pathCert));
 		} catch (IOException e) {
@@ -226,22 +230,22 @@ public class Authentification {
 		}
 
 		X509Certificate cert = leCertificadoDigital(certDigBytes);
+
 		String subjectDN = cert.getSubjectDN().getName();
+
 		int start = subjectDN.indexOf("=");
+
 		int end = subjectDN.indexOf(",");
+
 		String email = subjectDN.substring(start + 1, end);
 
 		start = subjectDN.indexOf("=", end);
 		end = subjectDN.indexOf(",", start);
-		String nome = subjectDN.substring(start + 1, end);
 
 		String salt = Authentification.geraSalt();
-		String senhaProcessada = Authentification.geraSenhaProcessada(senha, salt);
 
-		boolean ret = DBManager.addUser(nome, email, grupo, salt, senhaProcessada, certToString(cert));
-		if (ret) {
-			DBManager.insereRegistro(6005, email);
-		}
+		boolean ret = DBControl.getInstance().addUser(subjectDN.substring(start + 1, end), email, grupoId, salt, Authentification.geraSenhaProcessada(senha, salt), certToString(cert));
+
 		return ret;
 	}
 
@@ -283,34 +287,6 @@ public class Authentification {
 			salt.append(new Integer(rand.nextInt(9)).toString());
 		}
 		return salt.toString();
-	}
-
-	public static boolean verificaRegrasSenha(String senha) {
-		int len = senha.length();
-		if (len < 6 || len > 8)
-			return false;
-
-		for (int i = 0; i < len; ++i) {
-	        if (!Character.isDigit(senha.charAt(i))) {
-	            return false;
-	        }
-	    }
-
-		boolean crescente = true;
-		boolean decrescente = true;
-
-		for (int i = 0; i < len - 1; i++) {
-			char c = senha.charAt(i);
-			char cProx = senha.charAt(i+1);
-
-			if (Character.getNumericValue(cProx) != Character.getNumericValue(c) + 1)
-				crescente = false;
-			if (Character.getNumericValue(cProx) != Character.getNumericValue(c) - 1)
-				decrescente = false;
-			if (cProx == c )
-				return false;
-		}
-		return (!crescente) && (!decrescente);
 	}
 
 	public static boolean conferirSenha(String senha, String confirmacao, HashMap user) {
@@ -482,13 +458,13 @@ public class Authentification {
 
 		switch (wrongAccess){
 			case 1:
-				DBManager.insereRegistro(MensagemType.PRIMEIRO_ERRO_SENHA_PESSOAL_CONTABILIZADO, LoggedUser.getInstance().getEmail());
+				DBControl.getInstance().insertRegister(MensagemType.PRIMEIRO_ERRO_SENHA_PESSOAL_CONTABILIZADO, LoggedUser.getInstance().getEmail());
 				break;
 			case 2:
-				DBManager.insereRegistro(MensagemType.SEGUNDO_ERRO_SENHA_PESSOAL_CONTABILIZADO, LoggedUser.getInstance().getEmail());
+				DBControl.getInstance().insertRegister(MensagemType.SEGUNDO_ERRO_SENHA_PESSOAL_CONTABILIZADO, LoggedUser.getInstance().getEmail());
 				break;
 			case 3:
-				DBManager.insereRegistro(MensagemType.TERCEIRO_ERRO_SENHA_PESSOAL_CONTABILIZADO, LoggedUser.getInstance().getEmail());
+				DBControl.getInstance().insertRegister(MensagemType.TERCEIRO_ERRO_SENHA_PESSOAL_CONTABILIZADO, LoggedUser.getInstance().getEmail());
 				break;
 		}
 	}
@@ -529,19 +505,6 @@ public class Authentification {
 
 		int wrongAccess = ((Integer) user.get("numberWrongAccessPrivateKey"));
 
-		System.out.println("\nincrementWrongAccessPrivateKey\n");
-		System.out.println(wrongAccess);
-		System.out.println("\n");
-
-		if (wrongAccess == 1)
-			DBManager.insereRegistro(3004, (String) user.get("email"));
-
-		else if (wrongAccess == 2)
-			DBManager.insereRegistro(3005, (String) user.get("email"));
-
-		else if (wrongAccess == 3)
-			DBManager.insereRegistro(3006, (String) user.get("email"));
-
 	}
 
 	/* **************************************************************************************************
@@ -555,10 +518,6 @@ public class Authentification {
 		HashMap user = LoggedUser.getInstance().getUser();
 
 		int wrongAccess = ((Integer) user.get("numberWrongAccessPrivateKey"));
-
-		System.out.println("\nshouldBlockUserForPrivateKey\n");
-		System.out.println(wrongAccess);
-		System.out.println("\n");
 
 		return wrongAccess >= 3;
 
