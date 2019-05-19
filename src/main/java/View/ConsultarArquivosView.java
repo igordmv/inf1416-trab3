@@ -13,9 +13,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.UnsupportedEncodingException;
-import java.security.PrivateKey;
 import java.util.HashMap;
 import Component.*;
+import Util.MensagemType;
 
 
 public class ConsultarArquivosView extends DefaultFrame {

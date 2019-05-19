@@ -1,9 +1,9 @@
 package View;
 
-import Auth.Authentification;
 import Database.DBControl;
 import Component.*;
 import Database.LoggedUser;
+import Util.MensagemType;
 
 import javax.swing.*;
 import java.awt.*;

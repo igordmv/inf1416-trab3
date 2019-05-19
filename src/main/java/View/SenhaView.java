@@ -4,6 +4,8 @@ import Auth.Authentification;
 import Database.DBControl;
 import Database.LoggedUser;
 import Component.*;
+import Util.MensagemType;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

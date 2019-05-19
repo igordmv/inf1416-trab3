@@ -4,6 +4,7 @@ import Auth.Authentification;
 import Database.DBControl;
 import Database.DBManager;
 import Database.LoggedUser;
+import Util.MensagemType;
 import org.apache.commons.io.FileUtils;
 
 import javax.swing.*;
@@ -15,7 +16,6 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import Component.*;
 import java.security.cert.X509Certificate;
-import java.util.Arrays;
 import java.util.HashMap;
 
 
