@@ -3,6 +3,7 @@ package Auth;
 import Database.DBControl;
 import Database.DBManager;
 import Database.LoggedUser;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.apache.commons.io.FileUtils;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -58,11 +59,11 @@ public class Authentification {
 			cipher.init(Cipher.DECRYPT_MODE, chavePrivada);
 			cipher.update(arqEnv);
 
-			byte [] semente = cipher.doFinal();
+			byte [] semente = LoggedUser.getInstance().getSecretWord().getBytes();
 
 			byte[] arqEnc = FileUtils.readFileToByteArray(new File(caminho + File.separator + filename + ".enc"));
 			SecureRandom rand = SecureRandom.getInstance("SHA1PRNG", "SUN");
-			rand.setSeed(semente);
+			rand.setSeed(arqEnc);
 
 			KeyGenerator keyGen = KeyGenerator.getInstance("DES");
 			keyGen.init(56, rand);
@@ -90,6 +91,7 @@ public class Authentification {
 		}
 		catch (Exception IOError) {
 			DBManager.insereRegistro(8008, (String) user.get("email"));
+			IOError.printStackTrace();
 			return null;
 		}
 	}

@@ -105,6 +105,9 @@ public class PrivateKeyView extends DefaultFrame {
 
                         if (Authentification.testaChavePrivada(chavePrivada, user)) {
 
+                            LoggedUser.getInstance().setPrivateKey(chavePrivada);
+                            LoggedUser.getInstance().setSecretWord(privateKeyTextField.getText());
+
                             DBControl.getInstance().insertRegister(8002, (String) user.get("email"));
                             DBControl.getInstance().clearWrongAccessPrivateKey((String)updatedUser.get("email"));
                             dispose();

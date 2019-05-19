@@ -2,6 +2,7 @@ package Database;
 
 import Auth.Authentification;
 
+import java.security.PrivateKey;
 import java.util.HashMap;
 
 public class LoggedUser {
@@ -16,6 +17,10 @@ public class LoggedUser {
 
     private static final LoggedUser instance = new LoggedUser();
 
+    private static PrivateKey privateKey = null;
+
+    private static String secretWord = null;
+
     /* **************************************************************************************************
      **
      **  Get and Set
@@ -24,6 +29,14 @@ public class LoggedUser {
 
     public static LoggedUser getInstance() {
         return instance;
+    }
+
+    public static String getSecretWord() {
+        return secretWord;
+    }
+
+    public static void setSecretWord(String secretWord) {
+        LoggedUser.secretWord = secretWord;
     }
 
     public HashMap getUser() {
@@ -40,6 +53,14 @@ public class LoggedUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public static PrivateKey getPrivateKey() {
+        return LoggedUser.getInstance().privateKey;
+    }
+
+    public static void setPrivateKey(PrivateKey privateKey) {
+        LoggedUser.getInstance().privateKey = privateKey;
     }
 
 }

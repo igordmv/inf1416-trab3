@@ -16,7 +16,8 @@ public class LogView {
                 System.out.println(String.format("id: %s | date: %s | text: %s", (Integer)log.get("id"), (String)log.get("created"), (String)log.get("texto")));
             }
             else {
-                System.out.println(String.format("id: %s | date: %s | user: %s | text: %s", (Integer)log.get("id"), (String)log.get("created"), user, (String)log.get("texto")));
+                String texto = (String)log.get("texto");
+                System.out.println(String.format("id: %s | date: %s | user: %s | text: %s", (Integer)log.get("id"), (String)log.get("created"), user, texto.replaceAll("<login_name>",user)));
             }
         }
     }

@@ -1,6 +1,7 @@
 package View;
 
 import Auth.Authentification;
+import Database.DBControl;
 import Database.DBManager;
 import Database.LoggedUser;
 
@@ -33,6 +34,7 @@ public class ConsultarArquivosView extends DefaultFrame {
 	private JButton listarButton;
 	private JButton voltarButton;
 	private JTable table;
+	private DefaultTableModel tableModel;
 
 	public ConsultarArquivosView() {
 		this.user = LoggedUser.getInstance().getUser();
@@ -49,7 +51,7 @@ public class ConsultarArquivosView extends DefaultFrame {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser consultarchooser = new JFileChooser();
 				consultarchooser.setCurrentDirectory(new java.io.File("."));
-				consultarchooser.setDialogTitle("Caminho da chave privada");
+				consultarchooser.setDialogTitle("Caminho dos arquivos");
 				consultarchooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 				if (consultarchooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
@@ -67,12 +69,12 @@ public class ConsultarArquivosView extends DefaultFrame {
 			public void actionPerformed(ActionEvent e) {
 				int index = table.getSelectedRow();
 				String nomeArquivo = (String) table.getValueAt(index, 1);
-//				if (Authentification.acessarArquivo(user, indexArq, nomeArquivo, chavePrivada, consultaLabel.getText())) {
-//					System.out.println("Decriptou arquivo com sucesso!");
-//				}
-//				else {
-//					JOptionPane.showMessageDialog(null, "Usuário não possui permissão para ler o arquivo selecionado");
-//				}
+				if (Authentification.acessarArquivo(user, indexArq, nomeArquivo, LoggedUser.getInstance().getPrivateKey(), consultaLabel.getText())) {
+					System.out.println("Decriptou arquivo com sucesso!");
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Usuário não possui permissão para ler o arquivo selecionado");
+				}
 			}
 		});
 
@@ -81,24 +83,25 @@ public class ConsultarArquivosView extends DefaultFrame {
 
 		listarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DBManager.insereRegistro(8007, (String) user.get("email"));
+				DBControl.getInstance().insertRegister(8007, (String) user.get("email"));
 
-//				try {
-//					indexArq = new String(Authentification.decriptaArquivo(user, consultaLabel.getText(), "index", chavePrivada), "UTF8");
-//				} catch (UnsupportedEncodingException ex) {
-//					JOptionPane.showMessageDialog(null, "Não foi possível listar os arquivos com este credencial.");
-//					return;
-//				}
-//				String[] listaArquivos = indexArq.split("\n");
-//				for (String arq: listaArquivos) {
-//					String[] items = arq.split(" ");
-//					tableModel.addRow(items);
-//				}
-//				DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-//				table.setModel(tableModel);
-//				tableModel.fireTableDataChanged();
-//				decriptarButton.setEnabled(true);
-//				DBManager.insereRegistro(8009, (String) user.get("email"));
+				try {
+					byte[] temp = Authentification.decriptaArquivo(user, consultaLabel.getText(), "index", LoggedUser.getInstance().getPrivateKey());
+					indexArq = new String((temp), "UTF8");
+				} catch (UnsupportedEncodingException ex) {
+					JOptionPane.showMessageDialog(null, "Não foi possível listar os arquivos com este credencial.");
+					return;
+				}
+				String[] listaArquivos = indexArq.split("\n");
+				for (String arq: listaArquivos) {
+					String[] items = arq.split(" ");
+					tableModel.addRow(items);
+				}
+				tableModel = (DefaultTableModel) table.getModel();
+				table.setModel(tableModel);
+				tableModel.fireTableDataChanged();
+				decriptarButton.setEnabled(true);
+				DBManager.insereRegistro(8009, (String) user.get("email"));
 
 			}
 		});
@@ -177,7 +180,7 @@ public class ConsultarArquivosView extends DefaultFrame {
 
 		String[] columnNames = {"Nome código","Nome secreto", "Dono", "Grupo"};
 		Object[][] data = {};
-		final DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
+		tableModel = new DefaultTableModel(data, columnNames);
 		table = new JTable(tableModel){
 			public boolean isCellEditable(int nRow, int nCol) {
 				return false;
