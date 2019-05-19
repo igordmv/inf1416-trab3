@@ -242,8 +242,8 @@ public class LoginView extends DefaultFrame {
 
 		dispose();
 
-//		new SenhaView();
-		new MainView();
+		new SenhaView();
+//		new MainView();
 
 	}
 }

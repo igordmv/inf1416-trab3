@@ -1,7 +1,6 @@
 package View;
 
 import Auth.Authentification;
-import Auth.Node;
 import Database.DBControl;
 import Database.DBManager;
 import Database.LoggedUser;
@@ -10,10 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 
 public class SenhaView extends DefaultFrame {
@@ -31,7 +28,8 @@ public class SenhaView extends DefaultFrame {
 	private JButton checkButton;
 	private JButton clearButton;
 
-	private Node root = new Node("");
+	private List<String> list1 = new ArrayList<String>();
+	private List<String> list2 = new ArrayList<String>();
 
 	/* **************************************************************************************************
 	 **
@@ -54,7 +52,8 @@ public class SenhaView extends DefaultFrame {
 		clearButton.addActionListener(new ActionListener () {
 			public void actionPerformed(ActionEvent e) {
 
-				root = new Node("");;
+				list1.clear();
+				list2.clear();
 
 				passwordField.setText("");
 
@@ -68,7 +67,7 @@ public class SenhaView extends DefaultFrame {
 
 				HashMap updatedUser = LoggedUser.getInstance().getUser();
 
-				if (checkPasswordInTree(root, updatedUser, "")) {
+				if (checkPasswordInArray()) {
 
 					DBManager.insereRegistro(3003, (String) updatedUser.get("email"));
 					DBManager.insereRegistro(3002, (String) updatedUser.get("email"));
@@ -103,8 +102,9 @@ public class SenhaView extends DefaultFrame {
 						JOptionPane.showMessageDialog(null, "Senha inválida");
 
 					}
-					
-					root = new Node("");;
+
+					list1.clear();
+					list2.clear();
 
 					passwordField.setText("");
 
@@ -189,7 +189,7 @@ public class SenhaView extends DefaultFrame {
 
 					passwordField.setText(passwordField.getText() + "*");
 
-					innsertOnTree(root, ((JButton)e.getSource()).getText().replace(" ou ", ""));
+					createArrayOfOptions(((JButton)e.getSource()).getText().replace(" ou ", ""));
 
 					setTextInButtons(listButtons);
 
@@ -230,18 +230,79 @@ public class SenhaView extends DefaultFrame {
 
 	/* **************************************************************************************************
 	 **
-	 **  Tree
+	 **  Array Of Options
 	 **
 	 ****************************************************************************************************/
 
-	private void innsertOnTree(Node root, String opcoes) {
-		if (root.dir == null && root.esq == null) {
-			root.esq = new Node(""+opcoes.charAt(0));
-			root.dir = new Node(""+opcoes.charAt(1));
-			return;
+	private void createArrayOfOptions(String options) {
+
+		if( list1.size() == 0 ) {
+
+			if( list2.size() == 0 ){
+
+				list1.add( String.valueOf(options.charAt(0)) );
+				list1.add( String.valueOf(options.charAt(1)) );
+
+			} else {
+
+				for( String element : list2 ){
+
+					list1.add( element + String.valueOf(options.charAt(0)) );
+					list1.add( element + String.valueOf(options.charAt(1)) );
+
+				}
+
+				list2.clear();
+
+			}
+
+		} else {
+
+			for( String element : list1 ){
+
+				list2.add( element + String.valueOf(options.charAt(0)) );
+				list2.add( element + String.valueOf(options.charAt(1)) );
+
+			}
+
+			list1.clear();
+
 		}
-		innsertOnTree(root.dir, opcoes);
-		innsertOnTree(root.esq, opcoes);
+
+	}
+
+	/* **************************************************************************************************
+	 **
+	 **  Check Password In Array
+	 **
+	 ****************************************************************************************************/
+
+	private boolean checkPasswordInArray() {
+
+		if( list1.size() == 0 ) {
+
+			for( String element : list2 ){
+
+				if(Authentification.autenticaSenha(element, LoggedUser.getInstance().getUser())) {
+					return true;
+				}
+
+			}
+
+		} else {
+
+			for( String element : list1 ){
+
+				if(Authentification.autenticaSenha(element, LoggedUser.getInstance().getUser())) {
+					return true;
+				}
+
+			}
+
+		}
+
+		return false;
+
 	}
 
 	/* **************************************************************************************************
@@ -297,23 +358,6 @@ public class SenhaView extends DefaultFrame {
 		}
 
 		return list;
-	}
-
-	/* **************************************************************************************************
-	 **
-	 **  Check Password In Tree
-	 **
-	 ****************************************************************************************************/
-
-	private boolean checkPasswordInTree(Node root, HashMap user, String passwordActual) {
-		if (root.dir == null && root.esq == null) {
-			System.out.println(passwordActual);
-			return Authentification.autenticaSenha(passwordActual, user);
-		}
-		boolean ret1 = checkPasswordInTree(root.esq, user, passwordActual + root.esq.opcao);
-		boolean ret2 = checkPasswordInTree(root.dir, user, passwordActual + root.dir.opcao);
-
-		return ret1 || ret2;
 	}
 
 }

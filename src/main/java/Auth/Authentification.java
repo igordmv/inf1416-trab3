@@ -261,7 +261,6 @@ public class Authentification {
 		if (user.get("passwordDigest").equals(senhaDigest))
 			return true;
 		return false;
-//		return true;
 	}
 
 	public static String geraSenhaProcessada(String senha, String salt) {
