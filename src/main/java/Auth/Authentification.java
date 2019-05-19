@@ -5,8 +5,8 @@ import Database.DBManager;
 import Database.LoggedUser;
 import Util.MensagemType;
 import org.apache.commons.io.FileUtils;
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
+
+import javax.crypto.*;
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.security.*;
@@ -14,6 +14,7 @@ import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.*;
 
@@ -116,43 +117,89 @@ public class Authentification {
 	}
 
 	public static PrivateKey leChavePrivada(String fraseSecreta, String pathString, HashMap user) {
+
+		SecureRandom rand = null;
 		try {
-			SecureRandom rand = SecureRandom.getInstance("SHA1PRNG", "SUN");
-			rand.setSeed(fraseSecreta.getBytes());
+			rand = SecureRandom.getInstance("SHA1PRNG", "SUN");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		} catch (NoSuchProviderException e) {
+			e.printStackTrace();
+			return null;
+		}
+		rand.setSeed(fraseSecreta.getBytes());
 
-			KeyGenerator keyGen = KeyGenerator.getInstance("DES");
-			keyGen.init(56, rand);
-			Key chave = keyGen.generateKey();
+		KeyGenerator keyGen = null;
+		try {
+			keyGen = KeyGenerator.getInstance("DES");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		}
 
-			Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-			try {
-				cipher.init(Cipher.DECRYPT_MODE, chave);
-			}
-			catch (Exception e) {
-				DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_FRASE_SECRETA, LoggedUser.getInstance().getEmail());
-				return null;
-			}
+		keyGen.init(56, rand);
+		Key chave = keyGen.generateKey();
 
-			byte[] bytes = null;
-			try {
-				bytes = FileUtils.readFileToByteArray(new File(pathString));
-			}
-			catch (Exception e) {
-				DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_CAMINHO_INVALIDO, LoggedUser.getInstance().getEmail());
-				return null;
-			}
-
-			String chavePrivadaBase64 = new String(cipher.doFinal(bytes), "UTF8");
-			chavePrivadaBase64 = chavePrivadaBase64.replace("-----BEGIN PRIVATE KEY-----", "").replace("-----END PRIVATE KEY-----", "").trim();
-			byte[] chavePrivadaBytes = DatatypeConverter.parseBase64Binary(chavePrivadaBase64);
-
-			KeyFactory factory = KeyFactory.getInstance("RSA");
-			return factory.generatePrivate(new PKCS8EncodedKeySpec(chavePrivadaBytes));
+		Cipher cipher = null;
+		try {
+			cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		} catch (NoSuchPaddingException e) {
+			e.printStackTrace();
+			return null;
+		}
+		try {
+			cipher.init(Cipher.DECRYPT_MODE, chave);
 		}
 		catch (Exception e) {
+			return null;
+		}
+
+		byte[] bytes = null;
+		try {
+			bytes = FileUtils.readFileToByteArray(new File(pathString));
+		}
+		catch (Exception e) {
+			DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_CAMINHO_INVALIDO, LoggedUser.getInstance().getEmail());
+			return null;
+		}
+
+		String chavePrivadaBase64 = null;
+		try {
+			chavePrivadaBase64 = new String(cipher.doFinal(bytes), "UTF8");
+		} catch (UnsupportedEncodingException e) {
+			DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_CAMINHO_INVALIDO, LoggedUser.getInstance().getEmail());
+			e.printStackTrace();
+			return null;
+		} catch (IllegalBlockSizeException e) {
+			DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_CAMINHO_INVALIDO, LoggedUser.getInstance().getEmail());
+			e.printStackTrace();
+			return null;
+		} catch (BadPaddingException e) {
+			e.printStackTrace();
 			DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_ASSINATURA_DIGITAL, LoggedUser.getInstance().getEmail());
 			return null;
 		}
+		chavePrivadaBase64 = chavePrivadaBase64.replace("-----BEGIN PRIVATE KEY-----", "").replace("-----END PRIVATE KEY-----", "").trim();
+		byte[] chavePrivadaBytes = DatatypeConverter.parseBase64Binary(chavePrivadaBase64);
+
+		KeyFactory factory = null;
+		try {
+			factory = KeyFactory.getInstance("RSA");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		}
+		try {
+			return factory.generatePrivate(new PKCS8EncodedKeySpec(chavePrivadaBytes));
+		} catch (InvalidKeySpecException e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 
 	public static boolean testaChavePrivada(PrivateKey chavePrivada, HashMap user) {

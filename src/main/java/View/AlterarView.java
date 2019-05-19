@@ -3,6 +3,7 @@ package View;
 import Auth.Authentification;
 import Database.DBControl;
 import Database.LoggedUser;
+import Util.MensagemType;
 import org.apache.commons.io.FileUtils;
 
 import javax.swing.*;
@@ -36,7 +37,7 @@ public class AlterarView extends DefaultFrame {
 
 		grupoId = (Integer) user.get("grupoId");
 
-//		DBManager.insereRegistro(7001, (String) user.get("email"));
+		DBControl.getInstance().insertRegister(MensagemType.TELA_DE_ALTERACAO_DE_SENHA_PESSOAL_E_CERTIFICADO_APRESENTADO, LoggedUser.getInstance().getEmail());
 
 		//------------------------ Set View ------------------------------------
 
@@ -64,9 +65,7 @@ public class AlterarView extends DefaultFrame {
 
 		changeButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
-//				DBManager.insereRegistro(7007, (String) user.get("email"));
 
-				String errorMsg = "";
 				String senha = new String( passwordField.getPassword());
 				if (!senha.equals("")) {
 					String confirmacao = new String(confirmationPasswordField.getPassword());
@@ -75,7 +74,8 @@ public class AlterarView extends DefaultFrame {
 
 					if (!senha.equals(confirmacao)) {
 
-//						DBManager.insereRegistro(70002, (String) user.get("email"));
+						DBControl.getInstance().insertRegister(MensagemType.SENHA_PESSOAL_INVALIDA_TELA_ALTERACAO_SENHA, LoggedUser.getInstance().getEmail());
+
 						JOptionPane.showMessageDialog(null, "Senha e confirmação de senha não são iguais.");
 
 						return;
@@ -86,7 +86,8 @@ public class AlterarView extends DefaultFrame {
 
 					if( !senhaOk ){
 
-//						DBManager.insereRegistro(7002, (String) user.get("email"));
+						DBControl.getInstance().insertRegister(MensagemType.SENHA_PESSOAL_INVALIDA_TELA_ALTERACAO_SENHA, LoggedUser.getInstance().getEmail());
+
 						JOptionPane.showMessageDialog(null, "Senha não está no padrão correto.");
 
 						return;
@@ -98,19 +99,26 @@ public class AlterarView extends DefaultFrame {
 				}
 
 				String pathCertificado = certificadoDigitalTextField.getText();
+
 				if (pathCertificado.equals("") == false) {
 					byte[] certDigBytes = null;
 					try {
 						certDigBytes = FileUtils.readFileToByteArray(new File(pathCertificado));
 					} catch (Exception a) {
 						a.printStackTrace();
-//						DBManager.insereRegistro(7003, (String) user.get("email"));
+
+						DBControl.getInstance().insertRegister(MensagemType.CAMINHO_CERTIFICADO_INVALIDO, LoggedUser.getInstance().getEmail());
+
+						JOptionPane.showMessageDialog(null, "Caminho do certificado inválido");
+
 						return;
 					}
 
 					X509Certificate cert = Authentification.leCertificadoDigital(certDigBytes);
 					if (cert ==  null) {
-//						DBManager.insereRegistro(7003, (String) user.get("email"));
+
+						JOptionPane.showMessageDialog(null, "Certificado inválido");
+
 						return;
 					}
 
@@ -134,20 +142,22 @@ public class AlterarView extends DefaultFrame {
 					int ret = JOptionPane.showConfirmDialog(null, infoString);
 
 					if (ret != JOptionPane.YES_OPTION) {
+
 						System.out.println("Cancelou");
-//						DBManager.insereRegistro(7006, (String) user.get("email"));
+
+						DBControl.getInstance().insertRegister(MensagemType.CONFIRMACAO_DE_DADOS_REIEJITADA_TELA_ALTERACAO_SENHA, LoggedUser.getInstance().getEmail());
+
 						return;
-					}
-					else {
-//						DBManager.insereRegistro(7005, (String) user.get("email"));
+
+					}  else {
+
+						DBControl.getInstance().insertRegister(MensagemType.CONFIRMACAO_DE_DADOS_ACEITA_TELA_ALTERACAO_SENHA, LoggedUser.getInstance().getEmail());
+
 					}
 
 					DBControl.getInstance().changePrivateKey(Authentification.certToString(cert), (String) user.get("email"));
 				}
 
-				if (errorMsg.equals("")== false) {
-					JOptionPane.showMessageDialog(null, errorMsg);
-				}
 				dispose();
 				new MainView();
 			}
