@@ -22,29 +22,49 @@ import static Util.Util.byteToHex;
 
 public class Authentification {
 
-	public static boolean acessarArquivo(HashMap user, String index, String nomeArquivo, PrivateKey chavePrivada, String pastaArquivos) {
+	public static boolean acessarArquivo(HashMap user, String index, String fileName, PrivateKey chavePrivada, String pastaArquivos) {
 		try {
 			String[] linhasIndex = index.split("\n");
 			for (String linha: linhasIndex) {
 				String[] params = linha.split(" ");
 				String nomeSecreto = params[1];
 
-				if (nomeSecreto.equals(nomeArquivo)) {
+				if (nomeSecreto.equals(fileName)) {
 					String email = params[2];
 					String grupo = params[3];
-					if (user.get("email").equals(email) || user.get("groupName").equals(grupo)) {
+
+					String groupName = "";
+
+					Integer id = (Integer) user.get("grupoId");
+
+					if( id == 1 ) {
+						groupName = "Administrador";
+					} else {
+						groupName = "Usuário";
+					}
+
+					if (user.get("email").equals(email) || groupName.equals(grupo)) {
+
+						DBControl.getInstance().insertRegister(MensagemType.ACESSO_PERMITIDO_AO_ARQUIVO, LoggedUser.getInstance().getEmail(), fileName);
+
 						String nomeCodigoArquivo = params[0];
 						byte[] conteudoArquivo = Authentification.decriptaArquivo(user, pastaArquivos, nomeCodigoArquivo, chavePrivada);
 						FileUtils.writeByteArrayToFile(new File(pastaArquivos + File.separator + nomeSecreto),conteudoArquivo);
+
 						return true;
-					}
-					else {
+
+					} else {
+
+						DBControl.getInstance().insertRegister(MensagemType.ACESSO_NEGADO_AO_ARQUIVO, LoggedUser.getInstance().getEmail(), fileName);
+
 						return false;
+
 					}
 				}
 			}
 		}
 		catch (Exception e) {
+			DBControl.getInstance().insertRegister(MensagemType.FALHA_NA_DECRIPTACAO_DO_ARQUIVO, LoggedUser.getInstance().getEmail());
 			e.printStackTrace();
 		}
 		return false;
@@ -85,18 +105,61 @@ public class Authentification {
 
 			byte[] fileContent = cipher.doFinal(arqEnc);
 
-			if (signature.verify(arqAsd)) {
-				System.out.println(filename + " pode ter sido adulterado");
-				return null;
+			if( filename == "index" ) {
+
+				DBControl.getInstance().insertRegister(MensagemType.ARQUIVO_DE_INDICE_DECRIPTADO_COM_SUCESSO, LoggedUser.getInstance().getEmail());
+
+			} else {
+
+				DBControl.getInstance().insertRegister(MensagemType.ARQUIVO_DECRIPTADO_COM_SUCESSO, LoggedUser.getInstance().getEmail(), filename);
+
 			}
-			else {
-				System.out.println("Decriptou index ok");
+
+			if (signature.verify(arqAsd)) {
+
+				if( filename == "index" ) {
+
+					DBControl.getInstance().insertRegister(MensagemType.FALHA_NA_VERIFICACAO_INTEGRIDADE_E_AUTENTICIDADE, LoggedUser.getInstance().getEmail());
+
+				} else {
+
+					DBControl.getInstance().insertRegister(MensagemType.FALHA_NA_VERIFICACA_INGREDADE_AUTENTICIDADE_ARQUIVO, LoggedUser.getInstance().getEmail(), filename);
+
+				}
+
+				return null;
+
+			}  else {
+
+				if( filename == "index" ) {
+
+					DBControl.getInstance().insertRegister(MensagemType.ARQUIVO_DE_INDICE_VERIFICADO_INTEGRIDADE_E_AUTENTIFICIDADE, LoggedUser.getInstance().getEmail());
+
+				} else {
+
+					DBControl.getInstance().insertRegister(MensagemType.ARQUIVO_VERIFICADO_INTEGRIDADE_E_AUTENTICIDADE, LoggedUser.getInstance().getEmail(), filename);
+
+				}
+
+				System.out.println("Decriptou index");
+
 				return fileContent;
+
 			}
 
 		}
 		catch (Exception IOError) {
-//			DBManager.insereRegistro(8008, (String) user.get("email"));
+
+			if( filename == "index" ) {
+
+				DBControl.getInstance().insertRegister(MensagemType.FALHA_NA_DECRIPTACAO_DO_ARQUIVO_DE_INDICE, LoggedUser.getInstance().getEmail());
+
+			} else {
+
+				DBControl.getInstance().insertRegister(MensagemType.FALHA_NA_DECRIPTACAO_DO_ARQUIVO, LoggedUser.getInstance().getEmail(), filename);
+
+			}
+
 			IOError.printStackTrace();
 			return null;
 		}

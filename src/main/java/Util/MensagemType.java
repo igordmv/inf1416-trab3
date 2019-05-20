@@ -55,6 +55,7 @@ public class MensagemType {
     public static final Integer ARQUIVO_DECRIPTADO_COM_SUCESSO = 8013;
     public static final Integer ARQUIVO_VERIFICADO_INTEGRIDADE_E_AUTENTICIDADE = 8014;
     public static final Integer FALHA_NA_DECRIPTACAO_DO_ARQUIVO = 8015;
+    public static final Integer FALHA_NA_VERIFICACA_INGREDADE_AUTENTICIDADE_ARQUIVO = 8016;
     public static final Integer TELA_DE_SAIDA_APRESENTADA = 9001;
     public static final Integer SAIDA_NAO_LIBERADA_POR_FALTA_DE_ONE_TIME_PASSWORD = 9002;
     public static final Integer BOTAO_SAIR_PRESSIONADO = 9003;

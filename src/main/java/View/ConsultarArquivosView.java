@@ -50,6 +50,7 @@ public class ConsultarArquivosView extends DefaultFrame {
 
 		this.setView();
 
+		DBControl.getInstance().insertRegister(MensagemType.TELA_DE_CONSULTA_DE_ARQUIVOS_SECRETOS_APRESENTADA, LoggedUser.getInstance().getEmail());
 
 		//------------------------ On close Event ------------------------------------
 
@@ -72,10 +73,15 @@ public class ConsultarArquivosView extends DefaultFrame {
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
 				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+
 					pathTextField.setText(fileChooser.getSelectedFile().getAbsolutePath());
-				}
-				else {
+
+				} else {
+
+					DBControl.getInstance().insertRegister(MensagemType.CAMINHO_DE_PASTA_INVALIDO, LoggedUser.getInstance().getEmail());
+
 					System.out.println("No Selection ");
+
 				}
 			}
 		});
@@ -86,6 +92,8 @@ public class ConsultarArquivosView extends DefaultFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				String fileName = (String) table.getValueAt(table.getSelectedRow(), 1);
+
+				DBControl.getInstance().insertRegister(MensagemType.ARQUIVO_SELECIONADO, LoggedUser.getInstance().getEmail(), fileName);
 
 				if (Authentification.acessarArquivo(user, indexArq, fileName, LoggedUser.getInstance().getPrivateKey(), pathTextField.getText())) {
 
@@ -108,7 +116,7 @@ public class ConsultarArquivosView extends DefaultFrame {
 
 				table.removeAll();
 
-				DBControl.getInstance().insertRegister(8007, (String) user.get("email"));
+				DBControl.getInstance().insertRegister(MensagemType.BOTAO_LISTAR_DE_CONSULTA_PRESSIONADO, LoggedUser.getInstance().getEmail());
 
 				try {
 					byte[] temp = Authentification.decriptaArquivo(user, pathTextField.getText(), "index", LoggedUser.getInstance().getPrivateKey());
@@ -122,6 +130,9 @@ public class ConsultarArquivosView extends DefaultFrame {
 					String[] items = arq.split(" ");
 					tableModel.addRow(items);
 				}
+
+				DBControl.getInstance().insertRegister(MensagemType.LISTA_DE_ARQUIVOS_PRESENTE_NO_INDICE_APRESENTADA, LoggedUser.getInstance().getEmail());
+
 				tableModel = (DefaultTableModel) table.getModel();
 				table.setModel(tableModel);
 				tableModel.fireTableDataChanged();
@@ -134,7 +145,7 @@ public class ConsultarArquivosView extends DefaultFrame {
 		backButton.addActionListener(new ActionListener () {
 			public void actionPerformed (ActionEvent e) {
 
-				//DBControl.getInstance().insertRegister(MensagemType.BOTAO_VOLTAR_DE_SAIR_PARA_MENU_PRINCIPAL_PRESSIONADO, LoggedUser.getInstance().getEmail());
+				DBControl.getInstance().insertRegister(MensagemType.BOTAO_VOLTAR_DE_CONSULTA_PARA_MENU_PRINCIPAL_PRESSIONADO, LoggedUser.getInstance().getEmail());
 
 				dispose();
 				new MainView();
@@ -255,8 +266,6 @@ public class ConsultarArquivosView extends DefaultFrame {
 		JScrollPane scrollPane = new JScrollPane(table);
 
 		scrollPane.setBounds(25, yPosition, 350, 150);
-
-//		this.getContainer().add(table.getTableHeader());
 
 		this.getContainer().add(scrollPane);
 
