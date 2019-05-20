@@ -192,7 +192,7 @@ public class LoginView extends DefaultFrame {
 		loginTextField.setBounds(50, yPosition, 300, 40);
 
 		//To-do: remover isso;
-		loginTextField.setText("admin@inf1416.puc-rio.br");
+		loginTextField.setText("user01@inf1416.puc-rio.br");
 
 		this.getContainer().add(loginTextField);
 
@@ -260,8 +260,9 @@ public class LoginView extends DefaultFrame {
 
 		dispose();
 
-		new SenhaView();
-		//new MainView();
+//		new SenhaView();
+//      new MainView();
+		new PrivateKeyView();
 
 	}
 }

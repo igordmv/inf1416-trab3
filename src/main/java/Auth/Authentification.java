@@ -17,6 +17,7 @@ import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.*;
+import java.security.*;
 
 import static Util.Util.byteToHex;
 
@@ -54,40 +55,80 @@ public class Authentification {
 	public static byte[] decriptaArquivo(HashMap user, String caminho, String filename, PrivateKey chavePrivada) {
 		try {
 
+			Cipher cipher = null;
 			byte[] arqEnv = FileUtils.readFileToByteArray(new File(caminho + File.separator + filename + ".env"));
-			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+
+			cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
 			cipher.init(Cipher.DECRYPT_MODE, chavePrivada);
 			cipher.update(arqEnv);
+			byte [] seed = cipher.doFinal();
+			String sd = new String(seed);
 
-			byte [] semente = LoggedUser.getInstance().getSecretWord().getBytes();
+			System.out.println(sd);
 
 			byte[] arqEnc = FileUtils.readFileToByteArray(new File(caminho + File.separator + filename + ".enc"));
-			SecureRandom rand = SecureRandom.getInstance("SHA1PRNG", "SUN");
-			rand.setSeed(arqEnc);
+			SecureRandom rand = SecureRandom.getInstance("SHA1PRNG");
+			rand.setSeed(seed);
 
 			KeyGenerator keyGen = KeyGenerator.getInstance("DES");
 			keyGen.init(56, rand);
-			Key chaveSecreta = keyGen.generateKey();
-
-			cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-			cipher.init(Cipher.DECRYPT_MODE, chaveSecreta);
-			byte[] index = cipher.doFinal(arqEnc);
-
-			X509Certificate cert = Authentification.leCertificadoDigital(((String) user.get("certificado")).getBytes());
-			Signature assinatura = Signature.getInstance("MD5withRSA");
-			assinatura.initVerify(cert.getPublicKey());
-			assinatura.update(index);
+			Key key = keyGen.generateKey();
 
 			byte[] arqAsd = FileUtils.readFileToByteArray(new File(caminho + File.separator + filename + ".asd"));
-			if (assinatura.verify(arqAsd) == false) {
+
+			X509Certificate cert = Authentification.leCertificadoDigital(((String) user.get("certificate")).getBytes());
+
+			Signature signature = Signature.getInstance("MD5withRSA");
+			signature.initVerify(cert.getPublicKey());
+			signature.update(arqAsd);
+
+			cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+			cipher.init(Cipher.DECRYPT_MODE, key);
+
+			byte[] fileContent = cipher.doFinal(arqEnc);
+
+			if (signature.verify(arqAsd)) {
 				System.out.println(filename + " pode ter sido adulterado");
-//				DBManager.insereRegistro(8005, (String) user.get("email"));
 				return null;
 			}
 			else {
 				System.out.println("Decriptou index ok");
-				return index;
+				return fileContent;
 			}
+
+//			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+//			cipher.init(Cipher.DECRYPT_MODE, chavePrivada);
+//			cipher.update(arqEnv);
+//
+//			byte [] semente = LoggedUser.getInstance().getSecretWord().getBytes();
+//
+//			byte[] arqEnc = FileUtils.readFileToByteArray(new File(caminho + File.separator + filename + ".enc"));
+//			SecureRandom rand = SecureRandom.getInstance("SHA1PRNG", "SUN");
+//			rand.setSeed(arqEnc);
+//
+//			KeyGenerator keyGen = KeyGenerator.getInstance("DES");
+//			keyGen.init(56, rand);
+//			Key chaveSecreta = keyGen.generateKey();
+//
+////			cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+////			cipher.init(Cipher.DECRYPT_MODE, chavePrivada);
+//			byte[] index = cipher.doFinal(arqEnv);
+//
+//			X509Certificate cert = Authentification.leCertificadoDigital(((String) user.get("certificado")).getBytes());
+//			Signature assinatura = Signature.getInstance("MD5withRSA");
+//			assinatura.initVerify(cert.getPublicKey());
+//			assinatura.update(index);
+//
+//			byte[] arqAsd = FileUtils.readFileToByteArray(new File(caminho + File.separator + filename + ".asd"));
+//			if (assinatura.verify(arqAsd) == false) {
+//				System.out.println(filename + " pode ter sido adulterado");
+//				return null;
+//			}
+//			else {
+//				System.out.println("Decriptou index ok");
+//				return index;
+//			}
+
 		}
 		catch (Exception IOError) {
 //			DBManager.insereRegistro(8008, (String) user.get("email"));
