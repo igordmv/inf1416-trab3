@@ -96,39 +96,6 @@ public class Authentification {
 				return fileContent;
 			}
 
-//			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-//			cipher.init(Cipher.DECRYPT_MODE, chavePrivada);
-//			cipher.update(arqEnv);
-//
-//			byte [] semente = LoggedUser.getInstance().getSecretWord().getBytes();
-//
-//			byte[] arqEnc = FileUtils.readFileToByteArray(new File(caminho + File.separator + filename + ".enc"));
-//			SecureRandom rand = SecureRandom.getInstance("SHA1PRNG", "SUN");
-//			rand.setSeed(arqEnc);
-//
-//			KeyGenerator keyGen = KeyGenerator.getInstance("DES");
-//			keyGen.init(56, rand);
-//			Key chaveSecreta = keyGen.generateKey();
-//
-////			cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-////			cipher.init(Cipher.DECRYPT_MODE, chavePrivada);
-//			byte[] index = cipher.doFinal(arqEnv);
-//
-//			X509Certificate cert = Authentification.leCertificadoDigital(((String) user.get("certificado")).getBytes());
-//			Signature assinatura = Signature.getInstance("MD5withRSA");
-//			assinatura.initVerify(cert.getPublicKey());
-//			assinatura.update(index);
-//
-//			byte[] arqAsd = FileUtils.readFileToByteArray(new File(caminho + File.separator + filename + ".asd"));
-//			if (assinatura.verify(arqAsd) == false) {
-//				System.out.println(filename + " pode ter sido adulterado");
-//				return null;
-//			}
-//			else {
-//				System.out.println("Decriptou index ok");
-//				return index;
-//			}
-
 		}
 		catch (Exception IOError) {
 //			DBManager.insereRegistro(8008, (String) user.get("email"));
