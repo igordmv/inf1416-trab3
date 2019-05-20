@@ -2,25 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8aa9c93-8051-4bf8-9bb6-0f0bba1abfe6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files-2/XXYYZZ11.asd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files-2/XXYYZZ11.enc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files-2/XXYYZZ11.env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files-2/XXYYZZ22.asd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files-2/XXYYZZ22.enc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files-2/XXYYZZ22.env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files-2/index.asd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files-2/index.enc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files-2/index.env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files/XXYYZZ11.enc" beforeDir="false" afterPath="$PROJECT_DIR$/Pacote-T3/Files/XXYYZZ11.enc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files/XXYYZZ11.env" beforeDir="false" afterPath="$PROJECT_DIR$/Pacote-T3/Files/XXYYZZ11.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files/XXYYZZ22.enc" beforeDir="false" afterPath="$PROJECT_DIR$/Pacote-T3/Files/XXYYZZ22.enc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files/XXYYZZ22.env" beforeDir="false" afterPath="$PROJECT_DIR$/Pacote-T3/Files/XXYYZZ22.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files/index.enc" beforeDir="false" afterPath="$PROJECT_DIR$/Pacote-T3/Files/index.enc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files/index.env" beforeDir="false" afterPath="$PROJECT_DIR$/Pacote-T3/Files/index.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files/teste01.docx" beforeDir="false" afterPath="$PROJECT_DIR$/Pacote-T3/Files/teste01.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pacote-T3/Files/teste02.docx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Auth/Authentification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Auth/Authentification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/ConsultarArquivosView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/ConsultarArquivosView.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -39,17 +22,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/View/LoginView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="201" selection-start-line="201" selection-end-line="201" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="25" selection-start-line="25" selection-end-line="25" />
+            <state relative-caret-position="688">
+              <caret line="259" lean-forward="true" selection-start-line="259" selection-end-line="259" />
             </state>
           </provider>
         </entry>
@@ -66,25 +40,31 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/View/ConsultarArquivosView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="88" selection-start-line="88" selection-end-line="88" />
+            <state relative-caret-position="99">
+              <caret line="107" lean-forward="true" selection-start-line="107" selection-end-line="107" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2324#2831#0" expanded="true" />
-                <element signature="e#2830#2831#0" expanded="true" />
+                <element signature="e#1282#1510#0" expanded="true" />
+                <element signature="e#1509#1510#0" expanded="true" />
+                <element signature="e#1553#2116#0" expanded="true" />
+                <element signature="e#2115#2116#0" expanded="true" />
+                <element signature="e#2240#2747#0" expanded="true" />
+                <element signature="e#2746#2747#0" expanded="true" />
+                <element signature="e#2883#3726#0" expanded="true" />
+                <element signature="e#3725#3726#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Auth/Authentification.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="30" column="51" lean-forward="true" selection-start-line="30" selection-start-column="51" selection-end-line="30" selection-end-column="51" />
+            <state relative-caret-position="95">
+              <caret line="24" column="91" selection-start-line="24" selection-start-column="91" selection-end-line="24" selection-end-column="91" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -93,19 +73,13 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar!/com/sun/crypto/provider/CipherCore.class">
+        <entry file="file://$PROJECT_DIR$/src/main/java/View/SaidaView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="543" selection-start-line="543" selection-end-line="543" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/jre/lib/jce.jar!/javax/crypto/Cipher.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="823" column="24" selection-start-line="823" selection-start-column="24" selection-end-line="823" selection-end-column="24" />
+            <state relative-caret-position="294">
+              <caret line="64" column="11" lean-forward="true" selection-start-line="54" selection-start-column="8" selection-end-line="64" selection-end-column="11" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -126,6 +100,9 @@
       <find>RSA/E</find>
       <find>chavePrivada</find>
       <find>seed</find>
+      <find>consultarButton</find>
+      <find>decr</find>
+      <find>decriptButton.setEnabled</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -135,14 +112,14 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/main/java/View/MainView.java" />
-        <option value="$PROJECT_DIR$/src/main/java/View/ConsultarArquivosView.java" />
         <option value="$PROJECT_DIR$/src/main/java/View/SaidaView.java" />
         <option value="$PROJECT_DIR$/src/main/java/View/CadastroView.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Database/DBManager.java" />
         <option value="$PROJECT_DIR$/src/main/java/Database/DBControl.java" />
         <option value="$PROJECT_DIR$/src/main/java/View/AlterarView.java" />
-        <option value="$PROJECT_DIR$/src/main/java/View/LoginView.java" />
         <option value="$PROJECT_DIR$/src/main/java/Auth/Authentification.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Database/DBManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/View/LoginView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/View/ConsultarArquivosView.java" />
       </list>
     </option>
   </component>
@@ -189,6 +166,14 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="Database" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="inf1416-trab3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="inf1416-trab3" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="Util" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="inf1416-trab3" type="b2602c69:ProjectViewProjectNode" />
@@ -263,21 +248,22 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1280" height="690" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49878934" weight="0.18659128" />
-      <window_info id="Structure" order="1" sideWeight="0.5010267" side_tool="true" visible="true" weight="0.32956383" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.69076306" visible="true" weight="0.22859451" />
+      <window_info id="Structure" order="1" sideWeight="0.30923694" side_tool="true" visible="true" weight="0.22859451" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Image Layers" order="6" />
-      <window_info id="DB Browser" order="7" sideWeight="0.4989733" visible="true" weight="0.32956383" />
+      <window_info id="DB Browser" order="7" sideWeight="0.49799198" weight="0.32956383" />
       <window_info id="Project Explorer" order="8" />
       <window_info id="Job Explorer" order="9" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.2621849" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.16722408" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.18561873" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.38294315" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.16722408" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39130434" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -366,16 +352,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/View/SaidaView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="39" column="23" lean-forward="true" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -401,13 +377,6 @@
             <element signature="e#20050#20051#0" expanded="true" />
             <element signature="e#20100#20101#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
         </state>
       </provider>
     </entry>
@@ -452,27 +421,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/View/PrivateKeyView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
-          <caret line="96" column="63" selection-start-line="96" selection-start-column="63" selection-end-line="96" selection-end-column="63" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar!/com/sun/crypto/provider/CipherCore.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
           <caret line="543" selection-start-line="543" selection-end-line="543" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/View/LoginView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="201" selection-start-line="201" selection-end-line="201" />
         </state>
       </provider>
     </entry>
@@ -483,24 +435,78 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/View/ConsultarArquivosView.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="88" selection-start-line="88" selection-end-line="88" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2324#2831#0" expanded="true" />
-            <element signature="e#2830#2831#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="121">
+          <caret line="15" column="13" lean-forward="true" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Util/Util.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="45" column="102" selection-start-line="45" selection-start-column="102" selection-end-line="45" selection-end-column="102" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Auth/Authentification.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="30" column="51" lean-forward="true" selection-start-line="30" selection-start-column="51" selection-end-line="30" selection-end-column="51" />
+        <state relative-caret-position="95">
+          <caret line="24" column="91" selection-start-line="24" selection-start-column="91" selection-end-line="24" selection-end-column="91" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/View/PrivateKeyView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="233" column="79" lean-forward="true" selection-start-line="226" selection-start-column="8" selection-end-line="233" selection-end-column="79" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/jre/lib/jce.jar!/javax/crypto/Cipher.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="823" column="24" selection-start-line="823" selection-start-column="24" selection-end-line="823" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/View/SaidaView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="64" column="11" lean-forward="true" selection-start-line="54" selection-start-column="8" selection-end-line="64" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/View/LoginView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="688">
+          <caret line="259" lean-forward="true" selection-start-line="259" selection-end-line="259" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/View/ConsultarArquivosView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="99">
+          <caret line="107" lean-forward="true" selection-start-line="107" selection-end-line="107" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1282#1510#0" expanded="true" />
+            <element signature="e#1509#1510#0" expanded="true" />
+            <element signature="e#1553#2116#0" expanded="true" />
+            <element signature="e#2115#2116#0" expanded="true" />
+            <element signature="e#2240#2747#0" expanded="true" />
+            <element signature="e#2746#2747#0" expanded="true" />
+            <element signature="e#2883#3726#0" expanded="true" />
+            <element signature="e#3725#3726#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -19,23 +19,29 @@ import Util.MensagemType;
 
 public class ConsultarArquivosView extends DefaultFrame {
 
-	private final int width = 800;
-	private final int height = 500;
+	private final int width = 400;
+	private final int height = 600;
+
 	private final Integer grupoId;
 
 	private HashMap user = null;
+
 	String indexArq = null;
-	private JLabel consultaLabel;
-	private JButton consultarButton;
+
+	private JTextField pathTextField;
+	private JButton choiceFolderButton;
+	private JButton listButton;
+	private DefaultTableModel tableModel;
+	private JTable table;
+
 	private JLabel groupHeaderLabel;
 	private JLabel emailHeaderLabel;
 	private JLabel nameHeaderLabel;
 	private JLabel numberOfAccess;
-	private JButton decriptarButton;
-	private JButton listarButton;
-	private JButton voltarButton;
-	private JTable table;
-	private DefaultTableModel tableModel;
+
+	private JButton decriptButton;
+
+	private JButton backButton;
 
 	public ConsultarArquivosView() {
 		this.user = LoggedUser.getInstance().getUser();
@@ -55,15 +61,18 @@ public class ConsultarArquivosView extends DefaultFrame {
 			}
 		});
 
-		consultarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser consultarchooser = new JFileChooser();
-				consultarchooser.setCurrentDirectory(new java.io.File("."));
-				consultarchooser.setDialogTitle("Caminho dos arquivos");
-				consultarchooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		//------------------------ Choice Folder Button ------------------------------------
 
-				if (consultarchooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					consultaLabel.setText(consultarchooser.getSelectedFile().getAbsolutePath());
+		choiceFolderButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setCurrentDirectory(new java.io.File("."));
+				fileChooser.setDialogTitle("Caminho dos arquivos");
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					pathTextField.setText(fileChooser.getSelectedFile().getAbsolutePath());
 				}
 				else {
 					System.out.println("No Selection ");
@@ -71,33 +80,41 @@ public class ConsultarArquivosView extends DefaultFrame {
 			}
 		});
 
-		//------------------------ Decripitar Button  ------------------------------------
+		//------------------------ Decript Button  ------------------------------------
 
-		decriptarButton.addActionListener(new ActionListener() {
+		decriptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int index = table.getSelectedRow();
-				String nomeArquivo = (String) table.getValueAt(index, 1);
-				if (Authentification.acessarArquivo(user, indexArq, nomeArquivo, LoggedUser.getInstance().getPrivateKey(), consultaLabel.getText())) {
-					System.out.println("Decriptou arquivo com sucesso!");
-				}
-				else {
+
+				String fileName = (String) table.getValueAt(table.getSelectedRow(), 1);
+
+				if (Authentification.acessarArquivo(user, indexArq, fileName, LoggedUser.getInstance().getPrivateKey(), pathTextField.getText())) {
+
+					JOptionPane.showMessageDialog(null, "Arquivo decriptado!");
+
+				} else {
+
 					JOptionPane.showMessageDialog(null, "Usuário não possui permissão para ler o arquivo selecionado");
+
 				}
+
 			}
 		});
 
 
 		//------------------------ Listar Button  ------------------------------------
 
-		listarButton.addActionListener(new ActionListener() {
+		listButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				table.removeAll();
+
 				DBControl.getInstance().insertRegister(8007, (String) user.get("email"));
 
 				try {
-					byte[] temp = Authentification.decriptaArquivo(user, consultaLabel.getText(), "index", LoggedUser.getInstance().getPrivateKey());
+					byte[] temp = Authentification.decriptaArquivo(user, pathTextField.getText(), "index", LoggedUser.getInstance().getPrivateKey());
 					indexArq = new String((temp), "UTF8");
 				} catch (UnsupportedEncodingException ex) {
-					JOptionPane.showMessageDialog(null, "Não foi possível listar os arquivos com este credencial.");
+					JOptionPane.showMessageDialog(null, "Erro ao listar os arquivos");
 					return;
 				}
 				String[] listaArquivos = indexArq.split("\n");
@@ -108,8 +125,19 @@ public class ConsultarArquivosView extends DefaultFrame {
 				tableModel = (DefaultTableModel) table.getModel();
 				table.setModel(tableModel);
 				tableModel.fireTableDataChanged();
-				decriptarButton.setEnabled(true);
 
+			}
+		});
+
+		//--------------------- Back Button Action ----------------------------
+
+		backButton.addActionListener(new ActionListener () {
+			public void actionPerformed (ActionEvent e) {
+
+				//DBControl.getInstance().insertRegister(MensagemType.BOTAO_VOLTAR_DE_SAIR_PARA_MENU_PRINCIPAL_PRESSIONADO, LoggedUser.getInstance().getEmail());
+
+				dispose();
+				new MainView();
 			}
 		});
 
@@ -182,50 +210,79 @@ public class ConsultarArquivosView extends DefaultFrame {
 
 		this.getContainer().add(numberOfAccess);
 
-		consultaLabel = new JLabel();
-		consultarButton = new JButton("Escolha uma pasta para consultar");
+		yPosition = yPosition + numberOfAccess.getSize().height + 10;
+
+		//---------------------- Choice Folder Button -----------------------------
+
+		choiceFolderButton = new JButton("Escolha uma pasta para consultar");
+		choiceFolderButton.setBounds(50, yPosition, 300, 40);
+
+		this.getContainer().add(choiceFolderButton);
+
+		yPosition = yPosition + choiceFolderButton.getSize().height + 10;
+
+		//------------------------ Path Text Field -----------------------------------
+
+		pathTextField = new JTextField();
+		pathTextField.setBounds(50, yPosition, 300, 40);
+
+		this.getContainer().add(pathTextField);
+
+		yPosition = pathTextField.getY() + pathTextField.getSize().height + 10;
+
+		//------------------------- List Button --------------------------------
+
+		listButton = new JButton("Listar arquivos");
+		listButton.setBounds(50, yPosition, 300, 40);
+
+		this.getContainer().add(listButton);
+
+		yPosition = yPosition + listButton.getSize().height + 10;
+
+		//------------------------- Table --------------------------------
 
 		String[] columnNames = {"Nome código","Nome secreto", "Dono", "Grupo"};
 		Object[][] data = {};
+
 		tableModel = new DefaultTableModel(data, columnNames);
+
 		table = new JTable(tableModel){
 			public boolean isCellEditable(int nRow, int nCol) {
 				return false;
 			}
 		};
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(380, 10, 400, 400);
-		//table.setFillsViewportHeight(true);
-		this.getContainer().add(table.getTableHeader());
+
+		scrollPane.setBounds(25, yPosition, 350, 150);
+
+//		this.getContainer().add(table.getTableHeader());
+
 		this.getContainer().add(scrollPane);
 
-		decriptarButton = new JButton("Decriptar");
-		decriptarButton.setEnabled(false);
+		yPosition = yPosition + 150 + 10;
 
+		//------------------------- Decript Button --------------------------------
 
-		voltarButton = new JButton("Voltar");
-		voltarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				new MainView();
-			}
-		});
+		decriptButton = new JButton("Decriptar");
+		decriptButton.setBounds(50, yPosition, 300, 40);
 
-		listarButton = new JButton("Listar arquivos");
+		this.getContainer().add(decriptButton);
 
-		consultaLabel.setBounds(30, 300, 300, 30);
-		consultarButton.setBounds(30, 330, 300, 40);
-		listarButton.setBounds(30, 380, 300, 40);
-		decriptarButton.setBounds(600, 420, 100, 40);
-		voltarButton.setBounds(450, 420, 100, 40);
+		yPosition = yPosition + decriptButton.getSize().height + 10;
 
-		this.getContainer().add(consultaLabel);
-		this.getContainer().add(consultarButton);
-		this.getContainer().add(listarButton);
-		this.getContainer().add(decriptarButton);
-		this.getContainer().add(voltarButton);
+		//------------------------- Back Button --------------------------------
+
+		backButton = new JButton("Voltar");
+		backButton.setBounds(50, yPosition, 300, 40);
+
+		this.getContainer().add(backButton);
+
+		yPosition = yPosition + backButton.getSize().height + 10;
+
+		//------------------------- Set Visible --------------------------------
 
 		super.setVisible(true);
+
 	}
 }
