@@ -1,5 +1,5 @@
 import Database.DBControl;
-import View.LoginView;
+import View.LoginFrame;
 import Util.MensagemType;
 
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public class main {
 
         }
 
-        new LoginView();
+        new LoginFrame();
 
     }
 }
