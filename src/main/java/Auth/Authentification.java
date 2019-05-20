@@ -1,7 +1,6 @@
 package Auth;
 
 import Database.DBControl;
-import Database.DBManager;
 import Database.LoggedUser;
 import Util.MensagemType;
 import org.apache.commons.io.FileUtils;
@@ -17,7 +16,6 @@ import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.*;
-import java.security.*;
 
 import static Util.Util.byteToHex;
 
