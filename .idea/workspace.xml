@@ -2,27 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8aa9c93-8051-4bf8-9bb6-0f0bba1abfe6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Auth/Authentification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Util/AccessFileFunctions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Database/DBControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Database/DBControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Database/LoggedUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Database/LoggedUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/ChangePasswordAndPKFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/ChangePasswordAndPKFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/ListaFilesFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/ListaFilesFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/LoginFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/LoginFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/PasswordFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/PasswordFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/PrivateKeyFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/PrivateKeyFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/RegisterFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/RegisterFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Auth/Authentification.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Database/LoggedUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Database/LoggedUser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/ChangePasswordAndPKFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/View/ChangePasswordAndPKFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/ListaFilesFrame$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/View/ListaFilesFrame$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/ListaFilesFrame$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/View/ListaFilesFrame$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/LoginFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/View/LoginFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/PasswordFrame$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/View/PasswordFrame$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/PasswordFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/View/PasswordFrame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/PrivateKeyFrame$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/View/PrivateKeyFrame$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/View/RegisterFrame$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/View/RegisterFrame$4.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -41,8 +21,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBControl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="158" column="71" selection-start-line="158" selection-start-column="60" selection-end-line="158" selection-end-column="71" />
+            <state relative-caret-position="313">
+              <caret line="173" column="5" lean-forward="true" selection-start-line="173" selection-start-column="5" selection-end-line="173" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -50,14 +30,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/View/LoginFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="194" column="48" lean-forward="true" selection-start-line="194" selection-start-column="48" selection-end-line="194" selection-end-column="48" />
+            <state relative-caret-position="99">
+              <caret line="151" column="10" selection-start-line="151" selection-start-column="10" selection-end-line="151" selection-end-column="10" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/LogMain.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -67,6 +56,18 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="310">
               <caret line="126" column="147" selection-start-line="126" selection-start-column="147" selection-end-line="126" selection-end-column="147" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="26" lean-forward="true" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -112,8 +113,9 @@
       <find>readDigitalCertificate</find>
       <find>access</find>
       <find>autenticaEmail</find>
-      <find>countAccess</find>
       <find>numberOfConsult</find>
+      <find>countAccess</find>
+      <find>Regi</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -143,8 +145,8 @@
         <option value="$PROJECT_DIR$/src/main/java/Util/Authentification.java" />
         <option value="$PROJECT_DIR$/src/main/java/Util/AccessFileFunctions.java" />
         <option value="$PROJECT_DIR$/src/main/java/View/PrivateKeyFrame.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Database/DBControl.java" />
         <option value="$PROJECT_DIR$/src/main/java/View/ListaFilesFrame.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Database/DBControl.java" />
         <option value="$PROJECT_DIR$/src/main/java/View/LoginFrame.java" />
       </list>
     </option>
@@ -274,10 +276,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1280" height="690" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6720648" visible="true" weight="0.22859451" />
-      <window_info id="Structure" order="1" sideWeight="0.32793522" side_tool="true" visible="true" weight="0.22859451" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6706949" visible="true" weight="0.22859451" />
+      <window_info id="Structure" order="1" sideWeight="0.32930514" side_tool="true" visible="true" weight="0.22859451" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
       <window_info id="Favorites" order="4" side_tool="true" />
@@ -288,7 +289,7 @@
       <window_info id="Job Explorer" order="9" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.38294315" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.17391305" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4464883" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39130434" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -371,16 +372,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="26" lean-forward="true" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/src.zip!/javax/swing/JComboBox.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="122">
@@ -451,13 +442,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/LogMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="5" column="20" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/View/MenuFrame.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -520,16 +504,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBControl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="158" column="71" selection-start-line="158" selection-start-column="60" selection-end-line="158" selection-end-column="71" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/trabalho3.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -547,10 +521,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/LogMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Database/DBControl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="173" column="5" lean-forward="true" selection-start-line="173" selection-start-column="5" selection-end-line="173" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/View/LoginFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="194" column="48" lean-forward="true" selection-start-line="194" selection-start-column="48" selection-end-line="194" selection-end-column="48" />
+        <state relative-caret-position="99">
+          <caret line="151" column="10" selection-start-line="151" selection-start-column="10" selection-end-line="151" selection-end-column="10" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="26" lean-forward="true" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
