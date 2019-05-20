@@ -84,8 +84,14 @@ public class PasswordFrame extends DefaultFrame {
 					if( AccessFileFunctions.shouldBlockUserForPassword() ) {
 
 						DBControl.getInstance().insertRegister(MensagemType.ACESSO_USUARIO_BLOQUEADO_PELA_ETAPA_2, LoggedUser.getInstance().getEmail());
+
+
+						DBControl.getInstance().insertRegister(MensagemType.AUTENTICACAO_ETAPA_2_ENCERRADA, LoggedUser.getInstance().getEmail());
+
+
 						JOptionPane.showMessageDialog(null, "Senha incorreta. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
 						dispose();
+
 						new LoginFrame();
 
 						return;

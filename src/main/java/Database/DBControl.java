@@ -22,7 +22,7 @@ public class DBControl {
 
     public List logQuery() {
 
-        return runQuerySelect("select Registro.id, email, created, texto from Registro JOIN Mensagem ON Mensagem.id = Registro.messageId order by created;");
+        return runQuerySelect("select Registro.id, email, created, filename, texto from Registro JOIN Mensagem ON Mensagem.id = Registro.messageId order by created;");
 
     }
 

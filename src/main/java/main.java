@@ -20,6 +20,13 @@ public class main {
 
         }
 
+//        //Delete User:
+//
+//        DBControl.getInstance().deleteUserFromEmail("user01@inf1416.puc-rio.br");
+//
+//        //Clear registers:
+//        DBControl.getInstance().clearRegisters();
+
         new LoginFrame();
 
     }

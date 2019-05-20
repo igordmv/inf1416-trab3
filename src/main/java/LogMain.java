@@ -10,12 +10,24 @@ public class LogMain {
 
         for (HashMap log: logs) {
             String user = (String)log.get("email");
+            String file = (String)log.get("filename");
+//            System.out.println(log);
             if (user.equals("null")) {
                 System.out.println(String.format("id: %s | date: %s | text: %s", (Integer)log.get("id"), (String)log.get("created"), (String)log.get("texto")));
             }
             else {
-                String texto = (String)log.get("texto");
-                System.out.println(String.format("id: %s | date: %s | user: %s | text: %s", (Integer)log.get("id"), (String)log.get("created"), user, texto.replaceAll("<login_name>",user)));
+
+                if(file == null) {
+                    String texto = (String) log.get("texto");
+                    texto = texto.replaceAll("<login_name>", user);
+                    System.out.println(String.format("id: %s | date: %s | user: %s | text: %s", (Integer) log.get("id"), (String) log.get("created"), user, texto));
+
+                } else {
+                    String texto = (String)log.get("texto");
+                    texto = texto.replaceAll("<login_name>",user);
+                    texto = texto.replaceAll("<arq_name>",file);
+                    System.out.println(String.format("id: %s | date: %s | user: %s | text: %s", (Integer)log.get("id"), (String)log.get("created"), user, texto));
+                }
             }
         }
     }

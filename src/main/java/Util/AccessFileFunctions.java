@@ -236,7 +236,9 @@ public class AccessFileFunctions {
 			bytes = FileUtils.readFileToByteArray(new File(path));
 		}
 		catch (Exception e) {
+
 			DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_CAMINHO_INVALIDO, LoggedUser.getInstance().getEmail());
+
 			return null;
 		}
 

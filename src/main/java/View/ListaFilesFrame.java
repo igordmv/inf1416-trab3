@@ -4,6 +4,8 @@ import Util.AccessFileFunctions;
 import Database.DBControl;
 import Database.LoggedUser;
 
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -11,10 +13,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.security.*;
+import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import Component.*;
 import Util.MensagemType;
+import org.apache.commons.io.FileUtils;
 
 
 public class ListaFilesFrame extends DefaultFrame {
@@ -101,13 +107,9 @@ public class ListaFilesFrame extends DefaultFrame {
 
 				DBControl.getInstance().insertRegister(MensagemType.ARQUIVO_SELECIONADO, LoggedUser.getInstance().getEmail(), fileName);
 
-				if (AccessFileFunctions.readFile(indexArq, fileName, LoggedUser.getInstance().getPrivateKey(), pathTextField.getText())) {
+				if (readFile(indexArq, fileName, LoggedUser.getInstance().getPrivateKey(), pathTextField.getText())) {
 
 					JOptionPane.showMessageDialog(null, "Arquivo decriptado!");
-
-				} else {
-
-					JOptionPane.showMessageDialog(null, "Usuário não possui permissão para ler o arquivo selecionado");
 
 				}
 
@@ -304,4 +306,136 @@ public class ListaFilesFrame extends DefaultFrame {
 		super.setVisible(true);
 
 	}
+
+	/* **************************************************************************************************
+	 **
+	 **  Read File
+	 **
+	 ****************************************************************************************************/
+
+	public static boolean readFile(String index, String fileName, PrivateKey privateKey, String folder) {
+		try {
+
+			String[] linhasIndex = index.split("\n");
+
+			for (String linha: linhasIndex) {
+
+				String[] params = linha.split(" ");
+
+				String nomeSecreto = params[1];
+
+				if (nomeSecreto.equals(fileName)) {
+					String email = params[2];
+					String grupo = params[3];
+
+					String groupName = "";
+
+					HashMap user = LoggedUser.getInstance().getUser();
+
+					Integer id = (Integer) user.get("grupoId");
+
+					if( id == 1 ) {
+						groupName = "administrador";
+					} else {
+						groupName = "usuario";
+					}
+
+					if (groupName.equals(grupo)) {
+
+						DBControl.getInstance().insertRegister(MensagemType.ACESSO_PERMITIDO_AO_ARQUIVO, LoggedUser.getInstance().getEmail(), fileName);
+
+						String nomeCodigoArquivo = params[0];
+						byte[] conteudoArquivo = decryptFile(user, folder, nomeCodigoArquivo, privateKey);
+
+						if (conteudoArquivo != null) {
+
+							DBControl.getInstance().insertRegister(MensagemType.ARQUIVO_DECRIPTADO_COM_SUCESSO, LoggedUser.getInstance().getEmail(), fileName);
+
+							FileUtils.writeByteArrayToFile(new File(folder + File.separator + nomeSecreto),conteudoArquivo);
+
+							return true;
+
+						}
+
+					} else {
+
+						JOptionPane.showMessageDialog(null, "Usuário não pertence ao mesmo grupo");
+
+						DBControl.getInstance().insertRegister(MensagemType.ACESSO_NEGADO_AO_ARQUIVO, LoggedUser.getInstance().getEmail(), fileName);
+
+						return false;
+
+					}
+				}
+			}
+		}
+		catch (Exception e) {
+
+			JOptionPane.showMessageDialog(null, "Falha na descriptação do arquivo");
+
+			DBControl.getInstance().insertRegister(MensagemType.FALHA_NA_DECRIPTACAO_DO_ARQUIVO, LoggedUser.getInstance().getEmail());
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	/* **************************************************************************************************
+	 **
+	 **  Decrypt File
+	 **
+	 ****************************************************************************************************/
+
+	public static byte[] decryptFile(HashMap user, String path, String filename, PrivateKey privateKey) {
+		try {
+
+			Cipher cipher = null;
+			byte[] arqEnv = FileUtils.readFileToByteArray(new File(path + File.separator + filename + ".env"));
+
+			cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+			cipher.init(Cipher.DECRYPT_MODE, privateKey);
+			cipher.update(arqEnv);
+			byte [] seed = cipher.doFinal();
+			String sd = new String(seed);
+
+			System.out.println(sd);
+
+			byte[] arqEnc = FileUtils.readFileToByteArray(new File(path + File.separator + filename + ".enc"));
+			SecureRandom rand = SecureRandom.getInstance("SHA1PRNG");
+			rand.setSeed(seed);
+
+			KeyGenerator keyGen = KeyGenerator.getInstance("DES");
+			keyGen.init(56, rand);
+			Key key = keyGen.generateKey();
+
+			byte[] arqAsd = FileUtils.readFileToByteArray(new File(path + File.separator + filename + ".asd"));
+
+			PublicKey chavePublica = AccessFileFunctions.readDigitalCertificate(((String) user.get("certificate")).getBytes()).getPublicKey();
+
+			Signature signature = Signature.getInstance("MD5withRSA");
+			signature.initVerify(chavePublica);
+			signature.update(arqAsd);
+
+
+			cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+			cipher.init(Cipher.DECRYPT_MODE, key);
+
+			byte[] fileContent = cipher.doFinal(arqEnc);
+
+			DBControl.getInstance().insertRegister(MensagemType.ARQUIVO_VERIFICADO_INTEGRIDADE_E_AUTENTICIDADE, LoggedUser.getInstance().getEmail(), filename);
+
+			return fileContent;
+
+
+		}
+		catch (Exception IOError) {
+
+			JOptionPane.showMessageDialog(null, "Falha na decriptação do arquivo");
+
+			DBControl.getInstance().insertRegister(MensagemType.FALHA_NA_DECRIPTACAO_DO_ARQUIVO, LoggedUser.getInstance().getEmail(), filename);
+
+			IOError.printStackTrace();
+			return null;
+		}
+	}
+
 }

@@ -52,6 +52,8 @@ public class RegisterFrame extends DefaultFrame {
 
 		this.user = LoggedUser.getInstance().getUser();
 
+		grupoId = (Integer) user.get("grupoId");
+
 		DBControl.getInstance().insertRegister(MensagemType.TELA_CADASTRO_APRESENTADA, LoggedUser.getInstance().getEmail());
 
 		//------------------------ Set View ------------------------------------

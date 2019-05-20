@@ -5,14 +5,21 @@ import Database.DBControl;
 import Component.*;
 import Database.LoggedUser;
 import Util.MensagemType;
+import org.apache.commons.io.FileUtils;
 
+import javax.crypto.*;
 import javax.swing.*;
+import javax.xml.bind.DatatypeConverter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.security.PrivateKey;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.HashMap;
 
 public class PrivateKeyFrame extends DefaultFrame {
@@ -94,7 +101,7 @@ public class PrivateKeyFrame extends DefaultFrame {
 
                 if( privateKeyTextField.getText() != "" && pathTextField.getText() != "" ){
 
-                    chavePrivada = AccessFileFunctions.readPrivateKey(privateKeyTextField.getText(), pathTextField.getText());
+                    chavePrivada = readPrivateKey(privateKeyTextField.getText(), pathTextField.getText());
 
                     if (chavePrivada == null) {
                         AccessFileFunctions.incrementWrongAccessPrivateKey();
@@ -103,15 +110,13 @@ public class PrivateKeyFrame extends DefaultFrame {
 
                             DBControl.getInstance().insertRegister(MensagemType.ACESSO_USUARIO_BLOQUEADO_PELA_ETAPA_3, LoggedUser.getInstance().getEmail());
 
-                            JOptionPane.showMessageDialog(null, "Chave secreta ou certificado inválido. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
+                            DBControl.getInstance().insertRegister(MensagemType.AUTENTICACAO_ETAPA_3_ENCERRADA, LoggedUser.getInstance().getEmail());
+
+                            JOptionPane.showMessageDialog(null, "Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
                             dispose();
                             new LoginFrame();
 
                             return;
-
-                        } else {
-
-                            JOptionPane.showMessageDialog(null, "Chave secreta ou certificado inválido");
 
                         }
 
@@ -134,14 +139,17 @@ public class PrivateKeyFrame extends DefaultFrame {
 
                         } else {
 
-                            DBControl.getInstance().insertRegister(8003, (String) user.get("email"));
+                            DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_ASSINATURA_DIGITAL, LoggedUser.getInstance().getEmail());
 
                             AccessFileFunctions.incrementWrongAccessPrivateKey();
 
                             if( AccessFileFunctions.shouldBlockUserForPrivateKey() ) {
 
-                                DBControl.getInstance().insertRegister(3007, (String) updatedUser.get("email"));
-                                JOptionPane.showMessageDialog(null, "Certificado não válido. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
+                                DBControl.getInstance().insertRegister(MensagemType.ACESSO_USUARIO_BLOQUEADO_PELA_ETAPA_3, LoggedUser.getInstance().getEmail());
+
+                                DBControl.getInstance().insertRegister(MensagemType.AUTENTICACAO_ETAPA_3_ENCERRADA, LoggedUser.getInstance().getEmail());
+
+                                JOptionPane.showMessageDialog(null, "Assinatura digital não é valida. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
                                 dispose();
                                 new LoginFrame();
 
@@ -149,7 +157,7 @@ public class PrivateKeyFrame extends DefaultFrame {
 
                             } else {
 
-                                JOptionPane.showMessageDialog(null, "Certificado não válido");
+                                JOptionPane.showMessageDialog(null, "Assinatura digital não é valida");
 
                             }
 
@@ -254,6 +262,113 @@ public class PrivateKeyFrame extends DefaultFrame {
         //------------------------ Set Visible ------------------------------------
 
         setVisible(true);
+
+    }
+
+    /* **************************************************************************************************
+     **
+     **  Read Private Key
+     **
+     ****************************************************************************************************/
+
+    public static PrivateKey readPrivateKey(String seed, String path) {
+
+        HashMap user = LoggedUser.getInstance().getUser();
+
+        SecureRandom rand = null;
+        try {
+            rand = SecureRandom.getInstance("SHA1PRNG", "SUN");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        } catch (NoSuchProviderException e) {
+            e.printStackTrace();
+            return null;
+        }
+        rand.setSeed(seed.getBytes());
+
+        KeyGenerator keyGen = null;
+        try {
+            keyGen = KeyGenerator.getInstance("DES");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        keyGen.init(56, rand);
+        Key chave = keyGen.generateKey();
+
+        Cipher cipher = null;
+        try {
+            cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+            return null;
+        }
+        try {
+            cipher.init(Cipher.DECRYPT_MODE, chave);
+        }
+        catch (Exception e) {
+            return null;
+        }
+
+        byte[] bytes = null;
+        try {
+            bytes = FileUtils.readFileToByteArray(new File(path));
+        }
+        catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, "Caminho inválido");
+
+            DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_CAMINHO_INVALIDO, LoggedUser.getInstance().getEmail());
+
+            return null;
+        }
+
+        String chavePrivadaBase64 = null;
+        try {
+            chavePrivadaBase64 = new String(cipher.doFinal(bytes), "UTF8");
+        } catch (UnsupportedEncodingException e) {
+
+            JOptionPane.showMessageDialog(null, "Caminho inválido");
+
+            DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_CAMINHO_INVALIDO, LoggedUser.getInstance().getEmail());
+            e.printStackTrace();
+            return null;
+        } catch (IllegalBlockSizeException e) {
+
+            JOptionPane.showMessageDialog(null, "Caminho inválida");
+
+            DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_CAMINHO_INVALIDO, LoggedUser.getInstance().getEmail());
+            e.printStackTrace();
+            return null;
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+
+            JOptionPane.showMessageDialog(null, "Frase secreta inválida");
+
+            DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_FRASE_SECRETA, LoggedUser.getInstance().getEmail());
+            return null;
+        }
+        chavePrivadaBase64 = chavePrivadaBase64.replace("-----BEGIN PRIVATE KEY-----", "").replace("-----END PRIVATE KEY-----", "").trim();
+        byte[] chavePrivadaBytes = DatatypeConverter.parseBase64Binary(chavePrivadaBase64);
+
+        KeyFactory factory = null;
+        try {
+            factory = KeyFactory.getInstance("RSA");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+        try {
+            return factory.generatePrivate(new PKCS8EncodedKeySpec(chavePrivadaBytes));
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+            return null;
+        }
 
     }
 
