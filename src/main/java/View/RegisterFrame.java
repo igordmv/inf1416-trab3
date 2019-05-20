@@ -1,6 +1,6 @@
 package View;
 
-import Auth.Authentification;
+import Util.AccessFileFunctions;
 import Database.DBControl;
 import Database.LoggedUser;
 import Util.MensagemType;
@@ -117,7 +117,7 @@ public class RegisterFrame extends DefaultFrame {
 
 				}
 
-				Boolean senhaOk = Authentification.conferirSenha(senha, confirmacao, user);
+				Boolean senhaOk = AccessFileFunctions.validatePassword(senha, confirmacao, user);
 
 				if( !senhaOk ){
 
@@ -139,7 +139,7 @@ public class RegisterFrame extends DefaultFrame {
 					return;
 				}
 
-				X509Certificate cert = Authentification.leCertificadoDigital(certDigBytes);
+				X509Certificate cert = AccessFileFunctions.readDigitalCertificate(certDigBytes);
 				if (cert == null) {
 					DBControl.getInstance().insertRegister(MensagemType.CAMINHO_CERTIFICADO_INVELIDO, LoggedUser.getInstance().getEmail());
 					return;
@@ -170,7 +170,7 @@ public class RegisterFrame extends DefaultFrame {
 					return;
 				}
 
-				if (Authentification.registerUser(comboBox.getSelectedIndex() + 1, senha, certificadoDigitalLabel.getText())) {
+				if (AccessFileFunctions.registerUser(comboBox.getSelectedIndex() + 1, senha, certificadoDigitalLabel.getText())) {
 					DBControl.getInstance().insertRegister(MensagemType.CONFIRMACAO_DE_DADOS_ACEITA_TELA_CADASTRO, LoggedUser.getInstance().getEmail());
 					JOptionPane.showMessageDialog(null, "Usuário cadastrado!");
 					dispose();

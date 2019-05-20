@@ -1,8 +1,7 @@
-package Auth;
+package Util;
 
 import Database.DBControl;
 import Database.LoggedUser;
-import Util.MensagemType;
 import org.apache.commons.io.FileUtils;
 
 import javax.crypto.*;
@@ -19,14 +18,23 @@ import java.util.*;
 
 import static Util.Util.byteToHex;
 
+public class AccessFileFunctions {
 
-public class Authentification {
+	/* **************************************************************************************************
+	 **
+	 **  Read File
+	 **
+	 ****************************************************************************************************/
 
-	public static boolean acessarArquivo(HashMap user, String index, String fileName, PrivateKey chavePrivada, String pastaArquivos) {
+	public static boolean readFile(String index, String fileName, PrivateKey privateKey, String folder) {
 		try {
+
 			String[] linhasIndex = index.split("\n");
+
 			for (String linha: linhasIndex) {
+
 				String[] params = linha.split(" ");
+
 				String nomeSecreto = params[1];
 
 				if (nomeSecreto.equals(fileName)) {
@@ -34,6 +42,8 @@ public class Authentification {
 					String grupo = params[3];
 
 					String groupName = "";
+
+					HashMap user = LoggedUser.getInstance().getUser();
 
 					Integer id = (Integer) user.get("grupoId");
 
@@ -48,8 +58,8 @@ public class Authentification {
 						DBControl.getInstance().insertRegister(MensagemType.ACESSO_PERMITIDO_AO_ARQUIVO, LoggedUser.getInstance().getEmail(), fileName);
 
 						String nomeCodigoArquivo = params[0];
-						byte[] conteudoArquivo = Authentification.decriptaArquivo(user, pastaArquivos, nomeCodigoArquivo, chavePrivada);
-						FileUtils.writeByteArrayToFile(new File(pastaArquivos + File.separator + nomeSecreto),conteudoArquivo);
+						byte[] conteudoArquivo = AccessFileFunctions.decryptFile(user, folder, nomeCodigoArquivo, privateKey);
+						FileUtils.writeByteArrayToFile(new File(folder + File.separator + nomeSecreto),conteudoArquivo);
 
 						return true;
 
@@ -70,21 +80,27 @@ public class Authentification {
 		return false;
 	}
 
-	public static byte[] decriptaArquivo(HashMap user, String caminho, String filename, PrivateKey chavePrivada) {
+	/* **************************************************************************************************
+	 **
+	 **  Decrypt File
+	 **
+	 ****************************************************************************************************/
+
+	public static byte[] decryptFile(HashMap user, String path, String filename, PrivateKey privateKey) {
 		try {
 
 			Cipher cipher = null;
-			byte[] arqEnv = FileUtils.readFileToByteArray(new File(caminho + File.separator + filename + ".env"));
+			byte[] arqEnv = FileUtils.readFileToByteArray(new File(path + File.separator + filename + ".env"));
 
 			cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-			cipher.init(Cipher.DECRYPT_MODE, chavePrivada);
+			cipher.init(Cipher.DECRYPT_MODE, privateKey);
 			cipher.update(arqEnv);
 			byte [] seed = cipher.doFinal();
 			String sd = new String(seed);
 
 			System.out.println(sd);
 
-			byte[] arqEnc = FileUtils.readFileToByteArray(new File(caminho + File.separator + filename + ".enc"));
+			byte[] arqEnc = FileUtils.readFileToByteArray(new File(path + File.separator + filename + ".enc"));
 			SecureRandom rand = SecureRandom.getInstance("SHA1PRNG");
 			rand.setSeed(seed);
 
@@ -92,9 +108,9 @@ public class Authentification {
 			keyGen.init(56, rand);
 			Key key = keyGen.generateKey();
 
-			byte[] arqAsd = FileUtils.readFileToByteArray(new File(caminho + File.separator + filename + ".asd"));
+			byte[] arqAsd = FileUtils.readFileToByteArray(new File(path + File.separator + filename + ".asd"));
 
-			X509Certificate cert = Authentification.leCertificadoDigital(((String) user.get("certificate")).getBytes());
+			X509Certificate cert = AccessFileFunctions.readDigitalCertificate(((String) user.get("certificate")).getBytes());
 
 			Signature signature = Signature.getInstance("MD5withRSA");
 			signature.initVerify(cert.getPublicKey());
@@ -165,27 +181,15 @@ public class Authentification {
 		}
 	}
 
-	public static String getKey(String filename) {
-		String strKeyPEM = null;
-		BufferedReader br = null;
-		try {
-			br = new BufferedReader(new FileReader(filename));
-			String line;
-			strKeyPEM = "";
-			while ((line = br.readLine()) != null) {
-				strKeyPEM += line + "\n";
-			}
-			br.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	/* **************************************************************************************************
+	 **
+	 **  Decrypt File
+	 **
+	 ****************************************************************************************************/
 
-		return strKeyPEM;
-	}
+	public static PrivateKey readPrivateKey(String seed, String path) {
 
-	public static PrivateKey leChavePrivada(String fraseSecreta, String pathString, HashMap user) {
+		HashMap user = LoggedUser.getInstance().getUser();
 
 		SecureRandom rand = null;
 		try {
@@ -197,7 +201,7 @@ public class Authentification {
 			e.printStackTrace();
 			return null;
 		}
-		rand.setSeed(fraseSecreta.getBytes());
+		rand.setSeed(seed.getBytes());
 
 		KeyGenerator keyGen = null;
 		try {
@@ -229,7 +233,7 @@ public class Authentification {
 
 		byte[] bytes = null;
 		try {
-			bytes = FileUtils.readFileToByteArray(new File(pathString));
+			bytes = FileUtils.readFileToByteArray(new File(path));
 		}
 		catch (Exception e) {
 			DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_NEGATIVAMENTE_CAMINHO_INVALIDO, LoggedUser.getInstance().getEmail());
@@ -271,16 +275,25 @@ public class Authentification {
 
 	}
 
-	public static boolean testaChavePrivada(PrivateKey chavePrivada, HashMap user) {
+	/* **************************************************************************************************
+	 **
+	 **  Verify Private Key
+	 **
+	 ****************************************************************************************************/
+
+	public static boolean verifyPrivateKey(PrivateKey privateKey) {
+
+		HashMap user = LoggedUser.getInstance().getUser();
+
 		try {
 			byte[] teste = new byte[1024];
-//			SecureRandom.getInstance("MD5withRSA").nextBytes(teste);
+
 			Signature assinatura = Signature.getInstance("MD5withRSA");
-			assinatura.initSign(chavePrivada);
+			assinatura.initSign(privateKey);
 			assinatura.update(teste);
 			byte[] resp = assinatura.sign();
 
-			PublicKey chavePublica = Authentification.leCertificadoDigital(((String) user.get("certificate")).getBytes()).getPublicKey();
+			PublicKey chavePublica = AccessFileFunctions.readDigitalCertificate(((String) user.get("certificate")).getBytes()).getPublicKey();
 			assinatura.initVerify(chavePublica);
 			assinatura.update(teste);
 
@@ -298,7 +311,13 @@ public class Authentification {
 		}
 	}
 
-	public static X509Certificate leCertificadoDigital(byte[] bytes) {
+	/* **************************************************************************************************
+	 **
+	 **  Read Digital Certificate
+	 **
+	 ****************************************************************************************************/
+
+	public static X509Certificate readDigitalCertificate(byte[] bytes) {
 		try {
 
 			InputStream stream = new ByteArrayInputStream(bytes);
@@ -315,6 +334,12 @@ public class Authentification {
 			return null;
 		}
 	}
+
+	/* **************************************************************************************************
+	 **
+	 **  Certo To String
+	 **
+	 ****************************************************************************************************/
 
 	public static String certToString(X509Certificate cert) {
 	    StringWriter sw = new StringWriter();
@@ -345,7 +370,7 @@ public class Authentification {
 			return false;
 		}
 
-		X509Certificate cert = leCertificadoDigital(certDigBytes);
+		X509Certificate cert = readDigitalCertificate(certDigBytes);
 
 		String subjectDN = cert.getSubjectDN().getName();
 
@@ -358,14 +383,20 @@ public class Authentification {
 		start = subjectDN.indexOf("=", end);
 		end = subjectDN.indexOf(",", start);
 
-		String salt = Authentification.geraSalt();
+		String salt = AccessFileFunctions.generateSalt();
 
-		boolean ret = DBControl.getInstance().addUser(subjectDN.substring(start + 1, end), email, grupoId, salt, Authentification.geraSenhaProcessada(senha, salt), certToString(cert));
+		boolean ret = DBControl.getInstance().addUser(subjectDN.substring(start + 1, end), email, grupoId, salt, AccessFileFunctions.generateHashPassword(senha, salt), certToString(cert));
 
 		return ret;
 	}
 
-	public static HashMap autenticaEmail(String email) {
+	/* **************************************************************************************************
+	 **
+	 **  Check E-mail
+	 **
+	 ****************************************************************************************************/
+
+	public static HashMap checkEmail(String email) {
 		List<HashMap> list = null;
 
 		list = DBControl.getInstance().getUser(email);
@@ -376,14 +407,26 @@ public class Authentification {
 		return null;
 	}
 
-	public static boolean autenticaSenha(String senha, HashMap user)  {
-		String senhaDigest = Authentification.geraSenhaProcessada(senha, (String) user.get("salt"));
+	/* **************************************************************************************************
+	 **
+	 **  Check Password
+	 **
+	 ****************************************************************************************************/
+
+	public static boolean checkPassword(String senha, HashMap user)  {
+		String senhaDigest = AccessFileFunctions.generateHashPassword(senha, (String) user.get("salt"));
 		if (user.get("passwordDigest").equals(senhaDigest))
 			return true;
 		return false;
 	}
 
-	public static String geraSenhaProcessada(String senha, String salt) {
+	/* **************************************************************************************************
+	 **
+	 **  Generate Hash Password
+	 **
+	 ****************************************************************************************************/
+
+	public static String generateHashPassword(String senha, String salt) {
 		MessageDigest sha1 = null;
 		try {
 			sha1 = MessageDigest.getInstance("SHA1");
@@ -395,7 +438,13 @@ public class Authentification {
 		return byteToHex(sha1.digest());
 	}
 
-	private static String geraSalt() {
+	/* **************************************************************************************************
+	 **
+	 **  Generate Salt
+	 **
+	 ****************************************************************************************************/
+
+	private static String generateSalt() {
 		SecureRandom rand = new SecureRandom();
 		StringBuffer salt = new StringBuffer();
 		for (int i = 0; i < 10; i++) {
@@ -404,7 +453,13 @@ public class Authentification {
 		return salt.toString();
 	}
 
-	public static boolean conferirSenha(String senha, String confirmacao, HashMap user) {
+	/* **************************************************************************************************
+	 **
+	 **  Validate Password
+	 **
+	 ****************************************************************************************************/
+
+	public static boolean validatePassword(String senha, String confirmacao, HashMap user) {
 
 		if (senha.length() >= 6 && senha.length() <= 8 && isNumeric(senha)) {
 

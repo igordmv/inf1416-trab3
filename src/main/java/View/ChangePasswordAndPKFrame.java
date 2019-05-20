@@ -1,6 +1,6 @@
 package View;
 
-import Auth.Authentification;
+import Util.AccessFileFunctions;
 import Database.DBControl;
 import Database.LoggedUser;
 import Util.MensagemType;
@@ -82,7 +82,7 @@ public class ChangePasswordAndPKFrame extends DefaultFrame {
 
 					}
 
-					Boolean senhaOk = Authentification.conferirSenha(senha, confirmacao, user);
+					Boolean senhaOk = AccessFileFunctions.validatePassword(senha, confirmacao, user);
 
 					if( !senhaOk ){
 
@@ -94,7 +94,7 @@ public class ChangePasswordAndPKFrame extends DefaultFrame {
 
 					}
 
-					DBControl.getInstance().changePassword(Authentification.geraSenhaProcessada(senha, (String) user.get("salt")), (String) user.get("email"));
+					DBControl.getInstance().changePassword(AccessFileFunctions.generateHashPassword(senha, (String) user.get("salt")), (String) user.get("email"));
 
 				}
 
@@ -114,7 +114,7 @@ public class ChangePasswordAndPKFrame extends DefaultFrame {
 						return;
 					}
 
-					X509Certificate cert = Authentification.leCertificadoDigital(certDigBytes);
+					X509Certificate cert = AccessFileFunctions.readDigitalCertificate(certDigBytes);
 					if (cert ==  null) {
 
 						JOptionPane.showMessageDialog(null, "Certificado inválido");
@@ -155,7 +155,7 @@ public class ChangePasswordAndPKFrame extends DefaultFrame {
 
 					}
 
-					DBControl.getInstance().changePrivateKey(Authentification.certToString(cert), (String) user.get("email"));
+					DBControl.getInstance().changePrivateKey(AccessFileFunctions.certToString(cert), (String) user.get("email"));
 				}
 
 				dispose();

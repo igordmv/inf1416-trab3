@@ -1,6 +1,6 @@
 package View;
 
-import Auth.Authentification;
+import Util.AccessFileFunctions;
 import Database.DBControl;
 import Database.LoggedUser;
 import Component.*;
@@ -79,9 +79,9 @@ public class PasswordFrame extends DefaultFrame {
 
 				} else {
 
-					Authentification.incrementWrongAccessPassowrd();
+					AccessFileFunctions.incrementWrongAccessPassowrd();
 
-					if( Authentification.shouldBlockUserForPassword() ) {
+					if( AccessFileFunctions.shouldBlockUserForPassword() ) {
 
 						DBControl.getInstance().insertRegister(MensagemType.ACESSO_USUARIO_BLOQUEADO_PELA_ETAPA_2, LoggedUser.getInstance().getEmail());
 						JOptionPane.showMessageDialog(null, "Senha incorreta. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
@@ -286,7 +286,7 @@ public class PasswordFrame extends DefaultFrame {
 
 			for( String element : list2 ){
 
-				if(Authentification.autenticaSenha(element, LoggedUser.getInstance().getUser())) {
+				if(AccessFileFunctions.checkPassword(element, LoggedUser.getInstance().getUser())) {
 					return true;
 				}
 
@@ -296,7 +296,7 @@ public class PasswordFrame extends DefaultFrame {
 
 			for( String element : list1 ){
 
-				if(Authentification.autenticaSenha(element, LoggedUser.getInstance().getUser())) {
+				if(AccessFileFunctions.checkPassword(element, LoggedUser.getInstance().getUser())) {
 					return true;
 				}
 

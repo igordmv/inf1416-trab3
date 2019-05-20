@@ -1,6 +1,6 @@
 package View;
 
-import Auth.Authentification;
+import Util.AccessFileFunctions;
 import Database.DBControl;
 import Component.DefaultFrame;
 import Database.LoggedUser;
@@ -48,7 +48,6 @@ public class LoginFrame extends DefaultFrame {
 
 		this.setView();
 
-
 		//------------------------ On close Event ------------------------------------
 
 		this.addWindowListener(new WindowAdapter() {
@@ -95,7 +94,7 @@ public class LoginFrame extends DefaultFrame {
 
 				} else {
 
-					if (Authentification.shouldBlockUserForPassword() || Authentification.shouldBlockUserForPrivateKey()) {
+					if (AccessFileFunctions.shouldBlockUserForPassword() || AccessFileFunctions.shouldBlockUserForPrivateKey()) {
 
 						String lastTry = (String) LoggedUser.getInstance().getUser().get("lastTryWrongAcess");
 
@@ -114,7 +113,7 @@ public class LoginFrame extends DefaultFrame {
 
 							validateLogin();
 
-							if( Authentification.shouldBlockUserForPassword() ) {
+							if( AccessFileFunctions.shouldBlockUserForPassword() ) {
 
 								DBControl.getInstance().clearWrongAccessPassword();
 
@@ -148,6 +147,9 @@ public class LoginFrame extends DefaultFrame {
 //		//Delete User:
 //
 //		DBControl.getInstance().deleteUserFromEmail("user01@inf1416.puc-rio.br");
+
+		//Clear registers:
+		//DBControl.getInstance().clearRegisters();
 
 	}
 
@@ -191,8 +193,7 @@ public class LoginFrame extends DefaultFrame {
 		loginTextField = new JTextField();
 		loginTextField.setBounds(50, yPosition, 300, 40);
 
-		//To-do: remover isso;
-		loginTextField.setText("user01@inf1416.puc-rio.br");
+//		loginTextField.setText("user01@inf1416.puc-rio.br");
 
 		this.getContainer().add(loginTextField);
 
@@ -260,7 +261,7 @@ public class LoginFrame extends DefaultFrame {
 
 		dispose();
 
-      	new MenuFrame();
+      	new PasswordFrame();
 
 	}
 }

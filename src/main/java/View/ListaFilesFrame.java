@@ -1,6 +1,6 @@
 package View;
 
-import Auth.Authentification;
+import Util.AccessFileFunctions;
 import Database.DBControl;
 import Database.LoggedUser;
 
@@ -37,7 +37,7 @@ public class ListaFilesFrame extends DefaultFrame {
 	private JLabel groupHeaderLabel;
 	private JLabel emailHeaderLabel;
 	private JLabel nameHeaderLabel;
-	private JLabel numberOfAccess;
+	private JLabel numberOfConsult;
 
 	private JButton decriptButton;
 
@@ -91,11 +91,17 @@ public class ListaFilesFrame extends DefaultFrame {
 		decriptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				DBControl.getInstance().increaseConsultAccess();
+
+				user = LoggedUser.getInstance().getUser();
+
+				numberOfConsult.setText(String.format("Total de consultas do usuário: %s", Integer.parseInt(user.get("countConsult").toString())));
+
 				String fileName = (String) table.getValueAt(table.getSelectedRow(), 1);
 
 				DBControl.getInstance().insertRegister(MensagemType.ARQUIVO_SELECIONADO, LoggedUser.getInstance().getEmail(), fileName);
 
-				if (Authentification.acessarArquivo(user, indexArq, fileName, LoggedUser.getInstance().getPrivateKey(), pathTextField.getText())) {
+				if (AccessFileFunctions.readFile(indexArq, fileName, LoggedUser.getInstance().getPrivateKey(), pathTextField.getText())) {
 
 					JOptionPane.showMessageDialog(null, "Arquivo decriptado!");
 
@@ -114,12 +120,16 @@ public class ListaFilesFrame extends DefaultFrame {
 		listButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				table.removeAll();
+				DBControl.getInstance().increaseConsultAccess();
+
+				user = LoggedUser.getInstance().getUser();
+
+				numberOfConsult.setText(String.format("Total de consultas do usuário: %s", Integer.parseInt(user.get("countConsult").toString())));
 
 				DBControl.getInstance().insertRegister(MensagemType.BOTAO_LISTAR_DE_CONSULTA_PRESSIONADO, LoggedUser.getInstance().getEmail());
 
 				try {
-					byte[] temp = Authentification.decriptaArquivo(user, pathTextField.getText(), "index", LoggedUser.getInstance().getPrivateKey());
+					byte[] temp = AccessFileFunctions.decryptFile(user, pathTextField.getText(), "index", LoggedUser.getInstance().getPrivateKey());
 					indexArq = new String((temp), "UTF8");
 				} catch (UnsupportedEncodingException ex) {
 					JOptionPane.showMessageDialog(null, "Erro ao listar os arquivos");
@@ -214,14 +224,14 @@ public class ListaFilesFrame extends DefaultFrame {
 
 		//---------------------- Number of Access Label -----------------------------
 
-		numberOfAccess = new JLabel(String.format("Total de acessos do usuário: %s", Integer.parseInt(user.get("countAccess").toString())));
-		numberOfAccess.setBounds(50, yPosition, this.width, 25);
+		numberOfConsult = new JLabel(String.format("Total de consultas do usuário: %s", Integer.parseInt(user.get("countConsult").toString())));
+		numberOfConsult.setBounds(50, yPosition, this.width, 25);
 
-		numberOfAccess.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
+		numberOfConsult.setFont(f.deriveFont(f.getStyle() | Font.PLAIN, 12));
 
-		this.getContainer().add(numberOfAccess);
+		this.getContainer().add(numberOfConsult);
 
-		yPosition = yPosition + numberOfAccess.getSize().height + 10;
+		yPosition = yPosition + numberOfConsult.getSize().height + 10;
 
 		//---------------------- Choice Folder Button -----------------------------
 

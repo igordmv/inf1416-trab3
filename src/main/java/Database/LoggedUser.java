@@ -1,6 +1,6 @@
 package Database;
 
-import Auth.Authentification;
+import Util.AccessFileFunctions;
 
 import java.security.PrivateKey;
 import java.util.HashMap;
@@ -41,7 +41,7 @@ public class LoggedUser {
 
     public HashMap getUser() {
 
-        return Authentification.autenticaEmail(this.email);
+        return AccessFileFunctions.checkEmail(this.email);
 
     }
 

@@ -1,6 +1,6 @@
 package View;
 
-import Auth.Authentification;
+import Util.AccessFileFunctions;
 import Database.DBControl;
 import Component.*;
 import Database.LoggedUser;
@@ -90,16 +90,16 @@ public class PrivateKeyFrame extends DefaultFrame {
         checkButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                HashMap updatedUser = Authentification.autenticaEmail((String) user.get("email"));
+                HashMap updatedUser = AccessFileFunctions.checkEmail((String) user.get("email"));
 
                 if( privateKeyTextField.getText() != "" && pathTextField.getText() != "" ){
 
-                    chavePrivada = Authentification.leChavePrivada(privateKeyTextField.getText(), pathTextField.getText(), user);
+                    chavePrivada = AccessFileFunctions.readPrivateKey(privateKeyTextField.getText(), pathTextField.getText());
 
                     if (chavePrivada == null) {
-                        Authentification.incrementWrongAccessPrivateKey();
+                        AccessFileFunctions.incrementWrongAccessPrivateKey();
 
-                        if( Authentification.shouldBlockUserForPrivateKey() ) {
+                        if( AccessFileFunctions.shouldBlockUserForPrivateKey() ) {
 
                             DBControl.getInstance().insertRegister(MensagemType.ACESSO_USUARIO_BLOQUEADO_PELA_ETAPA_3, LoggedUser.getInstance().getEmail());
 
@@ -117,7 +117,7 @@ public class PrivateKeyFrame extends DefaultFrame {
 
                     } else {
 
-                        if (Authentification.testaChavePrivada(chavePrivada, user)) {
+                        if (AccessFileFunctions.verifyPrivateKey(chavePrivada)) {
 
                             DBControl.getInstance().insertRegister(MensagemType.CHAVE_PRIVADA_VERIFICADA_POSITIVAMENTE, LoggedUser.getInstance().getEmail());
 
@@ -136,9 +136,9 @@ public class PrivateKeyFrame extends DefaultFrame {
 
                             DBControl.getInstance().insertRegister(8003, (String) user.get("email"));
 
-                            Authentification.incrementWrongAccessPrivateKey();
+                            AccessFileFunctions.incrementWrongAccessPrivateKey();
 
-                            if( Authentification.shouldBlockUserForPrivateKey() ) {
+                            if( AccessFileFunctions.shouldBlockUserForPrivateKey() ) {
 
                                 DBControl.getInstance().insertRegister(3007, (String) updatedUser.get("email"));
                                 JOptionPane.showMessageDialog(null, "Certificado não válido. Número total de erros atingido. Aguarde até 2 minutos para tentar novamente.");
